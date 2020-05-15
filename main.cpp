@@ -151,50 +151,15 @@ object
     the multiply(float) function.
 
 */
-
-struct Point
-{
-    Point(float, float);
-    Point& multiply(float m)
-    {
-        x *= m;
-        y *= m;
-        return *this;
-    }
-    void toString()
-    {
-        std::cout << "The x coordinate is: " << x << "\nThe y coordinate is: " << y << std::endl;
-    }
-private:
-    float x{0}, y{0};
-};
-
 #include <iostream>
+#include <cmath>
+#include "notMain.h"
 
-/*         Free Functions               */
 
-void updateValue( float& value)
-{
-    value += value;
-}
-
-void updateValue( double& value)
-{
-    value += value;
-}
-
-void updateValue( int& value)
-{
-    value += value;
-}
-
-void divider()
-{
-    std::cout << "\n\n===============================\n\n";
-}
 
 int main()
 { 
+    /*
     divider();
 
     FloatType ft(3.2f);
@@ -340,4 +305,7 @@ int main()
     divider();
 
     std::cout << "good to go!" << std::endl;
+    */
 }
+
+
