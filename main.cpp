@@ -81,7 +81,10 @@ float FloatType::multiply(float lhs, float rhs)
 
 float FloatType::divide(float lhs, float rhs)
 {
-    if(rhs == 0.f) { std::cout << "WARNING: FloatType division by zero\n"; }
+    if(rhs == 0.f) 
+    { 
+        std::cout << "WARNING: FloatType division by zero\n"; 
+    }
     return lhs / rhs;
 }
 
@@ -110,7 +113,10 @@ double DoubleType::multiply(double lhs, double rhs)
 
 double DoubleType::divide(double lhs, double rhs)
 {
-    if(rhs == 0.0) { std::cout << "WARNING: DoubleType division by zero\n"; }
+    if(rhs == 0.0) 
+    { 
+        std::cout << "WARNING: DoubleType division by zero\n"; 
+    }
     return lhs / rhs;
 }
 
