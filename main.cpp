@@ -102,7 +102,7 @@ heap-allocated primitive.
     function argument to your heap-allocated member variable.
     a) Be aware that floating point division by 0 is legal, but 
     integer division by 0 will crash your program.  
-    b) Handle this possible input when you write your divide() 
+    b) Handle this possible input when you write your 'divide' 
     functions.
     c) you should warn the user if they're doing floating-point
     division-by-zero but not prevent the division from happening
@@ -162,52 +162,159 @@ struct IntType;
 
 struct FloatType // wrote UDT part 1 - 1)
 {
-    FloatType(float _float); //Part 1 - 4) 
+    FloatType(float f); //Part 1 - 4) 
     ~FloatType();
-    operator float() { return *ownedVariable; }
-    FloatType& pow(const IntType&); 
-    FloatType& pow(const FloatType&); 
-    FloatType& pow(const DoubleType&); 
-    FloatType& pow(float); 
-    FloatType& powInternal(); 
-private: // Part 3 - 3)
+    operator float() const { return *ownedVariable; }
+
+    FloatType& operator+=(float f);
+    FloatType& operator-=(float f);
+    FloatType& operator*=(float f);
+    FloatType& operator/=(float f);
+
+    FloatType& pow(float arg); 
+    FloatType& pow(const IntType& arg); // w
+    FloatType& pow(const FloatType& arg); 
+    FloatType& pow(const DoubleType& arg); 
+
+    FloatType& powInternal(float arg); ///here 
+    private: // Part 3 - 3)
     float* ownedVariable;
 };
 
+//1) implement overloaded math operators that modify the internal 
+//heap-allocated primitive.
+FloatType& FloatType::operator += (float f)
+{
+    //modify the internal heap-allocated primitive
+    *ownedVariable += f;
+
+    //These math operators should allow for chaining.
+    return *this; 
+        
+    //all done!
+    //https://en.cppreference.com/w/cpp/language/operators 
+}
+
+FloatType& FloatType::operator -= (float f)
+{
+    *ownedVariable -= f;
+    return *this;
+    }
+    
+FloatType& FloatType::operator *= (float f)
+{
+    *ownedVariable *= f;
+    return *this;
+}
+FloatType& FloatType::operator /= (float f)
+{
+    if (f == 0.0f)
+    {
+        std::cout<< " Warning, you are about to divide float by zero!\n" << std::endl;
+    }
+    *ownedVariable /= f;
+    return *this;
+}
 struct DoubleType
 {
-    DoubleType(double _double);
+    DoubleType(double d);
     ~DoubleType();
     operator double() { return *ownedVariable; }
-    DoubleType& pow(const IntType&);
-    DoubleType& pow(const FloatType&);
-    DoubleType& pow(const DoubleType&);
-    DoubleType& pow(double);
-    DoubleType& powInternal();
-private:
+
+    DoubleType& operator+=(double d);
+    DoubleType& operator-=(double d);
+    DoubleType& operator*=(double d);
+    DoubleType& operator/=(double d);
+
+    DoubleType& pow(const IntType& arg);
+    DoubleType& pow(const FloatType& arg);
+    DoubleType& pow(const DoubleType& arg);
+    DoubleType& pow(double arg);
+    DoubleType& powInternal(double arg);
+
+    private:
     double* ownedVariable;
 };
 
+DoubleType& DoubleType::operator += (double d)
+{
+    *ownedVariable += d;
+    return *this;
+}
+DoubleType& DoubleType::operator -= (double d)
+{
+    *ownedVariable -= d;
+    return *this;
+}
+DoubleType& DoubleType::operator *= (double d)
+{
+    *ownedVariable *= d;
+    return *this;
+}
+DoubleType& DoubleType::operator /= (double d)
+{
+    if (d == 0.0)
+    {
+        std::cout<< " Warning, you are about to divide double by zero! " << std::endl;
+    }
+    *ownedVariable /= d;
+    return *this;
+}
+
+
 struct IntType
 {
-    IntType(int _int);
+    IntType(int i);
     ~IntType();
     operator int() { return *ownedVariable; }
-    IntType& pow(const IntType&);
-    IntType& pow(const FloatType&);
-    IntType& pow(const DoubleType&);
-    IntType& pow(int);
-    IntType& powInternal();
+
+    IntType& operator+=(int i);
+    IntType& operator-=(int i);
+    IntType& operator*=(int i);
+    IntType& operator/=(int i);
+
+    IntType& pow(const IntType& arg);
+    IntType& pow(const FloatType& arg);
+    IntType& pow(const DoubleType& arg);
+    IntType& pow(int arg);
+    IntType& powInternal(int arg);
+
 private:
     int* ownedVariable;
 };
 
+IntType& IntType::operator += (int i)
+{
+    *ownedVariable += i;
+    return *this;
+}
+IntType& IntType::operator -= (int i)
+{
+    *ownedVariable -= i;
+    return *this;
+}
+IntType& IntType::operator *= (int i)
+{
+    *ownedVariable *= i;
+    return *this;
+}
+IntType& IntType::operator /= (int i)
+{
+    if (i != 0)
+    {
+        *ownedVariable /= i;
+    }
+    else
+    {
+        std::cout<< " Warning, you are about to divide integer by zero! Which is bad and undefined, so to prevent world being sucked into itself, we gonna stop you." << std::endl;
+    }
+        return *this;
+}
 
 struct Point
 {
-Point(float, float) : x{0}, y {0}; //Part 6 - 7)
-Point(FloatType);
-    Point& multiply(float m)
+Point(float, float); //Part 6 - 7)
+Point& multiply(float m)
     {
         x *= m;
         y *= m;
@@ -220,29 +327,108 @@ Point(FloatType);
 private:
     float x{0}, y{0};
 };
+//===================================================================================
 
 
 
 //moved implemetations out of class. part 3 - 1)
-FloatType::FloatType(float _float) : ownedVariable(new float(_float)) { } // made heap-allocated primitive type. Part 1 -2) 
-FloatType::~FloatType() { delete ownedVariable; ownedVariable = nullptr; }// prevents heap allocating type from leaking Part1 - 3)
-//void FloatType::float() {return *ownedVariable} // - tried to move this function out of class, not sure why I can't
+FloatType::FloatType(float f) : ownedVariable(new float(f)) { } // made heap-allocated primitive type. Part 1 -2) 
+FloatType::~FloatType() 
+{
+    delete ownedVariable; 
+    ownedVariable = nullptr;
+}
 
-
-DoubleType::DoubleType(double _double) : ownedVariable(new double(_double)) { }
+DoubleType::DoubleType(double d) : ownedVariable(new double(d)) { }
 DoubleType::~DoubleType() {delete ownedVariable; ownedVariable = nullptr; }
-//void DoubleType::double() {return *ownedVariable}
 
-
-IntType::IntType(int _int) : ownedVariable(new int (_int)){ }
+IntType::IntType(int i) : ownedVariable(new int (i)){ }
 IntType::~IntType() { delete ownedVariable; ownedVariable = nullptr;}
-//void IntType::int() {return *ownedVariable}
 
-Point::Point();
 
-//Point::Point(FloatType) {}
-//Point::Point(DoubleType) {}
-//Point::Point(IntType) {}
+//POW IMPLEMENTAIONS:
+
+FloatType& FloatType::powInternal(float arg)
+{
+    *ownedVariable = std::pow(*ownedVariable, arg);
+    return *this;
+}
+
+FloatType& FloatType::pow(float arg) 
+{
+    return powInternal(arg);
+}
+
+FloatType& FloatType::pow(const IntType& arg) 
+{
+    return powInternal(static_cast<float>(arg));
+}
+
+FloatType& FloatType::pow(const FloatType& arg) 
+{
+    return powInternal(arg);
+}
+
+FloatType& FloatType::pow(const DoubleType& arg) 
+{
+    return powInternal(static_cast<float>(arg));
+}
+//----
+
+DoubleType& DoubleType::powInternal(double arg)
+{
+    *ownedVariable = std::pow(*ownedVariable, arg);
+    return *this;
+}
+
+DoubleType& DoubleType::pow(double arg) 
+{
+    return powInternal(arg);
+}
+
+DoubleType& DoubleType::pow(const IntType& arg) 
+{
+    return powInternal(static_cast<double>(arg));
+}
+
+DoubleType& DoubleType::pow(const FloatType& arg) 
+{
+    return powInternal(static_cast<double>(arg));
+}
+
+DoubleType& DoubleType::pow(const DoubleType& arg) 
+{
+    return powInternal(arg);
+}
+
+IntType& IntType::powInternal(int arg)
+{
+    *ownedVariable = static_cast<int>(std::pow(*ownedVariable, arg));
+    return *this;
+}
+
+IntType& IntType::pow(int arg)
+{
+    return powInternal(arg);
+}
+
+IntType& IntType::pow(const IntType& arg)
+{
+    powInternal(arg);
+    return *this;
+}
+
+IntType& IntType::pow(const DoubleType& arg )
+{
+    return powInternal(static_cast<int>(arg));
+}
+
+IntType& IntType::pow(const FloatType& arg )
+{
+    return powInternal(static_cast<int>(arg));
+}
+
+//+++++++++++++++++++++++++
 //         Free Functions               
 
 void updateValue( float& value)
@@ -265,18 +451,8 @@ void divider()
     std::cout << "\n\n===============================\n\n";
 }
 
-
-
-
-
-
-
-
-
-
 int main()
 { 
-    /*
     divider();
 
     FloatType ft(3.2f);
@@ -422,7 +598,7 @@ int main()
     divider();
 
     std::cout << "good to go!" << std::endl;
-    */
+    
 }
 
 
