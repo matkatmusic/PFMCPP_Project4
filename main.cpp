@@ -16,7 +16,6 @@ New/This/Pointers/References conclusion
 
 struct A {};
 
-// Check this before committing
 struct HeapA 
 {
     HeapA(A* ptr): aPtr(ptr) {}
