@@ -14,15 +14,15 @@ New/This/Pointers/References conclusion
          on the heap without leaking, without using smart pointers. 
  */
 
+struct A {};
 
-
-
-
-
-
-
-
-
+// Check this before committing
+struct HeapA 
+{
+    HeapA(A* ptr): aPtr(ptr) {}
+    ~HeapA() { delete aPtr; }
+    A* aPtr = nullptr;
+};
 
  /*
  1) Edit your 3 structs so that they own a heap-allocated primitive type without using smart pointers named 'value'
@@ -175,7 +175,7 @@ int IntType::divide(int lhs, int rhs)
 int main()
 {   
     //testing instruction 0
-    HeapA heapA ; 
+    HeapA var( new A() ); 
 
     //assign heap primitives
     FloatType ft ( 2.0f );
