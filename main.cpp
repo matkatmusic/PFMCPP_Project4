@@ -66,36 +66,40 @@ struct FloatType
     FloatType(float v) : value( new float(v) ) {}
     ~FloatType() { delete value; }
 
-    float add(float lhs, float rhs);
-    float subtract(float lhs, float rhs);
-    float multiply(float lhs, float rhs);
-    float divide(float lhs, float rhs);
+    FloatType& add(float f);
+    FloatType& subtract(float f);
+    FloatType& multiply(float f);
+    FloatType& divide(float f);
 
     float* value = nullptr;
 };
 
-float FloatType::add(float lhs, float rhs)
+FloatType& FloatType::add(float f)
 {
-    return lhs + rhs;
+    *value += f;
+    return *this;
 }
 
-float FloatType::subtract(float lhs, float rhs)
+FloatType& FloatType::subtract(float f)
 {
-    return lhs - rhs;
+    *value -= f;
+    return *this;
 }
 
-float FloatType::multiply(float lhs, float rhs)
+FloatType& FloatType::multiply(float f)
 {
-    return lhs * rhs;
+    *value *= f;
+    return *this;
 }
 
-float FloatType::divide(float lhs, float rhs)
+FloatType& FloatType::divide(float f)
 {
-    if(rhs == 0.f) 
+    if(f == 0.f) 
     { 
         std::cout << "WARNING: FloatType division by zero\n"; 
     }
-    return lhs / rhs;
+    *value /= f;
+    return *this;
 }
 
 struct DoubleType
@@ -103,36 +107,40 @@ struct DoubleType
     DoubleType(double v) : value( new double(v) ) {}
     ~DoubleType() { delete value; }
 
-    double add(double lhs, double rhs);
-    double subtract(double lhs, double rhs);
-    double multiply(double lhs, double rhs);
-    double divide(double lhs, double rhs);
+    DoubleType& add(double d);
+    DoubleType& subtract(double d);
+    DoubleType& multiply(double d);
+    DoubleType& divide(double d);
 
     double* value = nullptr;
 };
 
-double DoubleType::add(double lhs, double rhs)
+DoubleType& DoubleType::add(double d)
 {
-    return lhs + rhs;
+    *value += d;
+    return *this;
 }
 
-double DoubleType::subtract(double lhs, double rhs)
+DoubleType& DoubleType::subtract(double d)
 {
-    return lhs - rhs;
+    *value -= d;
+    return *this;
 }
 
-double DoubleType::multiply(double lhs, double rhs)
+DoubleType& DoubleType::multiply(double d)
 {
-    return lhs * rhs;
+    *value *= d;
+    return *this;
 }
 
-double DoubleType::divide(double lhs, double rhs)
+DoubleType& DoubleType::divide(double d)
 {
     if(rhs == 0.0) 
     { 
         std::cout << "WARNING: DoubleType division by zero\n"; 
     }
-    return lhs / rhs;
+    *value /= d;
+    return *this;
 }
 
 struct IntType
@@ -140,37 +148,41 @@ struct IntType
     IntType(int v) : value( new int(v) ) {}
     ~IntType() { delete value; }
 
-    int add(int lhs, int rhs );
-    int subtract(int lhs, int rhs );
-    int multiply(int lhs, int rhs );
-    int divide(int lhs, int rhs ); 
+    IntType& add(int i);
+    IntType& subtract(int i);
+    IntType& multiply(int i);
+    IntType& divide(int i); 
 
     int* value = nullptr;
 };
 
-int IntType::add(int lhs, int rhs )
+IntType& IntType::add(int i)
 {
-    return lhs + rhs;
+    *value += i;
+    return *this;
 }
 
-int IntType::subtract(int lhs, int rhs )
+IntType& IntType::subtract(int i)
 {
-    return lhs - rhs;
+    *value -= i;
+    return *this;
 }
 
-int IntType::multiply(int lhs, int rhs )
+IntType& IntType::multiply(int i)
 {
-    return lhs * rhs;
+    *value *= i;
+    return *this;
 }
 
-int IntType::divide(int lhs, int rhs)
+IntType& IntType::divide(int i)
 {
     if(rhs == 0) 
     { 
-        std::cout << "WARNING: IntType division by zero\nReturning 0\n"; 
-        return 0; 
+        std::cout << "WARNING: IntType division by zero\n Returning unaltered IntType\n"; 
+        return *this; 
     }
-    return lhs / rhs;
+    *value /= i;
+    return *this;
 }
 
 /*
