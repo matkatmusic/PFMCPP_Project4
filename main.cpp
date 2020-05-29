@@ -135,7 +135,7 @@ DoubleType& DoubleType::multiply(double d)
 
 DoubleType& DoubleType::divide(double d)
 {
-    if(rhs == 0.0) 
+    if(d == 0.0) 
     { 
         std::cout << "WARNING: DoubleType division by zero\n"; 
     }
@@ -176,7 +176,7 @@ IntType& IntType::multiply(int i)
 
 IntType& IntType::divide(int i)
 {
-    if(rhs == 0) 
+    if(i == 0) 
     { 
         std::cout << "WARNING: IntType division by zero\n Returning unaltered IntType\n"; 
         return *this; 
