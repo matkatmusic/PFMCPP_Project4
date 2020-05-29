@@ -63,10 +63,15 @@ struct HeapA
 
 struct FloatType
 {
+    FloatType(float* v) : value(v) {}
+    ~FloatType() { delete value; }
+
     float add(float lhs, float rhs);
     float subtract(float lhs, float rhs);
     float multiply(float lhs, float rhs);
     float divide(float lhs, float rhs);
+
+    float* value = nullptr;
 };
 
 float FloatType::add(float lhs, float rhs)
@@ -95,10 +100,15 @@ float FloatType::divide(float lhs, float rhs)
 
 struct DoubleType
 {
+    DoubleType(double* v) : value(v) {}
+    ~DoubleType() { delete value; }
+
     double add(double lhs, double rhs);
     double subtract(double lhs, double rhs);
     double multiply(double lhs, double rhs);
     double divide(double lhs, double rhs);
+
+    double* value = nullptr;
 };
 
 double DoubleType::add(double lhs, double rhs)
@@ -127,10 +137,15 @@ double DoubleType::divide(double lhs, double rhs)
 
 struct IntType
 {
+    IntType(int* v) : value(v) {}
+    ~IntType() { delete value; }
+
     int add(int lhs, int rhs );
     int subtract(int lhs, int rhs );
     int multiply(int lhs, int rhs );
     int divide(int lhs, int rhs ); 
+
+    int* value = nullptr;
 };
 
 int IntType::add(int lhs, int rhs )
