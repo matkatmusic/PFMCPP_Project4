@@ -63,7 +63,7 @@ struct HeapA
 
 struct FloatType
 {
-    FloatType(float* v) : value(v) {}
+    FloatType(float v) : value( new float(v) ) {}
     ~FloatType() { delete value; }
 
     float add(float lhs, float rhs);
@@ -100,7 +100,7 @@ float FloatType::divide(float lhs, float rhs)
 
 struct DoubleType
 {
-    DoubleType(double* v) : value(v) {}
+    DoubleType(double v) : value( new double(v) ) {}
     ~DoubleType() { delete value; }
 
     double add(double lhs, double rhs);
@@ -137,7 +137,7 @@ double DoubleType::divide(double lhs, double rhs)
 
 struct IntType
 {
-    IntType(int* v) : value(v) {}
+    IntType(int v) : value( new int(v) ) {}
     ~IntType() { delete value; }
 
     int add(int lhs, int rhs );
