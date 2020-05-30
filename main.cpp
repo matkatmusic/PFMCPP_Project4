@@ -1,156 +1,254 @@
+
+#include <iostream>
 /*
-This is a compilation of everything you would have implemented in 
-Project 4 parts 1-6
+Project 4: Part 7 / 9
+Video: Chapter 5 Part 4
 
-Your goal is to make main() work without generating any errors 
-or warnings.  This main() is from a previous student's approved 
-submission.
+Create a branch named Part7
 
-All of the instructions below are a summation of each project 
-part's work, edited to reflect the changes you would have made 
-in each project.
+Do not delete your previous main. you will be adding to it.
 
-===========================
-Create a branch named Part6
+Templates and Containers
 
-Purpose:  This project will take you through the process of 
-writing a class that wraps a numeric type, beginning with 
-writing simple member functions and ending with a fully 
-templated class with lots of functionality. 
+    Build/Run often with this task to make sure you're not breaking the code with each step.
+    I recommend committing after you get each step working so you can revert to a working version easily if needed.
+    it's very easy to mess this task up. 
 
-=============
-Project 4 part 1 simplified instructions
-=============
-1) write 3 UDTs named FloatType, DoubleType, IntType.  
-    use struct instead of class so everything is public by 
-    default.
+0) comment out part6(), both the function and where it is called.
 
-2) make each UDT own a heap-allocated primitive type without 
-using smart pointers  
-    i.e. IntType should own a heap-allocated int.
+#1) if you're not using std::unique_ptr to own your heap-allocated type as a member variable, 
+    replace your manual memory management techniques with a private std::unique_ptr member variable.
 
-3) Don't let your heap-allocated owned type leak!
+#2) replace your Heap-Allocated Numeric Type-owning class with a templated class called Numeric.
+        replace all of your previous instances of your separate classes with this templated class.
 
-4) give it a single constructor that takes the appropriate 
-primitive.
-    this argument will initialize the owned primitive's value.
-        i.e. if you're owning an int on the heap, your ctor 
-        argument will initialize that heap-allocated int's value 
-        via the member initializer list.
+#3) add a 'using Type = <your class template parameter>;' 
+        treat this type declaration via 'using' as a static member variable
+        use this Type alias as the argument everywhere you previously used the template argument.
+        this will make it very easy to change the type if needed.
+            i.e. if you have 'std::unique_ptr<NumericType> value;' before
+                you'd replace NumericType in that variable declaration with 'Type'
+        
+#4) you'll need to pair it with decltype() to help the compiler figure out the type of the object 
+    your class owns when you make your lambda and free function that takes your unique_ptr.  
+    i.e. like this for determining the template parameter of the unique_ptr function argument to your class's apply() function
+        std::unique_ptr< decltype( <instance of class> )::Type >
+    
+#5) template your free function for the apply() that takes a function pointer so it can be used with your Wrapper class's apply() function
 
-==============
-Project 4 part 3 simplified instructions
-==============
-1) move all of your implementations out of the class.
-    NO IN-CLASS IMPLEMENTATION ALLOWED
+#6) add an explicit template specialization for 'double' of your wrapper class
+        this template specialization will have one apply() function instead of 2. 
 
-2) add user-defined conversion functions that convert to the 
-numeric type your object holds.
-    i.e. if your type holds an int, you'll need an operator int() 
-    function.
+#7) this apply() function will be templated, and expect a Callable object, not std::function<>. 
+        the function should allow for chaining.  
+        the callable object should return void, like the function pointer-based apply() function in the primary class template
 
-3) make your member variable private.
-    a) this conversion function should be the ONLY WAY to access 
-    the held value.
-    b) use the proper casting technique to invoke this conversion 
-    function
+#8) instantiate your explicit template specialization
 
-==============
-Project 4 part 4 simplified instructions
-==============
-1) add pow() functions, and a powInternal() function to each of 
-your UDTs
-    a) your pow() functions should call powInternal()
-    b) add a pow() whose argument type is the primitive your UDT 
-    owns.  the argument should be passed by copy.
-    c) for each UDT in the file, your class should have pow() 
-    overloads that take that UDT as the function argument.
-        the argument should be passed as const ref
-        i.e. if you had UDTs named IntType, FloatType, DoubleType
-            in your IntType class, you'd have:
-                pow(const IntType&),
-                pow(const FloatType&),
-                pow(const DoubleType&),
-                and pow(int)
-    d) be sure to remember the rules about what member functions 
-    can be called on const objects.
-        (const objects can only call their const member functions)
-    e) the pow() functions should be chainable.
- 
-2) your powInternal() function should do something like this in 
-its body:    *val = std::pow( *val, arg );
-    a) where 'arg' is the passed-in type, converted to whatever 
-    type your object is holding.
-        i.e. if your UDT owns an int, then arg would be an int.
-        if your UDT owns a float, then arg would be a float.
-    b) std::pow's documentation is found here: 
-    https://en.cppreference.com/w/cpp/numeric/math/pow so be sure 
-    to include the proper header file listed there.
-    c) powInternal() should be chainable.
+#9) call the apply function twice, once with a lambda and once with the free function
+        the free function is templated, so you might need to call it including the template arguments.
+        
+#10) in addition to using the lambda argument to modify the owned object:  (your previous task's lambdas did this same thing) 
+        make the lambda use your explicit template instance (maybe via a std::cout), 
 
-==============
-Project 4 part 5 simplified instructions
-==============
-1) implement overloaded math operators that modify the internal 
-heap-allocated primitive.
-    e.g. add() would become operator+=() because it modifies the 
-    internal heap-allocated object.
-    These math operators should allow for chaining.
+#11) now that your class is templated, you'll need to adjust your logic in your division function to handle if your input is a zero or not, based on your templated type.  
+        - look up how to use std::is_same<>::value on cppreference to determine the type of your template parameter.
+        
+        - look up how to use std::numeric_limits<>::epsilon() to determine if you're dividing by a floating point 0
+        
+        - read about Knuth's algorithm here: https://www.learncpp.com/cpp-tutorial/relational-operators-and-floating-point-comparisons/
 
-2) implement the appropriate action in the member function. 
-    i.e. your 'addition assignment' math operator should add the 
-    function argument to your heap-allocated member variable.
-    a) Be aware that floating point division by 0 is legal, but 
-    integer division by 0 will crash your program.  
-    b) Handle this possible input when you write your 'divide' 
-    functions.
-    c) you should warn the user if they're doing floating-point
-    division-by-zero but not prevent the division from happening
-    d) you should warn AND prevent the division from happening 
-    if it is an integer-division-by-zero.
+        - in plain-english, you'll need to implement this logic:
+        if your template type is an int
+                if your parameter's type is also an int
+                        if your parameter is 0
+                                don't do the division
+                else if it's less than epsilon
+                        dont do the divison
+        else if it's less than epsilon
+                warn about doing the division
 
-3) Your overloaded operators should only take primitives, passed 
-by value.
+        - to make these checks work during compilation, your if() statements will need to be 'constexpr':  if constexpr (expression)
 
-==============
-Project 4 part 6 simplified instructions
-==============
-1) add two member functions named "apply()" to each of your 
-Heap-Allocated Numeric Type wrappers.
-    both apply() functions should work with chaining
- 
-2) One of the apply() functions should takes a std::function<> 
-object as the function argument.
-    the std::function<> object should return *this;
- 
-3) the other apply() function should take a function pointer. 
-    the function pointer should return void.
- 
-4) Make both of the member functions's Callable Function Parameter 
-use your owned object as it's single parameter.  
-    i.e. if you managed your owned object via a raw pointer, you'd 
-    use this for your std::function argument:
-        std::function<OwnedT&(T&)>    
- 
-5) be sure to practice safe std::function usage (make sure it's 
-not a nullptr function being called)
- 
-6) Make your lambda & free function update the value of your held
-object
+compile/link/run to make sure you don't have any errors
 
-7) modify the Point class below:
-    a) implement the constructor that takes 2 primitives to 
-    initialize the member variables.
-    b) implement constructors that accept a single instance of 
-    your UDTs.
-    a) make the Point(UDT) constructor forward its argument to 
-    the Point(float,float) constructor.
-
-    b) overload the multiply() function so it can accept each of 
-    your UDTs.  These overloaded functions should call and return
-    the multiply(float) function.
-
+If you need to view an example, see: https://bitbucket.org/MatkatMusic/pfmcpptasks/src/master/Projects/Project4/Part7Example.cpp
 */
+
+void part7()
+{
+    Numeric ft3(3.0f);
+    Numeric dt3(4.0);
+    Numeric it3(5);
+    
+    std::cout << "Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:" << std::endl;
+    std::cout << "ft3 before: " << ft3 << std::endl;
+
+    {
+        using Type = #4;
+        ft3.apply( [](std::unique...){} );
+    }
+
+    std::cout << "ft3 after: " << ft3 << std::endl;
+    std::cout << "Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:" << std::endl;
+    std::cout << "ft3 before: " << ft3 << std::endl;
+    ft3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+    std::cout << "ft3 after: " << ft3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;
+
+    std::cout << "Calling Numeric<double>::apply() using a lambda (adds 6.0) and Numeric<double> as return type:" << std::endl;
+    std::cout << "dt3 before: " << dt3 << std::endl;
+
+    {
+        using Type = #4;
+        dt3.apply( [](std::unique...){} ); // This calls the templated apply fcn
+    }
+    
+    std::cout << "dt3 after: " << dt3 << std::endl;
+    std::cout << "Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:" << std::endl;
+    std::cout << "dt3 before: " << dt3 << std::endl;
+    dt3.apply(myNumericFreeFunct<double>).apply(myNumericFreeFunct<double>); // This calls the templated apply fcn
+    std::cout << "dt3 after: " << dt3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;
+
+    std::cout << "Calling Numeric<int>::apply() using a lambda (adds 5) and Numeric<int> as return type:" << std::endl;
+    std::cout << "it3 before: " << it3 << std::endl;
+
+    {
+        using Type = #4;
+        it3.apply( [](std::unique...){} );
+    }
+    std::cout << "it3 after: " << it3 << std::endl;
+    std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
+    std::cout << "it3 before: " << it3 << std::endl;
+    it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+    std::cout << "it3 after: " << it3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;    
+}
+
+/*
+your program should generate the following output.   The output should have zero warnings.
+
+
+FloatType add result=4
+FloatType subtract result=2
+FloatType multiply result=4
+FloatType divide result=0.25
+
+DoubleType add result=4
+DoubleType subtract result=2
+DoubleType multiply result=4
+DoubleType divide result=0.8
+
+IntType add result=4
+IntType subtract result=2
+IntType multiply result=4
+IntType divide result=1
+
+Chain calculation = 590
+New value of ft = (ft + 3.0f) * 1.5f / 5.0f = 0.975
+---------------------
+
+Initial value of dt: 0.8
+Initial value of it: 590
+Use of function concatenation (mixed type arguments) 
+New value of dt = (dt * it) / 5.0f + ft = 95.375
+---------------------
+
+Intercept division by 0 
+New value of it = it / 0 = can't divide integers by zero!
+590
+New value of ft = ft / 0 = inf
+New value of dt = dt / 0 = warning: floating point division by zero!
+inf
+---------------------
+
+The result of FloatType^4 divided by IntType is: 26.9136
+The result of DoubleType times 3 plus IntType is : 67.3
+The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: 711
+An operation followed by attempts to divide by 0, which are ignored and warns user: 
+can't divide integers by zero!
+can't divide integers by zero!
+can't divide integers by zero!
+505521
+FloatType x IntType  =  13143546
+(IntType + DoubleType + FloatType) x 24 = 315447336
+Power tests with FloatType 
+pow(ft1, floatExp) = 2^2 = 4
+pow(ft1, itExp) = 4^2 = 16
+pow(ft1, ftExp) = 16^2 = 256
+pow(ft1, dtExp) = 256^2 = 65536
+---------------------
+
+Power tests with DoubleType 
+pow(dt1, doubleExp) = 2^2 = 4
+pow(dt1, itExp) = 4^2 = 16
+pow(dt1, ftExp) = 16^2 = 256
+pow(dt1, dtExp) = 256^2 = 65536
+---------------------
+
+Power tests with IntType 
+pow(it1, intExp) = 2^2 = 4
+pow(it1, itExp) = 4^2 = 16
+pow(it1, ftExp) = 16^2 = 256
+pow(it1, dtExp) = 256^2 = 65536
+===============================
+
+Point tests with float argument:
+Point { x: 3, y: 6 }
+Multiplication factor: 6
+Point { x: 18, y: 36 }
+---------------------
+
+Point tests with FloatType argument:
+Point { x: 3, y: 3 }
+Multiplication factor: 3
+Point { x: 9, y: 9 }
+---------------------
+
+Point tests with FloatType argument:
+Point { x: 3, y: 4 }
+Multiplication factor: 4
+Point { x: 12, y: 16 }
+---------------------
+
+Point tests with IntType argument:
+Point { x: 3, y: 4 }
+Multiplication factor: 5
+Point { x: 15, y: 20 }
+---------------------
+
+Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:
+ft3 before: 3
+ft3 after: 10
+Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:
+ft3 before: 10
+ft3 after: 24
+---------------------
+
+Calling Numeric<double>::apply() using a lambda (adds 6.0) and Numeric<double> as return type:
+dt3 before: 4
+dt3 after: 10
+Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:
+dt3 before: 10
+dt3 after: 24
+---------------------
+
+Calling Numeric<int>::apply() using a lambda (adds 5) and Numeric<int> as return type:
+it3 before: 5
+it3 after: 10
+Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:
+it3 before: 10
+it3 after: 24
+---------------------
+
+good to go!
+
+
+Use a service like https://www.diffchecker.com/diff to compare your output. 
+*/
+
+
 #include <iostream>
 #include <cmath>
 #include <functional>
@@ -832,125 +930,4 @@ int main()
 
     return 0;
 }
-/*
-your program should generate the following output.   The output should have zero warnings.
 
-
-
-FloatType add result=4
-FloatType subtract result=2
-FloatType multiply result=4
-FloatType divide result=0.25
-
-DoubleType add result=4
-DoubleType subtract result=2
-DoubleType multiply result=4
-DoubleType divide result=0.8
-
-IntType add result=4
-IntType subtract result=2
-IntType multiply result=4
-IntType divide result=1
-
-Chain calculation = 590
-New value of ft = (ft + 3.0f) * 1.5f / 5.0f = 0.975
----------------------
-
-Initial value of dt: 0.8
-Initial value of it: 590
-Use of function concatenation (mixed type arguments) 
-New value of dt = (dt * it) / 5.0f + ft = 95.375
----------------------
-
-Intercept division by 0 
-New value of it = it / 0 = error: integer division by zero is an error and will crash the program!
-590
-New value of ft = ft / 0 = warning: floating point division by zero!
-inf
-New value of dt = dt / 0 = warning: floating point division by zero!
-inf
----------------------
-
-The result of FloatType^4 divided by IntType is: 26.9136
-The result of DoubleType times 3 plus IntType is : 67.3
-The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: 711
-An operation followed by attempts to divide by 0, which are ignored and warns user: 
-error: integer division by zero is an error and will crash the program!
-error: integer division by zero is an error and will crash the program!
-error: integer division by zero is an error and will crash the program!
-505521
-FloatType x IntType  =  13143546
-(IntType + DoubleType + FloatType) x 24 = 315447336
-Power tests with FloatType 
-pow(ft1, floatExp) = 2^2 = 4
-pow(ft1, itExp) = 4^2 = 16
-pow(ft1, ftExp) = 16^2 = 256
-pow(ft1, dtExp) = 256^2 = 65536
----------------------
-
-Power tests with DoubleType 
-pow(dt1, doubleExp) = 2^2 = 4
-pow(dt1, itExp) = 4^2 = 16
-pow(dt1, ftExp) = 16^2 = 256
-pow(dt1, dtExp) = 256^2 = 65536
----------------------
-
-Power tests with IntType 
-pow(it1, intExp) = 2^2 = 4
-pow(it1, itExp) = 4^2 = 16
-pow(it1, ftExp) = 16^2 = 256
-pow(it1, dtExp) = 256^2 = 65536
-===============================
-
-Point tests with float argument:
-Point { x: 3, y: 6 }
-Multiplication factor: 6
-Point { x: 18, y: 36 }
----------------------
-
-Point tests with FloatType argument:
-Point { x: 3, y: 3 }
-Multiplication factor: 3
-Point { x: 9, y: 9 }
----------------------
-
-Point tests with FloatType argument:
-Point { x: 3, y: 4 }
-Multiplication factor: 4
-Point { x: 12, y: 16 }
----------------------
-
-Point tests with IntType argument:
-Point { x: 3, y: 4 }
-Multiplication factor: 5
-Point { x: 15, y: 20 }
----------------------
-
-Calling FloatType::apply() using a lambda (adds 7.0f) and FloatType as return type:
-ft3 before: 3
-ft3 after: 10
-Calling FloatType::apply() using a free function (adds 7.0f) and void as return type:
-ft3 before: 10
-ft3 after: 17
----------------------
-
-Calling DoubleType::apply() using a lambda (adds 6.0) and DoubleType as return type:
-dt3 before: 4
-dt3 after: 10
-Calling DoubleType::apply() using a free function (adds 6.0) and void as return type:
-dt3 before: 10
-dt3 after: 16
----------------------
-
-Calling IntType::apply() using a lambda (adds 5) and IntType as return type:
-it3 before: 5
-it3 after: 10
-Calling IntType::apply() using a free function (adds 5) and void as return type:
-it3 before: 10
-it3 after: 15
----------------------
-
-good to go!
-
-Use a service like https://www.diffchecker.com/diff to compare your output. 
-*/
