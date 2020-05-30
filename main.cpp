@@ -153,6 +153,7 @@ object
 */
 #include <iostream>
 #include <cmath>
+#include <functional>
 
 
 struct FloatType;
@@ -181,16 +182,12 @@ struct FloatType // wrote UDT part 1 - 1)
     FloatType& pow(const FloatType& f); 
     FloatType& pow(const DoubleType& f); 
 
-    //void apply(std::function<>)
-    //{
-      //  return *this;
-    //}
+    FloatType& apply(std::function<FloatType&(float&)> applyFunc);
+    FloatType& apply(void(*applyFunc)(float&));
 
-    //void apply() ;
-
-    FloatType& powInternal(float f); ///here 
     private: // Part 3 - 3)
     float* ownedVariable = nullptr;
+    FloatType& powInternal(const float f); ///here 
 };
 
 //1) implement overloaded math operators that modify the internal 
@@ -246,9 +243,12 @@ struct DoubleType
     DoubleType& pow(const FloatType& d);
     DoubleType& pow(const DoubleType& d);
     DoubleType& pow(double d);
-    DoubleType& powInternal(double d);
+
+    DoubleType& apply(std::function<DoubleType&(double&)> applyFunc);
+    DoubleType& apply(void(*applyFunc)(double&));
 
     private:
+    DoubleType& powInternal(const double d);
     double* ownedVariable;
 };
 
@@ -296,9 +296,12 @@ struct IntType
     IntType& pow(const FloatType& i);
     IntType& pow(const DoubleType& i);
     IntType& pow(int i);
-    IntType& powInternal(int i);
+
+    IntType& apply(std::function<IntType&(int&)> applyFunc);
+    IntType& apply(void(*applyFunc)(int&));
 
 private:
+    IntType& powInternal(const int i);
     int* ownedVariable;
 };
 
@@ -330,40 +333,128 @@ IntType& IntType::operator /= (int i)
     }
         return *this;
 }
+// 7) modify the Point class below:
+//     a) implement the constructor that takes 2 primitives to 
+//     initialize the member variables.
+//     b) implement constructors that accept a single instance of 
+//     your UDTs.
+//     a) make the Point(UDT) constructor forward its argument to 
+//     the Point(float,float) constructor.
 
+//     b) overload the multiply() function so it can accept each of 
+//     your UDTs.  These overloaded functions should call and return
+//     the multiply(float) function.
 struct Point
 {
-Point(float a, float b) : x(a), y(b) {} //Part 6 - 7)
-Point& multiply(float m)
-    {
-        x *= m;
-        y *= m;
-        return *this;
-    }
-    void toString()
-    {
-        std::cout << "The x coordinate is: " << x << "\nThe y coordinate is: " << y << std::endl;
-    }
+    Point(float a, float b) : x(a), y(b) {}
+    Point(FloatType& a, FloatType& b);
+    Point(DoubleType& a, DoubleType& b);
+    Point(IntType& a, IntType& b);
+    
+    Point& multiply(float m);
+    Point& multiply(IntType& m);
+    Point& multiply(FloatType& m);
+    Point& multiply(DoubleType& m);
+
+    void toString();
 private:
     float x{0}, y{0};
 };
+
+//POINT IMPLEMENTAION++++++++++++++
+Point::Point(FloatType& a, FloatType& b) : Point(static_cast<float>(a), static_cast<float>(b) ) {}
+Point::Point(DoubleType& a, DoubleType& b): Point(static_cast<float>(a), static_cast<float>(b) ) {}
+Point::Point(IntType& a, IntType& b): Point(static_cast<float>(a), static_cast<float>(b) ) {}
+
+Point& Point::multiply(IntType& m)
+{
+    return multiply(static_cast<float>(m));
+}
+Point& Point::multiply(FloatType& m)
+{
+    return multiply(static_cast<float>(m));
+}
+Point& Point::multiply(DoubleType& m)
+{
+    return multiply(static_cast<float>(m));
+}
+Point& Point::multiply(float m)
+{
+    x *= m;
+    y *= m;
+    return *this;
+}
+void Point::toString()
+{
+    std::cout << "Point " <<"{ x: " << x << ", y: " << y << " }" <<std::endl;
+}
+
 //===================================================================================
-
-
 
 //FUNCTION IMPLEMENTAIONS++++++++++++++++++++++++++++++++++++++++++
 FloatType::FloatType(float f) : ownedVariable(new float(f)) { } // made heap-allocated primitive type. Part 1 -2) 
 FloatType::~FloatType() 
 {
-    delete ownedVariable; 
-    
+    delete ownedVariable;    
 }
+
+FloatType& FloatType::apply(std::function<FloatType&(float&)> applyFunc)
+{
+    if( applyFunc )
+    {
+        return applyFunc(*ownedVariable);
+    }
+    return *this;
+}
+FloatType& FloatType::apply(void(*applyFunc)(float&))
+{
+    if( applyFunc )
+    {
+        applyFunc(*ownedVariable);
+    }
+    return *this;
+}
+
 
 DoubleType::DoubleType(double d) : ownedVariable(new double(d)) { }
 DoubleType::~DoubleType() {delete ownedVariable; ownedVariable = nullptr; }
 
+DoubleType& DoubleType::apply(std::function<DoubleType&(double&)> applyFunc)
+{
+    if( applyFunc )
+    {
+        return applyFunc(*ownedVariable);
+    }
+    return *this;
+}
+DoubleType& DoubleType::apply(void(*applyFunc)(double&))
+{
+    if( applyFunc )
+    {
+        applyFunc(*ownedVariable);
+    }
+    return *this;
+}
+
 IntType::IntType(int i) : ownedVariable(new int (i)){ }
 IntType::~IntType() { delete ownedVariable; ownedVariable = nullptr;}
+
+IntType& IntType::apply(std::function<IntType&(int&)> applyFunc)
+{
+    if( applyFunc )
+    {
+        return applyFunc(*ownedVariable);
+    }
+    return *this;
+}
+IntType& IntType::apply(void(*applyFunc)(int&))
+{
+    if( applyFunc )
+    {
+        applyFunc(*ownedVariable);
+    }
+    return *this;
+}
 
 
 //POW IMPLEMENTAIONS++++++++++++++++++++++++++++++++++++++++++
@@ -451,19 +542,19 @@ IntType& IntType::pow(const FloatType& i )
 //+++++++++++++++++++++++++
 //         Free Functions               
 
-void updateValue( float& value)
+void myFloatFreeFunct( float& value)
 {
-    value += value;
+    value += 7.0f;
 }
 
-void updateValue( double& value)
+void myDoubleFreeFunct( double& value)
 {
-    value += value;
+    value += 6.0;
 }
 
-void updateValue( int& value)
+void myIntFreeFunct( int& value)
 {
-    value += value;
+    value += 5;
 }
 
 void divider()
@@ -506,130 +597,141 @@ void part3()
     it += static_cast<int>(ft);
     it *= 24;
     std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it << std::endl;
-    // */
 }
 
 
-// void part4()
-// {
-//     // ------------------------------------------------------------
-//     //                          Power tests
-//     // ------------------------------------------------------------
-//     FloatType ft1(2);
-//     DoubleType dt1(2);
-//     IntType it1(2);    
-//     int floatExp = 2.0f;
-//     int doubleExp = 2.0;
-//     int intExp = 2;
-//     IntType itExp(2);
-//     FloatType ftExp(2.0f);
-//     DoubleType dtExp(2.0);
+void part4()
+{
+    // ------------------------------------------------------------
+    //                          Power tests
+    // ------------------------------------------------------------
+    FloatType ft1(2);
+    DoubleType dt1(2);
+    IntType it1(2);    
+    int floatExp = 2.0f;
+    int doubleExp = 2.0;
+    int intExp = 2;
+    IntType itExp(2);
+    FloatType ftExp(2.0f);
+    DoubleType dtExp(2.0);
     
-//     // Power tests with FloatType
-//     std::cout << "Power tests with FloatType " << std::endl;
-//     std::cout << "pow(ft1, floatExp) = " << ft1 << "^" << floatExp << " = " << ft1.pow(floatExp)  << std::endl;
-//     std::cout << "pow(ft1, itExp) = " << ft1 << "^" << itExp << " = " << ft1.pow(itExp)  << std::endl;
-//     std::cout << "pow(ft1, ftExp) = " << ft1 << "^" << ftExp << " = " << ft1.pow(ftExp)  << std::endl;    
-//     std::cout << "pow(ft1, dtExp) = " << ft1 << "^" << dtExp << " = " << ft1.pow(dtExp)  << std::endl;    
-//     std::cout << "---------------------\n" << std::endl;  
+    // Power tests with FloatType
+    std::cout << "Power tests with FloatType " << std::endl;
+    std::cout << "pow(ft1, floatExp) = " << ft1 << "^" << floatExp << " = " << ft1.pow(floatExp)  << std::endl;
+    std::cout << "pow(ft1, itExp) = " << ft1 << "^" << itExp << " = " << ft1.pow(itExp)  << std::endl;
+    std::cout << "pow(ft1, ftExp) = " << ft1 << "^" << ftExp << " = " << ft1.pow(ftExp)  << std::endl;    
+    std::cout << "pow(ft1, dtExp) = " << ft1 << "^" << dtExp << " = " << ft1.pow(dtExp)  << std::endl;    
+    std::cout << "---------------------\n" << std::endl;  
 
-//     // Power tests with DoubleType
-//     std::cout << "Power tests with DoubleType " << std::endl;
-//     std::cout << "pow(dt1, doubleExp) = " << dt1 << "^" << doubleExp << " = " << dt1.pow(intExp)  << std::endl;
-//     std::cout << "pow(dt1, itExp) = " << dt1 << "^" << itExp << " = " << dt1.pow(itExp)  << std::endl;
-//     std::cout << "pow(dt1, ftExp) = " << dt1 << "^" << ftExp << " = " << dt1.pow(ftExp)  << std::endl;    
-//     std::cout << "pow(dt1, dtExp) = " << dt1 << "^" << dtExp << " = " << dt1.pow(dtExp)  << std::endl;    
-//     std::cout << "---------------------\n" << std::endl;    
+    // Power tests with DoubleType
+    std::cout << "Power tests with DoubleType " << std::endl;
+    std::cout << "pow(dt1, doubleExp) = " << dt1 << "^" << doubleExp << " = " << dt1.pow(intExp)  << std::endl;
+    std::cout << "pow(dt1, itExp) = " << dt1 << "^" << itExp << " = " << dt1.pow(itExp)  << std::endl;
+    std::cout << "pow(dt1, ftExp) = " << dt1 << "^" << ftExp << " = " << dt1.pow(ftExp)  << std::endl;    
+    std::cout << "pow(dt1, dtExp) = " << dt1 << "^" << dtExp << " = " << dt1.pow(dtExp)  << std::endl;    
+    std::cout << "---------------------\n" << std::endl;    
 
-//     // Power tests with IntType
-//     std::cout << "Power tests with IntType " << std::endl;
-//     std::cout << "pow(it1, intExp) = " << it1 << "^" << intExp << " = " << it1.pow(intExp)  << std::endl;
-//     std::cout << "pow(it1, itExp) = " << it1 << "^" << itExp << " = " << it1.pow(itExp)  << std::endl;
-//     std::cout << "pow(it1, ftExp) = " << it1 << "^" << ftExp << " = " << it1.pow(ftExp)  << std::endl;    
-//     std::cout << "pow(it1, dtExp) = " << it1 << "^" << dtExp << " = " << it1.pow(dtExp)  << std::endl;    
-//     std::cout << "===============================\n" << std::endl; 
+    // Power tests with IntType
+    std::cout << "Power tests with IntType " << std::endl;
+    std::cout << "pow(it1, intExp) = " << it1 << "^" << intExp << " = " << it1.pow(intExp)  << std::endl;
+    std::cout << "pow(it1, itExp) = " << it1 << "^" << itExp << " = " << it1.pow(itExp)  << std::endl;
+    std::cout << "pow(it1, ftExp) = " << it1 << "^" << ftExp << " = " << it1.pow(ftExp)  << std::endl;    
+    std::cout << "pow(it1, dtExp) = " << it1 << "^" << dtExp << " = " << it1.pow(dtExp)  << std::endl;    
+    std::cout << "===============================\n" << std::endl; 
 
-//     // ------------------------------------------------------------
-//     //                          Point tests
-//     // ------------------------------------------------------------
-//     FloatType ft2(3.0f);
-//     DoubleType dt2(4.0);
-//     IntType it2(5);
-//     float floatMul = 6.0f;
+    // ------------------------------------------------------------
+    //                          Point tests
+    // ------------------------------------------------------------
+    FloatType ft2(3.0f);
+    DoubleType dt2(4.0);
+    IntType it2(5);
+    float floatMul = 6.0f;
 
-//     // Point tests with float
-//     std::cout << "Point tests with float argument:" << std::endl;
-//     Point p0(ft2, floatMul);
-//     p0.toString();   
-//     std::cout << "Multiplication factor: " << floatMul << std::endl;
-//     p0.multiply(floatMul); 
-//     p0.toString();   
-//     std::cout << "---------------------\n" << std::endl;
+    // Point tests with float
+    std::cout << "Point tests with float argument:" << std::endl;
+    Point p0(ft2, floatMul);
+    p0.toString();   
+    std::cout << "Multiplication factor: " << floatMul << std::endl;
+    p0.multiply(floatMul); 
+    p0.toString();   
+    std::cout << "---------------------\n" << std::endl;
 
-//     // Point tests with FloatType
-//     std::cout << "Point tests with FloatType argument:" << std::endl;
-//     Point p1(ft2, ft2);
-//     p1.toString();   
-//     std::cout << "Multiplication factor: " << ft2 << std::endl;
-//     p1.multiply(ft2); 
-//     p1.toString();   
-//     std::cout << "---------------------\n" << std::endl;
+    // Point tests with FloatType
+    std::cout << "Point tests with FloatType argument:" << std::endl;
+    Point p1(ft2, ft2);
+    p1.toString();   
+    std::cout << "Multiplication factor: " << ft2 << std::endl;
+    p1.multiply(ft2); 
+    p1.toString();   
+    std::cout << "---------------------\n" << std::endl;
 
-//     // Point tests with DoubleType
-//     std::cout << "Point tests with FloatType argument:" << std::endl;
-//     Point p2(ft2, static_cast<float>(dt2));
-//     p2.toString();   
-//     std::cout << "Multiplication factor: " << dt2 << std::endl;
-//     p2.multiply(dt2); 
-//     p2.toString();   
-//     std::cout << "---------------------\n" << std::endl;
+    // Point tests with DoubleType
+    std::cout << "Point tests with FloatType argument:" << std::endl;
+    Point p2(ft2, static_cast<float>(dt2));
+    p2.toString();   
+    std::cout << "Multiplication factor: " << dt2 << std::endl;
+    p2.multiply(dt2); 
+    p2.toString();   
+    std::cout << "---------------------\n" << std::endl;
 
-//     // Point tests with IntType
-//     std::cout << "Point tests with IntType argument:" << std::endl;
-//     Point p3(ft2, static_cast<float>(dt2));
-//     p3.toString();   
-//     std::cout << "Multiplication factor: " << it2 << std::endl;
-//     p3.multiply(it2); 
-//     p3.toString();   
-//     std::cout << "---------------------\n" << std::endl;
-// }
+    // Point tests with IntType
+    std::cout << "Point tests with IntType argument:" << std::endl;
+    Point p3(ft2, static_cast<float>(dt2));
+    p3.toString();   
+    std::cout << "Multiplication factor: " << it2 << std::endl;
+    p3.multiply(it2); 
+    p3.toString();   
+    std::cout << "---------------------\n" << std::endl;
+}
 
-// void part6()
-// {
-//     FloatType ft3(3.0f);
-//     DoubleType dt3(4.0);
-//     IntType it3(5);
+void part6()
+{
+    FloatType ft3(3.0f);
+    DoubleType dt3(4.0);
+    IntType it3(5);
     
-//     std::cout << "Calling FloatType::apply() using a lambda (adds 7.0f) and FloatType as return type:" << std::endl;
-//     std::cout << "ft3 before: " << ft3 << std::endl;
-//     ft3.apply( [](){} );
-//     std::cout << "ft3 after: " << ft3 << std::endl;
-//     std::cout << "Calling FloatType::apply() using a free function (adds 7.0f) and void as return type:" << std::endl;
-//     std::cout << "ft3 before: " << ft3 << std::endl;
-//     ft3.apply(myFloatFreeFunct);
-//     std::cout << "ft3 after: " << ft3 << std::endl;
-//     std::cout << "---------------------\n" << std::endl;
+    std::cout << "Calling FloatType::apply() using a lambda (adds 7.0f) and FloatType as return type:" << std::endl;
+    std::cout << "ft3 before: " << ft3 << std::endl;
+    ft3.apply( [&ft3](float& f) -> FloatType&
+    {
+        f += 7.0f;
+        return ft3;
+    });
+    std::cout << "ft3 after: " << ft3 << std::endl;
+    std::cout << "Calling FloatType::apply() using a free function (adds 7.0f) and void as return type:" << std::endl;
+    std::cout << "ft3 before: " << ft3 << std::endl;
+    ft3.apply(myFloatFreeFunct);
+    std::cout << "ft3 after: " << ft3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;
 
-//     std::cout << "Calling DoubleType::apply() using a lambda (adds 6.0) and DoubleType as return type:" << std::endl;
-//     std::cout << "dt3 before: " << dt3 << std::endl;
-//     dt3.apply( [](){} );
-//     std::cout << "dt3 after: " << dt3 << std::endl;
-//     std::cout << "Calling DoubleType::apply() using a free function (adds 6.0) and void as return type:" << std::endl;
-//     std::cout << "dt3 before: " << dt3 << std::endl;
-//     dt3.apply(myDoubleFreeFunct);
-//     std::cout << "dt3 after: " << dt3 << std::endl;
-//     std::cout << "---------------------\n" << std::endl;
+    std::cout << "Calling DoubleType::apply() using a lambda (adds 6.0) and DoubleType as return type:" << std::endl;
+    std::cout << "dt3 before: " << dt3 << std::endl;
+    dt3.apply( [&dt3](double& d) -> DoubleType&
+    {
+        d +=6.0;
+        return dt3;
+    });
+    std::cout << "dt3 after: " << dt3 << std::endl;
+    std::cout << "Calling DoubleType::apply() using a free function (adds 6.0) and void as return type:" << std::endl;
+    std::cout << "dt3 before: " << dt3 << std::endl;
+    dt3.apply(myDoubleFreeFunct);
+    std::cout << "dt3 after: " << dt3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;
 
-//     std::cout << "Calling IntType::apply() using a lambda (adds 5) and IntType as return type:" << std::endl;
-//     std::cout << "it3 before: " << it3 << std::endl;
-//     it3.apply( [](){} );
-//     std::cout << "it3 after: " << it3 << std::endl;
-//     std::cout << "Calling IntType::apply() using a free function (adds 5) and void as return type:" << std::endl;
-//     std::cout << "it3 before: " << it3 << std::endl;//what's up
-//     it3.apply(myIntFreeFunct);
-//     std::cout << "it3 after: " << it3 << std::endl;
-//     std::cout << "---------------------\n" << std::endl;    
-// }
+    std::cout << "Calling IntType::apply() using a lambda (adds 5) and IntType as return type:" << std::endl;
+    std::cout << "it3 before: " << it3 << std::endl;
+    it3.apply( [&it3](int& i) -> IntType&
+    {
+        i += 5;
+        return it3;
+    });
+    std::cout << "it3 after: " << it3 << std::endl;
+    std::cout << "Calling IntType::apply() using a free function (adds 5) and void as return type:" << std::endl;
+    std::cout << "it3 before: " << it3 << std::endl;
+    it3.apply(myIntFreeFunct);
+    std::cout << "it3 after: " << it3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;    
+}
 
 int main()
 {   
@@ -724,8 +826,8 @@ int main()
     std::cout << "---------------------\n" << std::endl; 
     
     part3();
-    // part4();
-    // part6();
+    part4();
+    part6();
     std::cout << "good to go!\n";
 
     return 0;
