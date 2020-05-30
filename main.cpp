@@ -14,7 +14,7 @@ Templates and Containers
     I recommend committing after you get each step working so you can revert to a working version easily if needed.
     it's very easy to mess this task up. 
 
-0) comment out part6(), both the function and where it is called.
+0) comment out part6(), both the function and where it is called. 
 
 #1) if you're not using std::unique_ptr to own your heap-allocated type as a member variable, 
     replace your manual memory management techniques with a private std::unique_ptr member variable.
