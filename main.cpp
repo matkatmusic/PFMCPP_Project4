@@ -1,62 +1,112 @@
 /*
- Project 4 - Part 2 / 9
- Video: Chapter 3 Part 6
+ Project 4 - Part 3 / 9
+ Video: Chapter 4 Part 3 
+ Casting
 
- Create a branch named Part2
-
-New/This/Pointers/References conclusion
-
+ Create a branch named Part3
+ 
+ do not remove anything from main().  you'll be revising your main() to work with these new code changes.
+ 
     Build/Run often with this task to make sure you're not breaking the code with each step.
     I recommend committing after you get each step working so you can revert to a working version easily if needed.
+
+ 1) remove your functions that accepted a User-Defined Type
  
- 0) in the blank space below, declare/define an empty struct named 'A' on a single Line. 
-     on the lines below it, write a struct named 'HeapA' that correctly shows how to own an instance of 'A' 
-         on the heap without leaking, without using smart pointers. 
+ 2) remove any getValue() functions if you added them
+ 
+ 3) move all of your add/subtract/multiply/divide implementations out of the class.
+  
+ 4) add user-defined conversion functions that convert to the numeric type your object holds.
+        i.e. if your type holds an int, you'll need an operator int() function.
+ 
+ 5) make your member variable private.
+         this conversion function should be the ONLY WAY to access the held value.
+         use the proper casting technique to invoke this conversion function
+ 
+ 6) clean up any forward declaration that you might have.
+ 
+ 7) make sure it compiles & runs without errors.
+ 
+ 8) use your knowledge of casting to remove any conversion warnings. 
+
+ 9) insert 'part3();' before the 'good to go' at the end of your main(); 
+        move this part3 function to before main()
+
+ 10) click the [run] button.  Clear up any errors or warnings as best you can.
+
  */
 
-struct A {};
-
-struct HeapA 
+void part3()
 {
-    HeapA(A* ptr): aPtr(ptr) {}
-    ~HeapA() { delete aPtr; }
-    A* aPtr = nullptr;
-};
+    FloatType ft( 5.5f );
+    DoubleType dt( 11.1 );
+    IntType it ( 34 );
+    DoubleType pi( 3.14 );
 
- /*
- 1) Edit your 3 structs so that they own a heap-allocated primitive type without using smart pointers named 'value'
-         IntType should own a heap-allocated int, for example.
- 
- 2) give it a constructor that takes the appropriate primitive
-    this argument will initialize the owned primitive's value.
-         i.e. if you're owning an int on the heap, your ctor argument will initialize that heap-allocated int's value.
- 
- 3) modify those add/subtract/divide/multiply member functions from chapter 2 on it
-         a) make them modify the owned numeric type
-         b) set them up so they can be chained together.
-             i.e.
-             DoubleType dt(3.5);
-             dt.add(3.0).multiply(-2.5).divide(7.2); //an example of chaining
- 
- 4) write add/subtract/divide/multiply member functions for each type that take your 3 UDTs
-        These are in addition to your member functions that take primitives
-        for example, IntType::divide(const DoubleType& dt);
-        These functions should return the result of calling the function that takes the primitive.
-     
- 
- 5) print out the results with some creative couts 
-    i.e.
-         FloatType ft(0.1f);
-         IntType it(3);
-         std::cout << "adding 3 and subtracting 'it' from 'ft' results in the following value: " << *ft.add(2.f).subtract( it ).value << std::endl;  //note the dereference of the `value` member of `ft`
- 
- 6) Don't let your heap-allocated owned type leak!
- 
- 7) replace your main() with the main() below.
-    It has some intentional mistakes that you need to fix to match the expected output
+    std::cout << "The result of FloatType^4 divided by IntType is: " << ft.multiply( ft ).multiply( ft ).divide( it ) << std::endl;
+    std::cout << "The result of DoubleType times 3 plus IntType is : " << dt.multiply( 3 ).add( it ) << std::endl;
+    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << it.divide( pi ).multiply( dt ).subtract( ft ) << std::endl;
+    std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
+    std::cout << it.multiply(it).divide(0).divide(0.0f).divide(0.0)<<std::endl;
+    
+    std::cout << "FloatType x IntType  =  " << it.multiply( ft ) << std::endl;
+    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it.add( dt ).add( ft ).multiply( 24 ) << std::endl;
+}
 
- 8) click the [run] button.  Clear up any errors or warnings as best you can.
- */
+/*
+your program should generate the following output.   The output should have zero warnings.
+Use a service like https://www.diffchecker.com/diff to compare your output. 
+
+FloatType add result=4
+FloatType subtract result=2
+FloatType multiply result=4
+FloatType divide result=0.25
+
+DoubleType add result=4
+DoubleType subtract result=2
+DoubleType multiply result=4
+DoubleType divide result=0.8
+
+IntType add result=4
+IntType subtract result=2
+IntType multiply result=4
+IntType divide result=1
+
+Chain calculation = 590
+New value of ft = (ft + 3.0f) * 1.5f / 5.0f = 0.975
+---------------------
+
+Initial value of dt: 0.8
+Initial value of it: 590
+Use of function concatenation (mixed type arguments) 
+New value of dt = (dt * it) / 5.0f + ft = 95.375
+---------------------
+
+Intercept division by 0 
+New value of it = it / 0 = error: integer division by zero is an error and will crash the program!
+590
+New value of ft = ft / 0 = warning: floating point division by zero!
+inf
+New value of dt = dt / 0 = warning: floating point division by zero!
+inf
+---------------------
+
+The result of FloatType^4 divided by IntType is: 26.9136
+The result of DoubleType times 3 plus IntType is : 67.3
+The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: 711
+An operation followed by attempts to divide by 0, which are ignored and warns user: 
+error: integer division by zero is an error and will crash the program!
+error: integer division by zero is an error and will crash the program!
+error: integer division by zero is an error and will crash the program!
+505521
+FloatType x IntType  =  13143546
+(IntType + DoubleType + FloatType) x 24 = 315447336
+good to go!
+
+
+
+
+*/
 
 #include <iostream>
 
@@ -348,50 +398,4 @@ int main()
     return 0;
 }
 
-/*
-your program should generate the following output.  
-Use a service like https://www.diffchecker.com/diff to compare your output. 
-you'll learn to solve the conversion warnings in the next project part.
 
-18 warnings generated.
-FloatType add result=4
-FloatType subtract result=2
-FloatType multiply result=4
-FloatType divide result=0.25
-
-DoubleType add result=4
-DoubleType subtract result=2
-DoubleType multiply result=4
-DoubleType divide result=0.8
-
-IntType add result=4
-IntType subtract result=2
-IntType multiply result=4
-IntType divide result=1
-
-Chain calculation = 590
-New value of ft = (ft + 3.0f) * 1.5f / 5.0f = 0.975
----------------------
-
-Initial value of dt: 0.8
-Initial value of it: 590
-Use of function concatenation (mixed type arguments) 
-New value of dt = (dt * it) / 5.0f + ft = 95.375
----------------------
-
-Intercept division by 0 
-New value of it = it / 0 = error: integer division by zero is an error and will crash the program!
-590
-New value of ft = ft / 0 = warning: floating point division by zero!
-inf
-New value of dt = dt / 0 = warning: floating point division by zero!
-inf
----------------------
-
-good to go!
-
-
-
-
-
-*/
