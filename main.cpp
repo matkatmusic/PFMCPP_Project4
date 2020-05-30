@@ -185,7 +185,7 @@ struct FloatType // wrote UDT part 1 - 1)
 
     FloatType& powInternal(float f); ///here 
     private: // Part 3 - 3)
-    float* ownedVariable;
+    float* ownedVariable = nullptr;
 };
 
 //1) implement overloaded math operators that modify the internal 
@@ -340,12 +340,12 @@ private:
 
 
 
-//moved implemetations out of class. part 3 - 1)
+//FUNCTION IMPLEMENTAIONS++++++++++++++++++++++++++++++++++++++++++
 FloatType::FloatType(float f) : ownedVariable(new float(f)) { } // made heap-allocated primitive type. Part 1 -2) 
 FloatType::~FloatType() 
 {
     delete ownedVariable; 
-    ownedVariable = nullptr;
+    
 }
 
 DoubleType::DoubleType(double d) : ownedVariable(new double(d)) { }
@@ -355,7 +355,7 @@ IntType::IntType(int i) : ownedVariable(new int (i)){ }
 IntType::~IntType() { delete ownedVariable; ownedVariable = nullptr;}
 
 
-//POW IMPLEMENTAIONS:
+//POW IMPLEMENTAIONS++++++++++++++++++++++++++++++++++++++++++
 
 FloatType& FloatType::powInternal(const float f)
 {
@@ -382,7 +382,7 @@ FloatType& FloatType::pow(const DoubleType& f)
 {
     return powInternal(static_cast<float>(f));
 }
-//--------------------------------------------
+//=========================================
 
 DoubleType& DoubleType::powInternal(double d)
 {
@@ -409,7 +409,7 @@ DoubleType& DoubleType::pow(const DoubleType& d)
 {
     return powInternal(d);
 }
-
+//=========================================
 IntType& IntType::powInternal(int i)
 {
     *ownedVariable = static_cast<int>(std::pow(*ownedVariable, i));
@@ -460,22 +460,44 @@ void divider()
     std::cout << "\n\n===============================\n\n";
 }
 
-// void part3()
-// {
-//     FloatType ft( 5.5f );
-//     DoubleType dt( 11.1 );
-//     IntType it ( 34 );
-//     DoubleType pi( 3.14 );
+void part3()
+{
+    FloatType ft( 5.5f );
+    DoubleType dt( 11.1 );
+    IntType it ( 34 );
+    DoubleType pi( 3.14 );
 
-//     std::cout << "The result of FloatType^4 divided by IntType is: " << ft.multiply( ft ).multiply( ft ).divide( it ) << std::endl;
-//     std::cout << "The result of DoubleType times 3 plus IntType is : " << dt.multiply( 3 ).add( it ) << std::endl;
-//     std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << it.divide( pi ).multiply( dt ).subtract( ft ) << std::endl;
-//     std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
-//     std::cout << it.multiply(it).divide(0).divide(0.0f).divide(0.0)<<std::endl;
+    ft = ft.pow(4);
+    ft /= it;
+    std::cout << "The result of FloatType^4 divided by IntType is: " << ft << std::endl;
+
+    dt *= 3;
+    dt += it;
+    std::cout << "The result of DoubleType times 3 plus IntType is : " << dt << std::endl;
+
+    it /= pi;
+    it *= dt;
+    it -= ft;
+    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << it << std::endl;
+
+    std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
     
-//     std::cout << "FloatType x IntType  =  " << it.multiply( ft ) << std::endl;
-//     std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it.add( dt ).add( ft ).multiply( 24 ) << std::endl;
-// }
+    it *= it;
+    it /=0;
+    it /=0.0f;
+    it /=0.0;
+    std::cout << it <<std::endl;
+    
+    it *= ft;
+    std::cout << "FloatType x IntType  =  " << it << std::endl;
+    
+    it += dt;
+    it += ft;
+    it *= 24;
+    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it << std::endl;
+    // */
+}
+
 
 // void part4()
 // {
@@ -690,7 +712,7 @@ int main()
 
     std::cout << "---------------------\n" << std::endl; 
     
-    // part3();
+    part3();
     // part4();
     // part6();
     std::cout << "good to go!\n";
