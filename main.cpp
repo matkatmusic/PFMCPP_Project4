@@ -166,6 +166,11 @@ struct FloatType // wrote UDT part 1 - 1)
     ~FloatType();
     operator float() const { return *ownedVariable; }
 
+    FloatType& operator=(const FloatType&) {return *this;} 
+                    // explicit copy assignment opperator to avoid error:
+                    //definition of implicit copy assignment operator for 'FloatType' is deprecated
+                    //because it has a user-declared destructor [-Wdeprecated] RULE OF 3
+
     FloatType& operator+=(float f);
     FloatType& operator-=(float f);
     FloatType& operator*=(float f);
@@ -229,6 +234,9 @@ struct DoubleType
     ~DoubleType();
     operator double() const { return *ownedVariable; }
 
+    DoubleType& operator=(const DoubleType&) {return *this;} 
+                    // explicit copy assignment opperator to avoid error
+
     DoubleType& operator+=(double d);
     DoubleType& operator-=(double d);
     DoubleType& operator*=(double d);
@@ -275,6 +283,9 @@ struct IntType
     IntType(int i);
     ~IntType();
     operator int() const { return *ownedVariable; } 
+
+    IntType& operator=(const IntType&) {return *this;} 
+                    // explicit copy assignment opperator to avoid error
 
     IntType& operator+=(int i);//ok
     IntType& operator-=(int i);
@@ -475,9 +486,9 @@ void part3()
     dt += it;
     std::cout << "The result of DoubleType times 3 plus IntType is : " << dt << std::endl;
 
-    it /= pi;
-    it *= dt;
-    it -= ft;
+    it /= static_cast<int>(pi);
+    it *= static_cast<int>(dt);
+    it -= static_cast<int>(ft);
     std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << it << std::endl;
 
     std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
@@ -488,11 +499,11 @@ void part3()
     it /=0.0;
     std::cout << it <<std::endl;
     
-    it *= ft;
+    it *= static_cast<int>(ft);
     std::cout << "FloatType x IntType  =  " << it << std::endl;
     
-    it += dt;
-    it += ft;
+    it += static_cast<int>(dt);
+    it += static_cast<int>(ft);
     it *= 24;
     std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it << std::endl;
     // */
