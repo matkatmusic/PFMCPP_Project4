@@ -849,46 +849,58 @@ void part7()
     
     std::cout << "Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:" << std::endl;
     std::cout << "ft3 before: " << ft3 << std::endl;
-
     {
-        using Type = #4;
-        ft3.apply( [](std::unique...){} );
-    }
+        using FloatType = decltype(ft3);
+        ft3.apply( [&ft3](std::unique_ptr<FloatType::Type>& f) -> FloatType&
 
+        {
+            *f += 7.0f;
+            return ft3;
+        });
+    }
     std::cout << "ft3 after: " << ft3 << std::endl;
-    std::cout << "Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:" << std::endl;
-    std::cout << "ft3 before: " << ft3 << std::endl;
-    ft3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
-    std::cout << "ft3 after: " << ft3 << std::endl;
-    std::cout << "---------------------\n" << std::endl;
+    // std::cout << "Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:" << std::endl;
+    // std::cout << "ft3 before: " << ft3 << std::endl;
+    // ft3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+    // std::cout << "ft3 after: " << ft3 << std::endl;
+    // std::cout << "---------------------\n" << std::endl;
 
     std::cout << "Calling Numeric<double>::apply() using a lambda (adds 6.0) and Numeric<double> as return type:" << std::endl;
     std::cout << "dt3 before: " << dt3 << std::endl;
 
     {
-        using Type = #4;
-        dt3.apply( [](std::unique...){} ); // This calls the templated apply fcn
+        using DoubleType = decltype(dt3);
+        dt3.apply( [&dt3](std::unique_ptr<DoubleType::Type>& d) -> DoubleType&
+        {
+            *d += 6.0;
+            return dt3;
+        } ); // This calls the templated apply fcn
     }
     
     std::cout << "dt3 after: " << dt3 << std::endl;
-    std::cout << "Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:" << std::endl;
-    std::cout << "dt3 before: " << dt3 << std::endl;
-    dt3.apply(myNumericFreeFunct<double>).apply(myNumericFreeFunct<double>); // This calls the templated apply fcn
-    std::cout << "dt3 after: " << dt3 << std::endl;
-    std::cout << "---------------------\n" << std::endl;
+    // std::cout << "Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:" << std::endl;
+    // std::cout << "dt3 before: " << dt3 << std::endl;
+    // dt3.apply(myNumericFreeFunct<double>).apply(myNumericFreeFunct<double>); // This calls the templated apply fcn
+    // std::cout << "dt3 after: " << dt3 << std::endl;
+    // std::cout << "---------------------\n" << std::endl;
 
     std::cout << "Calling Numeric<int>::apply() using a lambda (adds 5) and Numeric<int> as return type:" << std::endl;
     std::cout << "it3 before: " << it3 << std::endl;
 
     {
-        using Type = #4;
-        it3.apply( [](std::unique...){} );
+        using IntType = decltype(it3);
+        it3.apply( [&it3](std::unique_ptr<IntType::Type>& i) -> IntType&
+        {
+            *i += 5;
+            return it3;
+        } );
     }
     std::cout << "it3 after: " << it3 << std::endl;
-    std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
-    std::cout << "it3 before: " << it3 << std::endl;
-    it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
-    std::cout << "it3 after: " << it3 << std::endl;
+
+    // std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
+    // std::cout << "it3 before: " << it3 << std::endl;
+    // it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+    // std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "---------------------\n" << std::endl;    
 }
 
@@ -1018,26 +1030,26 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 int main()
 {   
 
-    Numeric<int> it(3);
-    Numeric<float> ft(3.0f);
-    Numeric<double> db(3.0);
+    Numeric<int> it(2);
+    Numeric<float> ft(2.0f);
+    Numeric<double> dt(2.0);
     
-    std::cout << "NumericWrapper: " << it << std::endl;
+    // std::cout << "NumericWrapper: " << it << std::endl;
     
-    using NumericType = decltype(it)::Type;                          // #4)
-    using ReturnType = decltype(it);
+    // using NumericType = decltype(it)::Type;                          // #4)
+    // using ReturnType = decltype(it);
 
-    using NumericType = decltype(ft)::Type;
-    using NumericType = decltype(dt)::Type;
+    // using NumericType = decltype(ft)::Type;
+    // using NumericType = decltype(dt)::Type;
 
 
-//     using FloatType = decltype(ft);
-//     using DoubleType = decltype(dt);
-//     using IntType = decltype(it);
+    using FloatType = decltype(ft);
+    using DoubleType = decltype(dt);
+    using IntType = decltype(it);
 
-//     FloatType ft ( 2.0f );
-//     DoubleType dt ( 2 );
-//     IntType it ( 2 ) ;
+    // FloatType ft ( 2.0f );
+    // DoubleType dt ( 2 );
+    // IntType it ( 2 ) ;
 
 //     ft += 2.0f;
 //     std::cout << "FloatType add result=" << ft << std::endl;
@@ -1062,7 +1074,7 @@ int main()
 //     std::cout << "DoubleType multiply result=" << dt << std::endl;
     
 //     dt /= 5.0;
-//     std::cout << "DoubleType divide result=" << dt << std::endl << std::endl;
+//     std::cout << "DoubleType divide result=" << dt << std::endl << std::endl //why do I get 20 instead of 0.8 ?! 
 
 //     it += 2;
 //     std::cout << "IntType add result=" << it << std::endl;
