@@ -216,7 +216,7 @@ struct Numeric
 
     Numeric& apply( std::function<Numeric&(std::unique_ptr<Type>&)> callable)   
     {
-        std::cout << "std::function<>" << std::endl;
+        // std::cout << "std::function<>" << std::endl;
         if( callable )
         {
             return callable(un);  
@@ -226,7 +226,7 @@ struct Numeric
         
     Numeric& apply( void(*f)(std::unique_ptr<Type>&) ) 
     {
-        std::cout << "free function" << std::endl;
+        // std::cout << "free function" << std::endl;
         if( f )
         {
             f(un);
@@ -644,7 +644,18 @@ IntType& IntType::pow(const FloatType& i )
 }
 */
 //+++++++++++++++++++++++++
-//         Free Functions               
+// Free Functions    
+template <typename NumericType>
+void myNumericFreeFunct(std::unique_ptr<NumericType>& value)
+{
+    *value += 7;
+}
+
+
+// void myNumericFreeFunct(float& value)
+// {
+//     value += 7.0f;
+// }
 
 // void myFloatFreeFunct( float& value)
 // {
@@ -859,11 +870,11 @@ void part7()
         });
     }
     std::cout << "ft3 after: " << ft3 << std::endl;
-    // std::cout << "Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:" << std::endl;
-    // std::cout << "ft3 before: " << ft3 << std::endl;
-    // ft3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
-    // std::cout << "ft3 after: " << ft3 << std::endl;
-    // std::cout << "---------------------\n" << std::endl;
+    std::cout << "Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:" << std::endl;
+    std::cout << "ft3 before: " << ft3 << std::endl;
+    ft3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+    std::cout << "ft3 after: " << ft3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;
 
     std::cout << "Calling Numeric<double>::apply() using a lambda (adds 6.0) and Numeric<double> as return type:" << std::endl;
     std::cout << "dt3 before: " << dt3 << std::endl;
@@ -878,11 +889,11 @@ void part7()
     }
     
     std::cout << "dt3 after: " << dt3 << std::endl;
-    // std::cout << "Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:" << std::endl;
-    // std::cout << "dt3 before: " << dt3 << std::endl;
-    // dt3.apply(myNumericFreeFunct<double>).apply(myNumericFreeFunct<double>); // This calls the templated apply fcn
-    // std::cout << "dt3 after: " << dt3 << std::endl;
-    // std::cout << "---------------------\n" << std::endl;
+    std::cout << "Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:" << std::endl;
+    std::cout << "dt3 before: " << dt3 << std::endl;
+    dt3.apply(myNumericFreeFunct<double>).apply(myNumericFreeFunct<double>); // This calls the templated apply fcn
+    std::cout << "dt3 after: " << dt3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;
 
     std::cout << "Calling Numeric<int>::apply() using a lambda (adds 5) and Numeric<int> as return type:" << std::endl;
     std::cout << "it3 before: " << it3 << std::endl;
@@ -897,10 +908,10 @@ void part7()
     }
     std::cout << "it3 after: " << it3 << std::endl;
 
-    // std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
-    // std::cout << "it3 before: " << it3 << std::endl;
-    // it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
-    // std::cout << "it3 after: " << it3 << std::endl;
+    std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
+    std::cout << "it3 before: " << it3 << std::endl;
+    it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+    std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "---------------------\n" << std::endl;    
 }
 
@@ -1043,96 +1054,92 @@ int main()
     // using NumericType = decltype(dt)::Type;
 
 
-    using FloatType = decltype(ft);
-    using DoubleType = decltype(dt);
-    using IntType = decltype(it);
+    // using FloatType = decltype(ft);
+    // using DoubleType = decltype(dt);
+    // using IntType = decltype(it);
 
     // FloatType ft ( 2.0f );
     // DoubleType dt ( 2 );
     // IntType it ( 2 ) ;
 
-//     ft += 2.0f;
-//     std::cout << "FloatType add result=" << ft << std::endl;
+    ft += 2.0f;
+    std::cout << "FloatType add result=" << ft << std::endl;
     
-//     ft -= 2.0f;
-//     std::cout << "FloatType subtract result=" << ft << std::endl;
+    ft -= 2.0f;
+    std::cout << "FloatType subtract result=" << ft << std::endl;
 
-//     ft *= 2.0f;
-//     std::cout << "FloatType multiply result=" << ft << std::endl;
+    ft *= 2.0f;
+    std::cout << "FloatType multiply result=" << ft << std::endl;
   
-//     ft /= 16.f;
-//     std::cout << "FloatType divide result=" << ft << std::endl << std::endl;
+    ft /= 16.f;
+    std::cout << "FloatType divide result=" << ft << std::endl << std::endl;
 
 
-//     dt += 2.0;
-//     std::cout << "DoubleType add result=" << dt << std::endl;
+    dt += 2.0;
+    std::cout << "DoubleType add result=" << dt << std::endl;
 
-//     dt -= 2.0;
-//     std::cout << "DoubleType subtract result=" << dt << std::endl;
+    dt -= 2.0;
+    std::cout << "DoubleType subtract result=" << dt << std::endl;
 
-//     dt *= 2.0;
-//     std::cout << "DoubleType multiply result=" << dt << std::endl;
+    dt *= 2.0;
+    std::cout << "DoubleType multiply result=" << dt << std::endl;
     
-//     dt /= 5.0;
-//     std::cout << "DoubleType divide result=" << dt << std::endl << std::endl //why do I get 20 instead of 0.8 ?! 
+    dt /= 5.0;
+    std::cout << "DoubleType divide result=" << dt << std::endl << std::endl;
+     //why do I get 20 instead of 0.8 ?! 
 
-//     it += 2;
-//     std::cout << "IntType add result=" << it << std::endl;
+    it += 2;
+    std::cout << "IntType add result=" << it << std::endl;
 
-//     it -= 2;
-//     std::cout << "IntType subtract result=" << it << std::endl;
+    it -= 2;
+    std::cout << "IntType subtract result=" << it << std::endl;
 
-//     it *= 2;
-//     std::cout << "IntType multiply result=" << it << std::endl;
+    it *= 2;
+    std::cout << "IntType multiply result=" << it << std::endl;
 
-//     it /= 3;
-//     std::cout << "IntType divide result=" << it << std::endl;
+    it /= 3;
+    std::cout << "IntType divide result=" << it << std::endl;
 
-//     it *= 1000;
-//     it /= 2;
-//     it -= 10;
-//     it += 100;
-//     std::cout << "Chain calculation = " << it << std::endl;
+    it *= 1000;
+    it /= 2;
+    it -= 10;
+    it += 100;
+    std::cout << "\nChain calculation = " << it << std::endl;
 
-//         // FloatType object instanciation and method tests
-//     // --------
-//     ft += 3.0f;
-//     ft *= 1.5f;
-//     ft /= 5.0f;
-//     std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " << ft << std::endl;
+        // FloatType object instanciation and method tests
+    // --------
+    ft += 3.0f;
+    ft *= 1.5f;
+    ft /= 5.0f;
+    std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " << ft << std::endl;
        
-//     std::cout << "---------------------\n" << std::endl; 
+    std::cout << "---------------------\n" << std::endl; 
    
-//     // DoubleType/IntType object instanciation and method tests
-//     // --------
-//     std::cout << "Initial value of dt: " << dt << std::endl;
-//     std::cout << "Initial value of it: " << it << std::endl;
-//     // --------
-//     std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
-//     dt *= it;
-//     dt /= 5.0;
-//     dt += static_cast<double>(ft);
-//     std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << dt << std::endl;
+    // DoubleType/IntType object instanciation and method tests
+    // --------
+    std::cout << "Initial value of dt: " << dt << std::endl;
+    std::cout << "Initial value of it: " << it << std::endl;
+    // --------
+    std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
+    dt *= it;
+    dt /= 5.0;
+    dt += static_cast<double>(ft);
+    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << dt << std::endl;
 
-//     std::cout << "---------------------\n" << std::endl; 
+    std::cout << "---------------------\n" << std::endl; 
  
-//     // Intercept division by 0
-//     // --------
-//     std::cout << "Intercept division by 0 " << std::endl;
+    // Intercept division by 0
+    // --------
+    std::cout << "Intercept division by 0 " << std::endl;
 
-//     it /= 0;
-//     std::cout << "New value of it = it / 0 = " << it << std::endl;
-//     /*
-//     gotta figure out why it outputs:
-//    "New value of it = it / 0 = 590 warning: ..."
-//     insted of: 
-//     "New value of it = it / 0 = error: ... 590"
-//     */
-//     ft /= 0;
-//     std::cout << "New value of ft = ft / 0 = " << ft << std::endl;
+    it /= 0;
+    std::cout << "New value of it = it / 0 = " << it << std::endl;
 
-//     dt /= 0;
-//     std::cout << "New value of dt = dt / 0 = " << dt << std::endl;
+    ft /= 0;
+    std::cout << "New value of ft = ft / 0 = " << ft << std::endl;
+
+    dt /= 0;
+    std::cout << "New value of dt = dt / 0 = " << dt << std::endl;
 
     std::cout << "---------------------\n" << std::endl; 
     
