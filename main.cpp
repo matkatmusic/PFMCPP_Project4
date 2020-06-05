@@ -1143,8 +1143,8 @@ int main()
 
     std::cout << "---------------------\n" << std::endl; 
     
-    // part3();
-    // part4();
+    part3();
+    part4();
     // part6();
     part7();
     std::cout << "good to go!\n";
