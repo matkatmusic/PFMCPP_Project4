@@ -254,12 +254,12 @@ void part3()
 
     std::cout << "The result of FloatType^4 divided by IntType is: " << static_cast<float>(ft.multiply( static_cast<float>(ft) ).multiply( static_cast<float>(ft) ).divide( static_cast<int>(it) ) ) << std::endl;
     std::cout << "The result of DoubleType times 3 plus IntType is : " << static_cast<double>(dt.multiply( static_cast<double>(3) ).add( static_cast<int>(it) ) ) << std::endl;
-    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << static_cast<int>(it.divide( static_cast<double>(pi) ).multiply( static_cast<double>(dt) ).subtract( static_cast<float>(ft) ) ) << std::endl;
+    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << static_cast<int>(it.divide( static_cast<int>(pi) ).multiply( static_cast<int>(dt) ).subtract( static_cast<int>(ft) ) ) << std::endl;
     std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
-    std::cout << static_cast<int>(it.multiply( static_cast<int>(it) ).divide(0).divide( static_cast<int>(0.0f) ).divide( static_cast<int>(0.0) )<<std::endl;
+    std::cout << static_cast<int>(it.multiply( static_cast<int>(it) ).divide(0).divide( static_cast<int>(0.0f) ).divide( static_cast<int>(0.0) ) )<<std::endl;
     
-    std::cout << "FloatType x IntType  =  " << static_cast<int>(it.multiply( static_cast<float>(ft) )<< std::endl;
-    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << static_cast<int>(it.add( static_cast<double>(dt) ).add( static_cast<float>(ft) ).multiply( 24 ) ) << std::endl;
+    std::cout << "FloatType x IntType  =  " << static_cast<int>(it.multiply( static_cast<int>(ft) ) )<< std::endl;
+    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << static_cast<int>(it.add( static_cast<int>(dt) ).add( static_cast<int>(ft) ).multiply( 24 ) ) << std::endl;
 }
 
 int main()
