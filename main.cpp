@@ -117,13 +117,13 @@ struct FloatType
     FloatType(float v) : value( new float(v) ) {}
     ~FloatType() { delete value; }
 
-    float* value = nullptr;
-
     FloatType& add(float f);
     FloatType& subtract(float f);
     FloatType& multiply(float f);
     FloatType& divide(float f);
 
+private:
+    float* value = nullptr;
 };
 
 struct DoubleType
@@ -131,9 +131,14 @@ struct DoubleType
     DoubleType(double v) : value( new double(v) ) {}
     ~DoubleType() { delete value; }
 
+
+    DoubleType& add(double d);
+    DoubleType& subtract(double d);
+    DoubleType& multiply(double d);
+    DoubleType& divide(double d);
+
+private:
     double* value = nullptr;
-
-
 };
 
 struct IntType
@@ -141,8 +146,14 @@ struct IntType
     IntType(int v) : value( new int(v) ) {}
     ~IntType() { delete value; }
 
-    int* value = nullptr;
 
+    IntType& add(int i);
+    IntType& subtract(int i);
+    IntType& multiply(int i);
+    IntType& divide(int i); 
+
+private:
+    int* value = nullptr;
 };
 
 FloatType& FloatType::add(float f)
@@ -172,6 +183,7 @@ FloatType& FloatType::divide(float f)
     *value /= f;
     return *this;
 }
+
 
 // DoubleType Functions
 DoubleType& DoubleType::add(double d)
@@ -231,6 +243,7 @@ IntType& IntType::divide(int i)
     *value /= i;
     return *this;
 }
+
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
