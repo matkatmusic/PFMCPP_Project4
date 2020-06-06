@@ -296,7 +296,7 @@ struct Numeric<double>
             std::cout << "error: you are about to divide by zero! Operation stopped.\n" << std::endl;
             return *this;
         }
-        *un *= t;
+        *un /= t;
         return *this;
     }
     template<class C>
