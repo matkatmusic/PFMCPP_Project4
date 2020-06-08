@@ -294,7 +294,6 @@ struct Numeric<double>
         if(t==0.0)
         {
             std::cout << "warning: you are about to divide by zero!\n" << std::endl;
-            return *this;
         }
         *un /= t;
         return *this;
