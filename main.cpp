@@ -155,7 +155,7 @@ struct Numeric
         un = nullptr;
     }
 
-    // Numeric& operator=(const Numeric&) {return *this;} 
+    // Numeric& operator = (const Numeric&) {return *this;} 
     // to avoid error: main.cpp:694:8: error: object of type 'Numeric<float>' cannot be assigned
     //   because its copy assignment operator is implicitly deleted
     // ft = ft.pow(4);
@@ -334,9 +334,13 @@ void part3()
     Numeric<int> it ( 34 );
     Numeric<double> pi( 3.14 );
 
-    ft = ft.pow(4);
-    ft /= it;
-    std::cout << "The result of FloatType^4 divided by IntType is: " << ft << std::endl;
+    // ft = ft.pow(4); // does not work without proper 'operator ='
+    auto result = ft.pow(4)/it;
+    // ft *= ft;
+    // ft *= ft;
+    // ft /= it;
+    std::cout << "The result of FloatType^4 divided by IntType is: " << result << std::endl;
+    // std::cout << "The result of FloatType^4 divided by IntType is: " << ft.multiply( ft ).multiply( ft ).divide( it ) << std::endl;  // <- original line 
 
     dt *= 3;
     dt += it;
