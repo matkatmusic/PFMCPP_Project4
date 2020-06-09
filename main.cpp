@@ -202,19 +202,19 @@ struct Numeric
             {
                 if ( t == 0)
                 {
-                    std::cout<< "error: you are about to divide integer by zero! Operation stopped.\n" << std::endl;
+                    std::cout << "can't divide integers by zero!\n";
                     return *this;
                 }
             }
             else if (t < std::numeric_limits<Type>::epsilon() )
             {
-                std::cout << "error: you are about to divide integer by zero! Operation stopped.\n" << std::endl;
+                std::cout << "can't divide integers by zero!\n";
                 return *this;
             }
         }
         else if (t < std::numeric_limits<Type>::epsilon() )
         {
-            std::cout<< "warning: you are about to divide by zero!\n" << std::endl;
+            std::cout << "warning: trying to divide by zero!\n";
         }
         *un /= t;
         return *this;
@@ -293,7 +293,7 @@ struct Numeric<double>
     {
         if(t==0.0)
         {
-            std::cout << "warning: you are about to divide by zero!\n" << std::endl;
+            std::cout << "warning: floating point division by zero!\n";
         }
         *un /= t;
         return *this;
@@ -334,13 +334,11 @@ void part3()
     Numeric<int> it ( 34 );
     Numeric<double> pi( 3.14 );
 
-    // ft = ft.pow(4); // does not work without proper 'operator ='
-    auto result = ft.pow(4)/it;
-    // ft *= ft;
-    // ft *= ft;
-    // ft /= it;
-    std::cout << "The result of FloatType^4 divided by IntType is: " << result << std::endl;
-    // std::cout << "The result of FloatType^4 divided by IntType is: " << ft.multiply( ft ).multiply( ft ).divide( it ) << std::endl;  // <- original line 
+    ft *= ft; // here
+    ft *= ft;
+    ft /= it;
+    std::cout << "The result of FloatType^3 divided by IntType is: " << ft << std::endl;
+    
 
     dt *= 3;
     dt += it;
@@ -729,15 +727,9 @@ int main()
     // Intercept division by 0
     // --------
     std::cout << "Intercept division by 0 " << std::endl;
-
-    it /= 0;
-    std::cout << "New value of it = it / 0 = " << it << std::endl;
-
-    ft /= 0;
-    std::cout << "New value of ft = ft / 0 = " << ft << std::endl;
-
-    dt /= 0;
-    std::cout << "New value of dt = dt / 0 = " << dt << std::endl;
+    std::cout << "New value of it = it / 0 = " << it.operator/=(0) << std::endl;
+    std::cout << "New value of ft = ft / 0 = " << ft.operator/=(0) << std::endl;
+    std::cout << "New value of dt = dt / 0 = " << dt.operator/=(0) << std::endl;
 
     std::cout << "---------------------\n" << std::endl; 
     
