@@ -24,7 +24,7 @@ Create a branch named Part8
   
  1) Here is a starting point for how to implement your Temporary struct.
  */
-
+ 
 #include <typeinfo>
 template<typename NumericType>
 struct Temporary
