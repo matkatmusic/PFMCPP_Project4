@@ -44,16 +44,7 @@ Project 4: Part 4 / 9
  5) make sure it compiles without errors.
  
  You will need to use Forward Declaration and out-of-class definitions to complete this.
- */
 
-#include <cmath> // std::pow
-#include <iostream>
-
-struct DoubleType;
-struct IntType;
-struct FloatType;
-
-/*
 your program should generate the following output.   The output should have zero warnings.
 
 
@@ -151,6 +142,12 @@ good to go!
 Use a service like https://www.diffchecker.com/diff to compare your output. 
 */
 
+#include <cmath> // std::pow
+#include <iostream>
+
+struct DoubleType;
+struct IntType;
+
 struct FloatType
 {
     FloatType(float v) : value( new float(v) ) {}
@@ -221,16 +218,16 @@ private:
 
 struct Point
 {
-    Point(IntType x_, IntType y_);
-    Point(FloatType x_, FloatType y_);
-    Point(DoubleType x_, DoubleType y_);
+    Point(const IntType& x_, const IntType& y_);
+    Point(const FloatType& x_, const FloatType& y_);
+    Point(const DoubleType& x_, const DoubleType& y_);
 
     Point& multiply(float m);
-    Point& multiply(IntType m);
-    Point& multiply(FloatType m);
-    Point& multiply(DoubleType m);
+    Point& multiply(const IntType& m);
+    Point& multiply(const FloatType& m);
+    Point& multiply(const DoubleType& m);
 
-    void toString() { std::cout << "x: " << x << " y: " << y << std::endl; }
+    void toString() { std::cout << "Point { x: " << x << ", y: " << y << " }\n"; }
 private:
     float x{0}, y{0};
 };
@@ -343,9 +340,9 @@ IntType& IntType::pow(int i)                   { return powInternal( i ); }
 
 
 // Point ctors and multiply funcs
-Point::Point(IntType x_, IntType y_) : x(x_), y(y_) {}
-Point::Point(FloatType x_, FloatType y_) : x(x_), y(y_) {}
-Point::Point(DoubleType x_, DoubleType y_) : x(x_), y(y_) {}
+Point::Point(const IntType& x_, const IntType& y_) : x( static_cast<float>(x_) ), y( static_cast<float>(y_) ) {}
+Point::Point(const FloatType& x_, const FloatType& y_) : x( static_cast<float>(x_) ), y(  static_cast<float>(y_) ) {}
+Point::Point(const DoubleType& x_, const DoubleType& y_) : x( static_cast<float>(x_) ), y(  static_cast<float>(y_) ) {}
 
 Point& Point::multiply(float m)
 {
@@ -354,25 +351,19 @@ Point& Point::multiply(float m)
     return *this;
 }
 
-Point& Point::multiply(IntType m)
+Point& Point::multiply(const IntType& m)
 {
-    x *= m;
-    y *= m;
-    return *this;
+    return multiply( static_cast<float>(m) );
 }
 
-Point& Point::multiply(FloatType m)
+Point& Point::multiply(const FloatType& m)
 {
-    x *= m;
-    y *= m;
-    return *this;
+    return multiply( static_cast<float>(m) );
 }
 
-Point& Point::multiply(DoubleType m)
+Point& Point::multiply(const DoubleType& m)
 {
-    x *= m;
-    y *= m;
-    return *this;
+    return multiply( static_cast<float>(m) );
 }
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
@@ -420,7 +411,7 @@ void part4()
     FloatType ftExp(2.0f);
     DoubleType dtExp(2.0);
     
-    // Power tests with FloatType
+    //Power tests with FloatType
     std::cout << "Power tests with FloatType " << std::endl;
     std::cout << "pow(ft1, floatExp) = " << ft1 << "^" << floatExp << " = " << ft1.pow(floatExp)  << std::endl;
     std::cout << "pow(ft1, itExp) = " << ft1 << "^" << itExp << " = " << ft1.pow(itExp)  << std::endl;
@@ -512,7 +503,7 @@ int main()
     std::cout << "IntType divide result=" << ( it.divide(3) ) << std::endl << std::endl;
     std::cout << "Chain calculation = " << ( it.multiply(1000).divide(2).subtract(10).add(100) ) << std::endl;
 
-        // FloatType object instanciation and method tests
+    // FloatType object instanciation and method tests
     // --------
     std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " << ( ft.add(3.0f).multiply(1.5f).divide(5.0f))  << std::endl;
        
@@ -538,6 +529,8 @@ int main()
     std::cout << "---------------------\n" << std::endl; 
 
     part3();
+
+    part4();
 
     std::cout << "good to go!\n";
 
