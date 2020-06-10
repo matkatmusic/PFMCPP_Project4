@@ -327,10 +327,17 @@ struct IntType
     IntType& multiply(int i);
     IntType& divide(int i); 
 
+    IntType& pow(const IntType& it);
+    IntType& pow(const FloatType& ft);
+    IntType& pow(const DoubleType& dt);
+    IntType& pow(int i);
+
     operator int() const { return *value; }
 
 private:
     int* value = nullptr;
+    // std::pow returns a double, and we want an int
+    IntType& powInternal(int arg) { *value = static_cast<int>( std::pow(*value, arg) ); return *this; }
 };
 
 FloatType& FloatType::add(float f)
@@ -400,7 +407,7 @@ DoubleType& DoubleType::divide(double d)
 DoubleType& DoubleType::pow(const IntType& it)       { return powInternal( static_cast<double>(it) ); }
 DoubleType& DoubleType::pow(const FloatType& ft)     { return powInternal( static_cast<double>(ft) ); }
 DoubleType& DoubleType::pow(const DoubleType& dt)    { return powInternal( static_cast<double>(dt) ); }
-DoubleType& DoubleType::pow(double d)                 { return powInternal( d ); }
+DoubleType& DoubleType::pow(double d)                { return powInternal( d ); }
 
 // IntType Functions
 IntType& IntType::add(int i)
@@ -431,6 +438,12 @@ IntType& IntType::divide(int i)
     *value /= i;
     return *this;
 }
+
+// FloatType Pow Funcions
+IntType& IntType::pow(const IntType& it)       { return powInternal( static_cast<int>(it) ); }
+IntType& IntType::pow(const FloatType& ft)     { return powInternal( static_cast<int>(ft) ); }
+IntType& IntType::pow(const DoubleType& dt)    { return powInternal( static_cast<int>(dt) ); }
+IntType& IntType::pow(int i)                   { return powInternal( i ); }
 
 
 /*
