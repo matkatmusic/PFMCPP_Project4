@@ -372,8 +372,13 @@ void part3()
     IntType it ( 34 );
     DoubleType pi( 3.14 );
 
-    std::cout << "The result of FloatType^4 divided by IntType is: " << ( ft *= (ft * ft) / it ) << std::endl;
-    std::cout << "The result of DoubleType times 3 plus IntType is : " << ( dt *= 3 + it ) << std::endl;
+    ft *= ft;
+    ft *= ft;
+    ft /= it;
+    std::cout << "The result of FloatType^4 divided by IntType is: " << ft << std::endl;
+    dt *= 3;
+    dt += it;
+    std::cout << "The result of DoubleType times 3 plus IntType is : " << dt << std::endl;
     it /= static_cast<int>(3.14); // lose digits after decimal
     it *= static_cast<int>(dt);
     it -= static_cast<int>(ft);
