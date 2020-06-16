@@ -1,5 +1,3 @@
-
-#include <iostream>
 /*
 Project 4: Part 7 / 9
 Video: Chapter 5 Part 4
@@ -205,14 +203,14 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <cmath> // std::pow
 #include <iostream>
 #include <functional> // std::function
+#include <memory> // std::unique_ptr and std::make_unique
 
 struct DoubleType;
 struct IntType;
 
 struct FloatType
 {
-    FloatType(float v) : value( new float(v) ) {}
-    ~FloatType() { delete value; }
+    FloatType(float v) : value( std::make_unique<float>(v) ) {}
 
     FloatType& operator+=(float f);
     FloatType& operator-=(float f);
@@ -238,14 +236,13 @@ struct FloatType
     operator float() const { return *value; }
 
 private:
-    float* value = nullptr;
+    std::unique_ptr<float> value = nullptr;
     FloatType& powInternal(float arg) { *value = std::pow(*value, arg); return *this; }
 };
 
 struct DoubleType
 {
-    DoubleType(double v) : value( new double(v) ) {}
-    ~DoubleType() { delete value; }
+    DoubleType(double v) : value( std::make_unique<double>(v) ) {}
 
     DoubleType& operator+=(double d);
     DoubleType& operator-=(double d);
@@ -271,15 +268,13 @@ struct DoubleType
     operator double() const { return *value; }
 
 private:
-    double* value = nullptr;
+    std::unique_ptr<double> value = nullptr;
     DoubleType& powInternal(double arg) { *value = std::pow(*value, arg); return *this; }
 };
 
 struct IntType
 {
-    IntType(int v) : value( new int(v) ) {}
-    ~IntType() { delete value; }
-
+    IntType(int v) : value( std::make_unique<int>(v) ) {}
 
     IntType& operator+=(int i);
     IntType& operator-=(int i);
@@ -305,7 +300,7 @@ struct IntType
     operator int() const { return *value; }
 
 private:
-    int* value = nullptr;
+    std::unique_ptr<int> value = nullptr;
     // std::pow returns a double, and we want an int
     IntType& powInternal(int arg) { *value = static_cast<int>( std::pow(*value, arg) ); return *this; }
 };
@@ -629,56 +624,56 @@ void myIntFreeFunc(int& value) { value += 5; }
 //     std::cout << "---------------------\n" << std::endl;    
 // }
 
-void part7()
-{
-    Numeric ft3(3.0f);
-    Numeric dt3(4.0);
-    Numeric it3(5);
+// void part7()
+// {
+//     Numeric ft3(3.0f);
+//     Numeric dt3(4.0);
+//     Numeric it3(5);
     
-    std::cout << "Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:" << std::endl;
-    std::cout << "ft3 before: " << ft3 << std::endl;
+//     std::cout << "Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:" << std::endl;
+//     std::cout << "ft3 before: " << ft3 << std::endl;
 
-    {
-        using Type = #4;
-        ft3.apply( [](std::unique...){} );
-    }
+//     {
+//         using Type = #4;
+//         ft3.apply( [](std::unique...){} );
+//     }
 
-    std::cout << "ft3 after: " << ft3 << std::endl;
-    std::cout << "Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:" << std::endl;
-    std::cout << "ft3 before: " << ft3 << std::endl;
-    ft3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
-    std::cout << "ft3 after: " << ft3 << std::endl;
-    std::cout << "---------------------\n" << std::endl;
+//     std::cout << "ft3 after: " << ft3 << std::endl;
+//     std::cout << "Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:" << std::endl;
+//     std::cout << "ft3 before: " << ft3 << std::endl;
+//     ft3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+//     std::cout << "ft3 after: " << ft3 << std::endl;
+//     std::cout << "---------------------\n" << std::endl;
 
-    std::cout << "Calling Numeric<double>::apply() using a lambda (adds 6.0) and Numeric<double> as return type:" << std::endl;
-    std::cout << "dt3 before: " << dt3 << std::endl;
+//     std::cout << "Calling Numeric<double>::apply() using a lambda (adds 6.0) and Numeric<double> as return type:" << std::endl;
+//     std::cout << "dt3 before: " << dt3 << std::endl;
 
-    {
-        using Type = #4;
-        dt3.apply( [](std::unique...){} ); // This calls the templated apply fcn
-    }
+//     {
+//         using Type = #4;
+//         dt3.apply( [](std::unique...){} ); // This calls the templated apply fcn
+//     }
     
-    std::cout << "dt3 after: " << dt3 << std::endl;
-    std::cout << "Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:" << std::endl;
-    std::cout << "dt3 before: " << dt3 << std::endl;
-    dt3.apply(myNumericFreeFunct<double>).apply(myNumericFreeFunct<double>); // This calls the templated apply fcn
-    std::cout << "dt3 after: " << dt3 << std::endl;
-    std::cout << "---------------------\n" << std::endl;
+//     std::cout << "dt3 after: " << dt3 << std::endl;
+//     std::cout << "Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:" << std::endl;
+//     std::cout << "dt3 before: " << dt3 << std::endl;
+//     dt3.apply(myNumericFreeFunct<double>).apply(myNumericFreeFunct<double>); // This calls the templated apply fcn
+//     std::cout << "dt3 after: " << dt3 << std::endl;
+//     std::cout << "---------------------\n" << std::endl;
 
-    std::cout << "Calling Numeric<int>::apply() using a lambda (adds 5) and Numeric<int> as return type:" << std::endl;
-    std::cout << "it3 before: " << it3 << std::endl;
+//     std::cout << "Calling Numeric<int>::apply() using a lambda (adds 5) and Numeric<int> as return type:" << std::endl;
+//     std::cout << "it3 before: " << it3 << std::endl;
 
-    {
-        using Type = #4;
-        it3.apply( [](std::unique...){} );
-    }
-    std::cout << "it3 after: " << it3 << std::endl;
-    std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
-    std::cout << "it3 before: " << it3 << std::endl;
-    it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
-    std::cout << "it3 after: " << it3 << std::endl;
-    std::cout << "---------------------\n" << std::endl;    
-}
+//     {
+//         using Type = #4;
+//         it3.apply( [](std::unique...){} );
+//     }
+//     std::cout << "it3 after: " << it3 << std::endl;
+//     std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
+//     std::cout << "it3 before: " << it3 << std::endl;
+//     it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+//     std::cout << "it3 after: " << it3 << std::endl;
+//     std::cout << "---------------------\n" << std::endl;    
+// }
 
 int main()
 {   
@@ -741,7 +736,7 @@ int main()
     part3();
     part4();
     //part6();
-    part7();
+    //part7();
 
     std::cout << "good to go!\n";
 
