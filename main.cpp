@@ -72,11 +72,7 @@ Templates and Containers
         call part7() in main(), after where you were calling part6()
 
 If you need to view an example, see: https://bitbucket.org/MatkatMusic/pfmcpptasks/src/master/Projects/Project4/Part7Example.cpp
-*/
 
-
-
-/*
 your program should generate the following output EXACTLY.
 This includes the warnings. 
  The output should have zero warnings.
@@ -201,13 +197,46 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 */
 
 #include <cmath> // std::pow
-#include <iostream>
+#include <iostream> // std::cout
 #include <functional> // std::function
 #include <memory> // std::unique_ptr and std::make_unique
 
+template<typename Type>
+struct Numeric
+{
+    Numeric(Type v) : value( std::make_unique<Type>(v) ) {}
+
+    Numeric& operator+=(Type t);
+    Numeric& operator-=(Type t);
+    Numeric& operator*=(Type t);
+    Numeric& operator/=(Type t);
+
+    // How should these pow functions change?
+    Numeric& pow(const Numeric<int>& it);
+    Numeric& pow(const Numeric<float>& ft);
+    Numeric& pow(const Numeric<double>& dt);
+    Numeric& pow(Type t);
+
+    // lambda
+    Numeric& apply( std::function< Numeric<Type>& (Type&) > f ) { return f ? f(*value) : *this; }
+    // function pointer
+    using applyFunc = void(*)(Type&);
+    Numeric& apply( applyFunc f) 
+    { 
+        if(f)
+            f(*value);
+        return *this; 
+    }
+
+    operator Type() const { return *value; }
+
+private:
+    std::unique_ptr<Type> value = nullptr;
+    Numeric& powInternal(Type arg) { *value = std::pow(*value, arg); return *this; }
+};
+
 struct DoubleType;
 struct IntType;
-
 struct FloatType
 {
     FloatType(float v) : value( std::make_unique<float>(v) ) {}
