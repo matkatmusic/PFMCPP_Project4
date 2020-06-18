@@ -649,7 +649,7 @@ int main()
     part3();
     part4();
     //part6();
-    //part7();
+    part7();
 
     std::cout << "good to go!\n";
 
