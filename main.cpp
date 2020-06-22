@@ -15,7 +15,7 @@ Create a branch named Part8
  Edit your Chapter 5 Part 4 Task and replace its instructions with these instructions
  
  Your job is to replace the owned type (the primitive specified by your template argument) from the 
-     Templated Class you created in Ch5 p04 with a struct named Temporary that can behave ENTIRELY as a temporary object.
+    Templated Class you created in Ch5 p04 with a struct named Temporary that can behave ENTIRELY as a temporary object.
  
  That means you must use conversion functions to interact with what it owns.
  
