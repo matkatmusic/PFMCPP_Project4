@@ -219,7 +219,6 @@ struct Numeric
     using Type = NumericType;
 
     Numeric(Type v) : value( std::make_unique<Type>(v) ) {}
-    // do I need to make a default constructor?
 
     Numeric& operator+=(Type t)
     {
