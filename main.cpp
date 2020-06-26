@@ -212,7 +212,7 @@ struct Point
     
     //constructor to take numeric types
     template<typename T>
-    Point(T& a, T& b) : Point(static_cast<float>(a), static_cast<float>(b) ) { }
+    Point(const T& a, const T& b) : Point(static_cast<float>(a), static_cast<float>(b) ) { }
 
     template<typename T> 
     Point& multiply( T& m)
