@@ -22,37 +22,12 @@ Create a branch named Part8
   
  1) Here is a starting point for how to implement your Temporary struct.
  */
-#include <iostream>
-#include <cmath>
-#include <functional>
-#include <memory>
-#include <typeinfo>
-
-template<typename NumericType>
-struct Temporary
-{
-    Temporary(NumericType t) : v(t)
-    {
-        std::cout << "I'm a Temporary<" << typeid(v).name() << "> object, #"
-                  << counter++ << std::endl;
-    }
-    /*
-     revise these conversion functions to read/write to 'v' here
-     hint: what qualifier do read-only functions usually have?
-     */
-    operator NumericType() const { /* read-only function */ return v; }
-    operator NumericType&() { /* read/write function */ return v; }
-private:
-    static int counter;
-    NumericType v;
-};
 
 /*
  2) add the definition of Temporary::counter here, which is a static variable and must be defined outside of the class.
     Remember the rules about how to define a Template member variable/function outside of the class.
 */
-template<typename NumericType>
-int Temporary<NumericType>::counter = 0;
+
 /*
  3) You'll need to template your overloaded math operator functions in your Templated Class from Ch5 p04
     use static_cast to convert whatever type is passed in to your template's NumericType before performing the +=, -=, etc.  here's an example implementation:
@@ -202,6 +177,34 @@ int main()
     }
 }
 */
+
+#include <iostream>
+#include <cmath>
+#include <functional>
+#include <memory>
+#include <typeinfo>
+
+template<typename NumericType>
+struct Temporary
+{
+    Temporary(NumericType t) : v(t)
+    {
+        std::cout << "I'm a Temporary<" << typeid(v).name() << "> object, #"
+                  << counter++ << std::endl;
+    }
+    /*
+     revise these conversion functions to read/write to 'v' here
+     hint: what qualifier do read-only functions usually have?
+     */
+    operator NumericType() const { /* read-only function */ return v; }
+    operator NumericType&() { /* read/write function */ return v; }
+private:
+    static int counter;
+    NumericType v;
+};
+
+template<typename NumericType>
+int Temporary<NumericType>::counter = 0;
 
 struct Point
 {
