@@ -85,6 +85,15 @@ struct Temporary
         std::cout << "I'm a Temporary<" << typeid(v).name() << "> object, #"
                   << counter++ << std::endl;
     }
+
+    // rule of 3
+    ~Temporary() {} // dtor
+    Temporary(const Temporary& other) {} // copy ctor
+    Temporary& operator=(const Temporary& other) { return {}; } // copy assignment
+    // rule of 5
+    Temporary( Temporary&& other) {} // move ctor
+    Temporary& operator=( Temporary&& other) { return {}; } // move assignment
+
     /*
      revise these conversion functions to read/write to 'v' here
      hint: what qualifier do read-only functions usually have?
@@ -140,10 +149,14 @@ struct Numeric
     Numeric( Type n ) : value( new Type(n) ) {}
     Numeric() : Numeric(0) {}
 
-    ~Numeric()
-    {
-        value = nullptr;
-    }
+    // rule of 3
+    ~Numeric() { value = nullptr; } // dtor
+    Numeric(const Numeric& other) {} // copy ctor
+    Numeric& operator=(const Numeric& other) { return {}; } // copy assignment
+    // rule of 5
+    Numeric( Numeric&& other) {} // move ctor
+    Numeric& operator=( Numeric&& other) { return {}; } // move assignment
+
 
     operator T() const { return *value; }
     operator T&() { return *value; }
