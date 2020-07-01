@@ -102,12 +102,8 @@ struct Temporary
         return *this; // chaining
     } 
 
-    /*
-     revise these conversion functions to read/write to 'v' here
-     hint: what qualifier do read-only functions usually have?
-     */
-    operator NumericType() const { /* read-only function */ return v; }
-    operator NumericType&() { /* read/write function */ return v; }
+    operator NumericType() const { return v; }
+    operator NumericType&() {  return v; }
 private:
     static int counter;
     NumericType v;
