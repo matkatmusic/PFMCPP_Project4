@@ -51,3 +51,4 @@ namespace juce
         std::atomic<Type> value;
     };
 } //end namespace juce
+
