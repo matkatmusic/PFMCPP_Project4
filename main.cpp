@@ -71,7 +71,7 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 
 
 #include <iostream>
-#include <cmath>
+#include <math.h>
 #include <functional>
 #include <memory>
 #include <typeinfo>
@@ -87,12 +87,20 @@ struct Temporary
     }
 
     // rule of 3
-    ~Temporary() {} // dtor
-    Temporary(const Temporary& other) {} // copy ctor
-    Temporary& operator=(const Temporary& other) { return {}; } // copy assignment
+    ~Temporary() = default; // dtor
+
+    /* 
+    class is non copyable so copy ctor and copy assignment aren't implemented 
+    as they are already marked delete.
+     */ 
+
     // rule of 5
-    Temporary( Temporary&& other) {} // move ctor
-    Temporary& operator=( Temporary&& other) { return {}; } // move assignment
+    Temporary( Temporary&& other) : v( std::move(other.v) ) {} // move ctor
+    Temporary& operator=( Temporary&& other) // move assignment
+    { 
+        this->v = std::move( other.v );
+        return *this; // chaining
+    } 
 
     /*
      revise these conversion functions to read/write to 'v' here
@@ -110,35 +118,6 @@ private:
 template<typename NumericType>
 int Temporary<NumericType>::counter = 0;
 
-struct Point
-{
-    Point(float a, float b) : x(a), y(b) {}
-    
-    //constructor to take numeric types
-    template<typename T>
-    Point(const T& a, const T& b) : Point(static_cast<float>(a), static_cast<float>(b) ) { }
-
-    template<typename T> 
-    Point& multiply( T& m)
-    {
-        return multiply(static_cast<float>(m));
-    }
-
-    Point& multiply(float m)
-    {
-        x *= m;
-        y *= m;
-        return *this;
-    }
-
-    void toString()
-    {
-        std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
-    }
-
-private:
-    float x{0}, y{0};
-};
 
 //template class
 template<typename T>
@@ -146,17 +125,24 @@ struct Numeric
 {
     using Type = Temporary<T>;
 
-    Numeric( Type n ) : value( new Type(n) ) {}
+    Numeric( Type n ) : value( std::make_unique<Type>(n) ) {}
     Numeric() : Numeric(0) {}
 
     // rule of 3
-    ~Numeric() { value = nullptr; } // dtor
-    Numeric(const Numeric& other) {} // copy ctor
-    Numeric& operator=(const Numeric& other) { return {}; } // copy assignment
-    // rule of 5
-    Numeric( Numeric&& other) {} // move ctor
-    Numeric& operator=( Numeric&& other) { return {}; } // move assignment
+    ~Numeric() = default; // dtor
+    
+    /* 
+    class is non copyable so copy ctor and copy assignment aren't implemented 
+    as they are already marked delete.
+    */ 
 
+    // rule of 5
+    Numeric( Numeric&& other) : value( std::move(other.value) ) {} // move ctor
+    Numeric& operator=( Numeric&& other) // move assignment
+    {
+        this->value = std::move( other.value );
+        return *this; // chaining
+    } 
 
     operator T() const { return *value; }
     operator T&() { return *value; }
@@ -236,9 +222,39 @@ struct Numeric
     }
 
 private:
-    std::unique_ptr<Type> value{ new Type() };
+    std::unique_ptr<Type> value;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Numeric)
+};
+
+struct Point
+{
+    Point(float a, float b) : x(a), y(b) {}
+    
+    //constructor to take numeric types
+    template<typename T>
+    Point(const T& a, const T& b) : Point(static_cast<float>(a), static_cast<float>(b) ) { }
+
+    template<typename T> 
+    Point& multiply( T& m)
+    {
+        return multiply(static_cast<float>(m));
+    }
+
+    Point& multiply(float m)
+    {
+        x *= m;
+        y *= m;
+        return *this;
+    }
+
+    void toString()
+    {
+        std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
+    }
+
+private:
+    float x{0}, y{0};
 };
 
 // free functions to pass to apply
@@ -251,7 +267,6 @@ void cube(std::unique_ptr<T> &value)
     auto& v = *value;
     v = v * v * v;
 }
-
 
 int main()
 {
