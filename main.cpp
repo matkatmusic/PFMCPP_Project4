@@ -98,7 +98,7 @@ struct Temporary
     Temporary( Temporary&& other) : v( std::move(other.v) ) {} // move ctor
     Temporary& operator=( Temporary&& other) // move assignment
     { 
-        this->v = std::move( other.v );
+        v = std::move( other.v );
         return *this; // chaining
     } 
 
@@ -121,8 +121,7 @@ struct Numeric
 {
     using Type = Temporary<T>;
 
-    Numeric( Type n ) : value( std::make_unique<Type>(n) ) {}
-    Numeric() : Numeric(0) {}
+    Numeric( Type n = 0) : value( std::make_unique<Type>(n) ) {}
 
     // rule of 3
     ~Numeric() = default; // dtor
@@ -136,7 +135,7 @@ struct Numeric
     Numeric( Numeric&& other) : value( std::move(other.value) ) {} // move ctor
     Numeric& operator=( Numeric&& other) // move assignment
     {
-        this->value = std::move( other.value );
+        value = std::move( other.value );
         return *this; // chaining
     } 
 
