@@ -87,7 +87,208 @@ send me a DM to check your pull request
  Wait for my code review.
  */
 
+#include <iostream>
+
+struct FloatType;
+struct DoubleType;
+struct IntType;
+
+struct FloatType
+{
+    float* floatPointer = nullptr;
+    FloatType(float floatPrimitive);
+    ~FloatType();
+
+    float add( float lhs, float rhs );
+    float subtract( float lhs, float rhs );
+    float multiply( float lhs, float rhs );
+    float divide( float lhs, float rhs );
+
+    int add(const IntType& it);
+    float add(const FloatType& ft);
+    double add(const DoubleType& dt);
+
+    int subtract(const IntType& it);
+    float subtract(const FloatType& ft);
+    double subtract(const DoubleType& dt);
+
+    int multiply(const IntType& it);
+    float multiply(const FloatType& ft);
+    double multiply(const DoubleType& dt);
+
+    int divide(const IntType& it);
+    float divide(const FloatType& ft);
+    double divide(const DoubleType& dt);
+};
+
+struct DoubleType
+{
+    double* doublePointer = nullptr;
+    DoubleType(double doublePrimitive);
+    ~DoubleType();
+
+    double add( double lhs, double rhs );
+    double subtract( double lhs, double rhs );
+    double multiply( double lhs, double rhs );
+    double divide( double lhs, double rhs );
+
+    int add(const IntType& it);
+    float add(const FloatType& ft);
+    double add(const DoubleType& dt);
+
+    int subtract(const IntType& it);
+    float subtract(const FloatType& ft);
+    double subtract(const DoubleType& dt);
+
+    int multiply(const IntType& it);
+    float multiply(const FloatType& ft);
+    double multiply(const DoubleType& dt);
+
+    int divide(const IntType& it);
+    float divide(const FloatType& ft);
+    double divide(const DoubleType& dt);    
+};
+
+struct IntType
+{
+    int* intPointer = nullptr;
+    IntType(int IntPrimitive);
+    ~IntType();
+
+    int add( int lhs, int rhs );
+    int subtract( int lhs, int rhs );
+    int multiply( int lhs, int rhs );
+    int divide( int lhs, int rhs );
+
+    int add(const IntType& it);
+    float add(const FloatType& ft);
+    double add(const DoubleType& dt);
+
+    int subtract(const IntType& it);
+    float subtract(const FloatType& ft);
+    double subtract(const DoubleType& dt);
+
+    int multiply(const IntType& it);
+    float multiply(const FloatType& ft);
+    double multiply(const DoubleType& dt);
+
+    int divide(const IntType& it);
+    float divide(const FloatType& ft);
+    double divide(const DoubleType& dt);
+};
+
+FloatType::FloatType(float floatPrimitive) 
+{
+    floatPointer = new float(floatPrimitive);
+}
+
+FloatType::~FloatType() 
+{
+    delete floatPointer;
+}
+
+float FloatType::add( float lhs, float rhs )
+{
+    return lhs + rhs;
+}
+
+float FloatType::subtract( float lhs, float rhs )
+{
+    return lhs - rhs;
+}
+
+float FloatType::multiply( float lhs, float rhs )
+{
+    return lhs * rhs;
+}
+
+float FloatType::divide( float lhs, float rhs )
+{
+    if ( rhs <= 0.0f )
+    {
+        std::cout << "Warning division by zero." << std::endl;
+    }
+    return lhs / rhs;
+}
+
+DoubleType::DoubleType(double doublePrimitive) 
+{
+    doublePointer = new double(doublePrimitive);
+}
+
+DoubleType::~DoubleType() 
+{
+    delete doublePointer;
+}
+
+double DoubleType::add( double lhs, double rhs )
+{
+    return lhs + rhs;
+}
+
+double DoubleType::subtract( double lhs, double rhs )
+{
+    return lhs - rhs;
+}
+
+double DoubleType::multiply( double lhs, double rhs )
+{
+    return lhs * rhs;
+}
+
+double DoubleType::divide( double lhs, double rhs )
+{
+    if ( rhs <= 0.0 )
+    {
+        std::cerr << "Warning division by zero." << std::endl;
+    }
+    return lhs / rhs;
+}
+
+IntType::IntType(int intPrimitive) 
+{
+    intPointer = new int(intPrimitive);
+}
+
+IntType::~IntType() 
+{
+    delete intPointer;
+}
+int IntType::add( int lhs, int rhs )
+{
+    return lhs + rhs;
+}
+
+int IntType::subtract( int lhs, int rhs )
+{
+    return lhs - rhs;
+}
+
+int IntType::multiply( int lhs, int rhs )
+{
+    return lhs * rhs;
+}
+
+int IntType::divide( int lhs, int rhs )
+{
+    if ( rhs <= 0.0 )
+    {
+        std::cerr << "Warning division by zero." << std::endl;
+        return lhs;
+    } 
+    else 
+    {
+        return lhs / rhs;
+    }
+}
+
 int main()
 {
+    //FloatType ft(5.5f);
+    //DoubleType dt(6.6);
+    //IntType it(7);
+
+    //auto resultFT = ft.add(3.2f, 23.f );       
+    //std::cout << "result of ft.add(): " << resultFT << std::endl;
 
 }
