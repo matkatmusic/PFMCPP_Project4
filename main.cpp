@@ -95,7 +95,7 @@ struct IntType;
 
 struct FloatType
 {
-    float* floatPointer = nullptr;
+    float* value = nullptr;
     FloatType(float floatPrimitive);
     ~FloatType();
 
@@ -123,7 +123,7 @@ struct FloatType
 
 struct DoubleType
 {
-    double* doublePointer = nullptr;
+    double* value = nullptr;
     DoubleType(double doublePrimitive);
     ~DoubleType();
 
@@ -151,7 +151,7 @@ struct DoubleType
 
 struct IntType
 {
-    int* intPointer = nullptr;
+    int* value = nullptr;
     IntType(int IntPrimitive);
     ~IntType();
 
@@ -177,31 +177,32 @@ struct IntType
     IntType& divide(const DoubleType& dt);
 };
 
+/* FloatType member function definitions */
 FloatType::FloatType(float floatPrimitive) 
 {
-    floatPointer = new float(floatPrimitive);
+    value = new float(floatPrimitive);
 }
 
 FloatType::~FloatType() 
 {
-    delete floatPointer;
+    delete value;
 }
 
 FloatType& FloatType::add(float f)
 {
-    *floatPointer += f;
+    *value += f;
     return *this;
 }
 
 FloatType& FloatType::subtract(float f)
 {
-    *floatPointer -= f;
+    *value -= f;
     return *this;
 }
 
 FloatType& FloatType::multiply(float f)
 {
-    *floatPointer *= f;
+    *value *= f;
     return *this;
 }
 
@@ -214,36 +215,98 @@ FloatType& FloatType::divide(float f)
     }
     else
     {
-        *floatPointer /= f;
+        *value /= f;
         return *this;
     }
 }
 
+FloatType& FloatType::add(const IntType& it)
+{
+    return add( (float) *it.value );
+}
+
+FloatType& FloatType::add(const FloatType& ft)
+{
+    return add( *ft.value );
+}
+
+FloatType& FloatType::add(const DoubleType& dt)
+{
+    return add( (float) *dt.value );
+}
+
+FloatType& FloatType::subtract(const IntType& it)
+{
+    return subtract( (float) *it.value );
+}
+
+FloatType& FloatType::subtract(const FloatType& ft)
+{
+    return subtract( *ft.value );
+}
+
+FloatType& FloatType::subtract(const DoubleType& dt)
+{
+    return subtract( (float) *dt.value );
+}
+
+FloatType& FloatType::multiply(const IntType& it)
+{
+    return multiply( (float) *it.value );
+}
+
+FloatType& FloatType::multiply(const FloatType& ft)
+{
+    return multiply( *ft.value );
+}
+
+FloatType& FloatType::multiply(const DoubleType& dt)
+{
+    return multiply( (float) *dt.value );
+}
+
+FloatType& FloatType::divide(const IntType& it)
+{
+    return divide( (float) *it.value );
+}
+
+FloatType& FloatType::divide(const FloatType& ft)
+{
+    return divide( (float) *ft.value );
+}
+
+FloatType& FloatType::divide(const DoubleType& dt)
+{
+    return divide( (float) *dt.value );
+}
+
+/* DoubleType member function definitions */
+
 DoubleType::DoubleType(double doublePrimitive) 
 {
-    doublePointer = new double(doublePrimitive);
+    value = new double(doublePrimitive);
 }
 
 DoubleType::~DoubleType() 
 {
-    delete doublePointer;
+    delete value;
 }
 
 DoubleType& DoubleType::add(double d)
 {
-    *doublePointer += d;
+    *value += d;
     return *this;
 }
 
 DoubleType& DoubleType::subtract(double d)
 {
-    *doublePointer -= d;
+    *value -= d;
     return *this;
 }
 
 DoubleType& DoubleType::multiply(double d)
 {
-    *doublePointer *= d;
+    *value *= d;
     return *this;
 }
 
@@ -256,36 +319,98 @@ DoubleType& DoubleType::divide(double d)
     }
     else
     {
-        *doublePointer /= d;
+        *value /= d;
         return *this;
     }
 }
 
+DoubleType& DoubleType::add(const IntType& it)
+{
+    return add( (double) *it.value );
+}
+
+DoubleType& DoubleType::add(const FloatType& ft)
+{
+    return add( (double) *ft.value );
+}
+
+DoubleType& DoubleType::add(const DoubleType& dt)
+{
+    return add( (double) *dt.value );
+}
+
+DoubleType& DoubleType::subtract(const IntType& it)
+{
+    return subtract( (double) *it.value );
+}
+
+DoubleType& DoubleType::subtract(const FloatType& ft)
+{
+    return subtract( (double) *ft.value );
+}
+
+DoubleType& DoubleType::subtract(const DoubleType& dt)
+{
+    return subtract( (double) *dt.value );
+}
+
+DoubleType& DoubleType::multiply(const IntType& it)
+{
+    return multiply( (double) *it.value );
+}
+
+DoubleType& DoubleType::multiply(const FloatType& ft)
+{
+    return multiply( (double) *ft.value );
+}
+
+DoubleType& DoubleType::multiply(const DoubleType& dt)
+{
+    return multiply( (double) *dt.value );
+}
+
+DoubleType& DoubleType::divide(const IntType& it)
+{
+    return divide( (double) *it.value );
+}
+
+DoubleType& DoubleType::divide(const FloatType& ft)
+{
+    return divide( (double) *ft.value );
+}
+
+DoubleType& DoubleType::divide(const DoubleType& dt)
+{
+    return divide( (double) *dt.value );
+}
+
+/* IntType member function definitions */
+
 IntType::IntType(int intPrimitive) 
 {
-    intPointer = new int(intPrimitive);
+    value = new int(intPrimitive);
 }
 
 IntType::~IntType() 
 {
-    delete intPointer;
+    delete value;
 }
 
 IntType& IntType::add(int i)
 {
-    *intPointer += i;
+    *value += i;
     return *this;
 }
 
 IntType& IntType::subtract(int i)
 {
-    *intPointer -= i;
+    *value -= i;
     return *this;
 }
 
 IntType& IntType::multiply(int i)
 {
-    *intPointer *= i;
+    *value *= i;
     return *this;
 }
 
@@ -298,22 +423,85 @@ IntType& IntType::divide(int i)
     } 
     else 
     {
-        *intPointer /= i;
+        *value /= i;
         return *this;
     }
 }
 
+IntType& IntType::add(const IntType& it)
+{
+    return add( (int) *it.value );
+}
+
+IntType& IntType::add(const FloatType& ft)
+{
+    return add( (int) *ft.value );
+}
+
+IntType& IntType::add(const DoubleType& dt)
+{
+    return add( (int) *dt.value );
+}
+
+IntType& IntType::subtract(const IntType& it)
+{
+    return subtract( (int) *it.value );
+}
+
+IntType& IntType::subtract(const FloatType& ft)
+{
+    return subtract( (int) *ft.value );
+}
+
+IntType& IntType::subtract(const DoubleType& dt)
+{
+    return subtract( (int) *dt.value );
+}
+
+IntType& IntType::multiply(const IntType& it)
+{
+    return multiply( (int) *it.value );
+}
+
+IntType& IntType::multiply(const FloatType& ft)
+{
+    return multiply( (int) *ft.value );
+}
+
+IntType& IntType::multiply(const DoubleType& dt)
+{
+    return multiply( (int) *dt.value );
+}
+
+IntType& IntType::divide(const IntType& it)
+{
+    return divide( (int) *it.value );
+}
+
+IntType& IntType::divide(const FloatType& ft)
+{
+    return divide( (int) *ft.value );
+}
+
+IntType& IntType::divide(const DoubleType& dt)
+{
+    return divide( (int) *dt.value );
+}
+
 int main()
 {
-    FloatType ft(5.5f);
-    DoubleType dt(6.6);
-    IntType it(7);
+    FloatType ft(4.44f);
+    DoubleType dt(5.555);
+    IntType it(3);
 
-    std::cout << "FloatType chained operations result is: " << *ft.floatPointer << std::endl;
-    std::cout << "DoubleType chained operations result is: " << *dt.doublePointer << std::endl;
-    std::cout << "IntType chained operations result is: " << *it.intPointer << std::endl;
+    ft.add(10.0f).subtract(10.0f).multiply(10.0f).divide(10.0f);
+    ft.add(it).subtract(it).multiply(it).divide(it);
 
-    //auto resultFT = ft.add(3.2f, 23.f );       
-    //std::cout << "result of ft.add(): " << resultFT << std::endl;
+    dt.add(10.0).subtract(10.0).multiply(10.0).divide(10.0);
 
+    it.add(10.0).subtract(10.0).multiply(10.0).divide(10.0);
+
+    std::cout << "FloatType chained operations result is: " << *ft.value << std::endl;
+    std::cout << "DoubleType chained operations result is: " << *dt.value << std::endl;
+    std::cout << "IntType chained operations result is: " << *it.value << std::endl;
 }
