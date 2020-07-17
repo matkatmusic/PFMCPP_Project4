@@ -19,10 +19,7 @@ struct HeapA
 {
     A* pointerToA = nullptr;
 
-    HeapA( )
-    { 
-        pointerToA = new A;
-    }
+    HeapA() : pointerToA(new A) {}
 
     ~HeapA()
     {
