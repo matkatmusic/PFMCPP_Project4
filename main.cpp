@@ -104,13 +104,7 @@ inf
 
 good to go!
 
-
-
-
-
 */
-
-
 
 #include <iostream>
 
@@ -233,17 +227,12 @@ FloatType& FloatType::multiply(float f)
 
 FloatType& FloatType::divide(float f)
 {
-    if (f == 0.0f)
+    if (f == 0.f)
     {
         std::cout << "warning: floating point division by zero!" << std::endl;
-        *value /= std::numeric_limits<float>::denorm_min();
-        return *this;
     }
-    else
-    {
-        *value /= f;
-        return *this;
-    }
+    *value /= f;
+    return *this;
 }
 
 FloatType& FloatType::add(const IntType& it)
@@ -341,14 +330,9 @@ DoubleType& DoubleType::divide(double d)
     if (d == 0.0)
     {
         std::cerr << "warning: floating point division by zero!" << std::endl;
-        *value /= std::numeric_limits<double>::denorm_min();
-        return *this;
     }
-    else
-    {
-        *value /= d;
-        return *this;
-    }
+    *value /= d;
+    return *this;
 }
 
 DoubleType& DoubleType::add(const IntType& it)
@@ -443,16 +427,15 @@ IntType& IntType::multiply(int i)
 
 IntType& IntType::divide(int i)
 {
-    if (i <= 0.0)
+    if (i == 0)
     {
         std::cerr << "error: integer division by zero is an error and will crash the program!" << std::endl;
-        return *this;
     } 
-    else 
+    else
     {
         *value /= i;
-        return *this;
     }
+    return *this;
 }
 
 IntType& IntType::add(const IntType& it)
