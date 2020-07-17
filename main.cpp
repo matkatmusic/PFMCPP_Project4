@@ -197,10 +197,7 @@ struct IntType
 };
 
 /* FloatType member function definitions */
-FloatType::FloatType(float floatPrimitive) 
-{
-    value = new float(floatPrimitive);
-}
+FloatType::FloatType(float floatPrimitive) : value(new float(floatPrimitive)) { }
 
 FloatType::~FloatType() 
 {
@@ -297,10 +294,7 @@ FloatType& FloatType::divide(const DoubleType& dt)
 
 /* DoubleType member function definitions */
 
-DoubleType::DoubleType(double doublePrimitive) 
-{
-    value = new double(doublePrimitive);
-}
+DoubleType::DoubleType(double doublePrimitive) : value(new double(doublePrimitive)) {}
 
 DoubleType::~DoubleType() 
 {
@@ -397,10 +391,7 @@ DoubleType& DoubleType::divide(const DoubleType& dt)
 
 /* IntType member function definitions */
 
-IntType::IntType(int intPrimitive) 
-{
-    value = new int(intPrimitive);
-}
+IntType::IntType(int intPrimitive) : value(new int(intPrimitive)) {}
 
 IntType::~IntType() 
 {
