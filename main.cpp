@@ -120,7 +120,11 @@ struct FloatType
     FloatType& multiply(float f);
     FloatType& divide(float f);
 
-    operator float() { return *value; }
+    operator float() 
+    { 
+        //std::cout << " OPERATOR FLOAT " << std::endl;
+        return *value; 
+    }
 
 private:
     float* value = nullptr;
@@ -136,7 +140,11 @@ struct DoubleType
     DoubleType& multiply(double d);
     DoubleType& divide(double d);
 
-    operator double() { return *value; }
+    operator double() 
+    { 
+        //std::cout << " OPERATOR DOUBLE " << std::endl;
+        return *value; 
+    }
 
 private:
     double* value = nullptr;
@@ -152,7 +160,11 @@ struct IntType
     IntType& multiply(int i);
     IntType& divide(int i);
 
-    operator int() { return *value; }
+    operator int() 
+    { 
+        //std::cout << " OPERATOR INT " << std::endl;
+        return *value; 
+    }
 
 private:
     int* value = nullptr;
@@ -331,7 +343,7 @@ int main()
     std::cout << "Initial value of it: " << it << std::endl;
     // --------
     std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
-    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << dt.multiply(double(it)).divide(double(5.0f)).add(double(ft)) << std::endl;
+    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << dt.multiply(it).divide(double(5.0f)).add(double(ft)) << std::endl;
 
     std::cout << "---------------------\n" << std::endl; 
     
