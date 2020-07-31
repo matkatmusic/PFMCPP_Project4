@@ -11,7 +11,6 @@
     I recommend committing after you get each step working so you can revert to a working version easily if needed.
 
  1) remove your functions that accepted a User-Defined Type
- 
  2) remove any getValue() functions if you added them
  
  3) move all of your add/subtract/multiply/divide implementations out of the class.
@@ -27,14 +26,15 @@
  
  7) make sure it compiles & runs without errors.
  
+
  8) use your knowledge of casting to remove any conversion warnings. 
 
  9) insert 'part3();' before the 'good to go' at the end of your main(); 
         move this part3 function to before main()
 
  10) click the [run] button.  Clear up any errors or warnings as best you can.
-
  */
+
 
 /*
 your program should generate the following output EXACTLY.
@@ -87,6 +87,9 @@ error: integer division by zero is an error and will crash the program!
 FloatType x IntType  =  13143546
 (IntType + DoubleType + FloatType) x 24 = 315447336
 good to go!
+
+
+
 
 */
 
