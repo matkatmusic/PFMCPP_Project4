@@ -45,17 +45,66 @@ Project 4: Part 4 / 9
  
  You will need to use Forward Declaration and out-of-class definitions to complete this.
  */
+#include <iostream>
 
-
+struct FloatType;
+struct DoubleType;
+struct IntType;
 
 struct Point
 {
+
+/*
+    3) modify the Point class below to have Constructors that accept your UDTs.
+    a) make the Constructor's UDT arguments initialize the Point class's two member variables.
+*/
+    Point(FloatType _x, FloatType _y) : x(_x), y(_y) { }
+
+    Point(DoubleType _x, DoubleType _y) : x(_x), y(_y) { }
+
+    Point(IntType _x, IntType _y) : x(_x), y(_y) { }
+
+
     Point& multiply(float m)
     {
         x *= m;
         y *= m;
         return *this;
     }
+
+/*
+    3 b) overload the multiply() function so it can accept each of your UDTs.
+*/
+    Point& multiply(FloatType m)
+    {
+        x = static_cast<float>(m.multiply(x));
+        y = static_cast<float>(m.multiply(y));
+        return *this;
+    }
+
+    Point& multiply(DoubleType m)
+    {
+        x = static_cast<float>(m.multiply(x));
+        y = static_cast<float>(m.multiply(y));
+        return *this;
+    }
+
+    Point& multiply(IntType m)
+    {
+        x = static_cast<float>(m.multiply(x));
+        y = static_cast<float>(m.multiply(y));
+        return *this;
+    }
+
+/*
+    3 c) add a toString() function to the Point class that prints out the x and y members via std::cout.
+*/
+
+    void toString()
+    {
+        std::cout << "x: " << x << " y: " << y << std::endl;
+    }
+
 private:
     float x{0}, y{0};
 };
@@ -259,6 +308,7 @@ struct HeapA
 };
 
 #include <iostream>
+#include <cmath>    // header file for std::pow
 
 struct FloatType;
 struct DoubleType;
@@ -276,6 +326,22 @@ struct FloatType
 
     operator float() { return *value; }
 
+/* 
+    1) add pow() functions, and a powInternal() function to each of your UDTs
+    b) add a pow() whose argument type is the primitive your UDT owns.  
+    the argument should be passed by copy.
+*/
+    FloatType& pow(float f);
+    FloatType& powInternal(float f);
+
+/*
+    1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
+*/
+    FloatType& pow(const IntType&);
+    FloatType& pow(const FloatType&);
+    FloatType& pow(const DoubleType&);
+
+
 private:
     float* value = nullptr;
 };
@@ -292,6 +358,21 @@ struct DoubleType
 
     operator double() { return *value; }
 
+/* 
+    1) add pow() functions, and a powInternal() function to each of your UDTs
+    b) add a pow() whose argument type is the primitive your UDT owns.  
+    the argument should be passed by copy.
+*/
+    DoubleType& pow(float f);
+    DoubleType& powInternal(float f);
+
+/*
+    1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
+*/
+    DoubleType& pow(const IntType&);
+    DoubleType& pow(const FloatType&);
+    DoubleType& pow(const DoubleType&);
+
 private:
     double* value = nullptr;
 };
@@ -307,6 +388,21 @@ struct IntType
     IntType& divide(int i);
 
     operator int() { return *value; }
+
+/* 
+    1) add pow() functions, and a powInternal() function to each of your UDTs
+    b) add a pow() whose argument type is the primitive your UDT owns.  
+    the argument should be passed by copy.
+*/
+    IntType& pow(float f);
+    IntType& powInternal(float f);
+
+/*
+    1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
+*/
+    IntType& pow(const IntType&);
+    IntType& pow(const FloatType&);
+    IntType& pow(const DoubleType&);
 
 private:
     int* value = nullptr;
@@ -348,6 +444,40 @@ FloatType& FloatType::divide(float f)
     return *this;
 }
 
+// 1) add pow() functions, and a powInternal() function to each of your UDTs
+FloatType& FloatType::pow(float f)
+{
+    *value = powInternal(f);
+    return *this;
+}
+
+/*
+ 2) your powInternal() function should do something like this in its body:    
+    *val = std::pow( *val, arg );
+    where 'arg' is the passed-in type, converted to whatever type your object is holding.
+*/
+FloatType& FloatType::powInternal(float f)
+{
+    *value = std::pow( *value, f );
+    return *this;   //powInternal() should be chainable.
+}
+
+// c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
+FloatType& FloatType::pow(const IntType&)
+{
+    return *this;
+}
+
+FloatType& FloatType::pow(const FloatType&)
+{
+    return *this;
+}
+
+FloatType& FloatType::pow(const DoubleType&)
+{
+    return *this;    
+}
+
 /* DoubleType member function definitions */
 
 DoubleType::DoubleType(double doublePrimitive) : value(new double(doublePrimitive)) {}
@@ -382,6 +512,39 @@ DoubleType& DoubleType::divide(double d)
         std::cerr << "warning: floating point division by zero!" << std::endl;
     }
     *value /= d;
+    return *this;
+}
+
+/* 
+    1) add pow() functions, and a powInternal() function to each of your UDTs
+    b) add a pow() whose argument type is the primitive your UDT owns.  
+    the argument should be passed by copy.
+*/
+DoubleType& DoubleType::pow(int i)
+{
+    return *this;
+}
+
+DoubleType& DoubleType::powInternal(int i)
+{
+    return *this;
+}
+
+/*
+    1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
+*/
+DoubleType& DoubleType::pow(const IntType&)
+{
+    return *this;
+}
+
+DoubleType& DoubleType::pow(const FloatType&)
+{
+    return *this;
+}
+
+DoubleType& DoubleType::pow(const DoubleType&)
+{
     return *this;
 }
 
@@ -422,6 +585,39 @@ IntType& IntType::divide(int i)
     {
         *value /= i;
     }
+    return *this;
+}
+
+/* 
+    1) add pow() functions, and a powInternal() function to each of your UDTs
+    b) add a pow() whose argument type is the primitive your UDT owns.  
+    the argument should be passed by copy.
+*/
+IntType& IntType::pow(int i)
+{
+    return *this;
+}
+
+IntType& IntType::powInternal(int i)
+{
+    return *this;
+}
+
+/*
+    1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
+*/
+IntType& IntType::pow(const IntType&)
+{
+    return *this;
+}
+
+IntType& IntType::pow(const FloatType&)
+{
+    return *this;
+}
+
+IntType& IntType::pow(const DoubleType&)
+{
     return *this;
 }
 
@@ -499,6 +695,8 @@ int main()
     std::cout << "---------------------\n" << std::endl; 
 
     part3();
+
+    //part4();    // 4) insert part4(); at the end of main, before the 'good to go'
 
     std::cout << "good to go!\n";
 
