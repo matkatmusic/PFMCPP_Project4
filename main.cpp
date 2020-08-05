@@ -332,7 +332,6 @@ struct FloatType
     the argument should be passed by copy.
 */
     FloatType& pow(float f);
-    FloatType& powInternal(float f);
 
 /*
     1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
@@ -341,9 +340,9 @@ struct FloatType
     FloatType& pow(const FloatType&);
     FloatType& pow(const DoubleType&);
 
-
 private:
     float* value = nullptr;
+    FloatType& powInternal(const float f);
 };
 
 struct DoubleType
@@ -364,7 +363,6 @@ struct DoubleType
     the argument should be passed by copy.
 */
     DoubleType& pow(float f);
-    DoubleType& powInternal(float f);
 
 /*
     1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
@@ -375,6 +373,7 @@ struct DoubleType
 
 private:
     double* value = nullptr;
+    DoubleType& powInternal(const double d);
 };
 
 struct IntType
@@ -395,7 +394,6 @@ struct IntType
     the argument should be passed by copy.
 */
     IntType& pow(float f);
-    IntType& powInternal(float f);
 
 /*
     1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
@@ -406,6 +404,7 @@ struct IntType
 
 private:
     int* value = nullptr;
+    IntType& powInternal(const int i);
 };
 
 /* FloatType member function definitions */
@@ -456,7 +455,7 @@ FloatType& FloatType::pow(float f)
     *val = std::pow( *val, arg );
     where 'arg' is the passed-in type, converted to whatever type your object is holding.
 */
-FloatType& FloatType::powInternal(float f)
+FloatType& FloatType::powInternal(const float f)
 {
     *value = std::pow( *value, f );
     return *this;   //powInternal() should be chainable.
@@ -525,7 +524,7 @@ DoubleType& DoubleType::pow(int i)
     return *this;
 }
 
-DoubleType& DoubleType::powInternal(int i)
+DoubleType& DoubleType::powInternal(const double d)
 {
     return *this;
 }
@@ -598,7 +597,7 @@ IntType& IntType::pow(int i)
     return *this;
 }
 
-IntType& IntType::powInternal(int i)
+IntType& IntType::powInternal(const int i)
 {
     return *this;
 }
