@@ -63,7 +63,7 @@ struct Point
 
     Point(const FloatType& x, const FloatType& y) : Point(static_cast<float>(x),static_cast<float>(y)) { }
 
-    Point(const DoubleType x, const DoubleType& y) : Point(static_cast<float>(x),static_cast<float>(y)) { }
+    Point(const DoubleType& x, const DoubleType& y) : Point(static_cast<float>(x),static_cast<float>(y)) { }
 
     Point(const IntType& x, const IntType& y) : Point(static_cast<float>(x),static_cast<float>(y)) { }
 
