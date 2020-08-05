@@ -77,29 +77,16 @@ struct Point
 /*
     3 b) overload the multiply() function so it can accept each of your UDTs.
 */
-    Point& multiply(FloatType& f)
-    {
-        return multiply(static_cast<float>(f));
-    }
+    Point& multiply(FloatType& f);
 
-    Point& multiply(DoubleType& d)
-    {
-        return multiply(static_cast<float>(d));
-    }
+    Point& multiply(DoubleType& d);
 
-    Point& multiply(IntType& i)
-    {
-        return multiply(static_cast<float>(i));
-    }
+    Point& multiply(IntType& i);
 
 /*
     3 c) add a toString() function to the Point class that prints out the x and y members via std::cout.
 */
-
-    void toString()
-    {
-        std::cout << "x: " << x << " y: " << y << std::endl;
-    }
+    void toString();
 
 private:
     float x{0}, y{0};
@@ -534,6 +521,34 @@ IntType& IntType::pow(const FloatType& f)
 IntType& IntType::pow(const DoubleType& d)
 {
     return powInternal(static_cast<int>(d));
+}
+
+/* Point member function definitions */
+
+/*
+    3 b) overload the multiply() function so it can accept each of your UDTs.
+*/
+Point& Point::multiply(FloatType& f)
+{
+    return multiply(static_cast<float>(f));
+}
+
+Point& Point::multiply(DoubleType& d)
+{
+    return multiply(static_cast<float>(d));
+}
+
+Point& Point::multiply(IntType& i)
+{
+    return multiply(static_cast<float>(i));
+}
+
+/*
+    3 c) add a toString() function to the Point class that prints out the x and y members via std::cout.
+*/
+void Point::toString()
+{
+    std::cout << "x: " << x << " y: " << y << std::endl;
 }
 
 void part3()
