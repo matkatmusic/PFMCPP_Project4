@@ -77,25 +77,19 @@ struct Point
 /*
     3 b) overload the multiply() function so it can accept each of your UDTs.
 */
-    Point& multiply(FloatType m)
+    Point& multiply(FloatType& f)
     {
-        x = static_cast<float>(m.multiply(x));
-        y = static_cast<float>(m.multiply(y));
-        return *this;
+        return multiply(static_cast<float>(f));
     }
 
-    Point& multiply(DoubleType m)
+    Point& multiply(DoubleType& d)
     {
-        x = static_cast<float>(m.multiply(x));
-        y = static_cast<float>(m.multiply(y));
-        return *this;
+        return multiply(static_cast<float>(d));
     }
 
-    Point& multiply(IntType m)
+    Point& multiply(IntType& i)
     {
-        x = static_cast<float>(m.multiply(x));
-        y = static_cast<float>(m.multiply(y));
-        return *this;
+        return multiply(static_cast<float>(i));
     }
 
 /*
