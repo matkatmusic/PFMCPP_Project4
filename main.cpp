@@ -413,6 +413,7 @@ FloatType::FloatType(float floatPrimitive) : value(new float(floatPrimitive)) { 
 FloatType::~FloatType() 
 {
     delete value;
+    value = nullptr;
 }
 
 FloatType& FloatType::add(float f)
@@ -484,6 +485,7 @@ DoubleType::DoubleType(double doublePrimitive) : value(new double(doublePrimitiv
 DoubleType::~DoubleType() 
 {
     delete value;
+    value = nullptr;
 }
 
 DoubleType& DoubleType::add(double d)
@@ -554,6 +556,7 @@ IntType::IntType(int intPrimitive) : value(new int(intPrimitive)) {}
 IntType::~IntType() 
 {
     delete value;
+    value = nullptr;
 }
 
 IntType& IntType::add(int i)
