@@ -362,7 +362,7 @@ struct DoubleType
     b) add a pow() whose argument type is the primitive your UDT owns.  
     the argument should be passed by copy.
 */
-    DoubleType& pow(float f);
+    DoubleType& pow(double d);
 
 /*
     1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
@@ -393,7 +393,7 @@ struct IntType
     b) add a pow() whose argument type is the primitive your UDT owns.  
     the argument should be passed by copy.
 */
-    IntType& pow(float f);
+    IntType& pow(int i);
 
 /*
     1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
@@ -447,8 +447,7 @@ FloatType& FloatType::divide(float f)
 // 1) add pow() functions, and a powInternal() function to each of your UDTs
 FloatType& FloatType::pow(float f)
 {
-    *value = powInternal(f);
-    return *this;
+    return powInternal(f);
 }
 
 /*
@@ -458,24 +457,24 @@ FloatType& FloatType::pow(float f)
 */
 FloatType& FloatType::powInternal(const float f)
 {
-    *value = std::pow( *value, f );
+    *value = std::pow(*value, f);
     return *this;   //powInternal() should be chainable.
 }
 
 // c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
-FloatType& FloatType::pow(const IntType&)
+FloatType& FloatType::pow(const IntType& i)
 {
-    return *this;
+    return powInternal(static_cast<float>(i));
 }
 
-FloatType& FloatType::pow(const FloatType&)
+FloatType& FloatType::pow(const FloatType& f)
 {
-    return *this;
+    return powInternal(static_cast<float>(f));
 }
 
-FloatType& FloatType::pow(const DoubleType&)
+FloatType& FloatType::pow(const DoubleType& d)
 {
-    return *this;    
+    return powInternal(static_cast<float>(d));    
 }
 
 /* DoubleType member function definitions */
@@ -521,32 +520,33 @@ DoubleType& DoubleType::divide(double d)
     b) add a pow() whose argument type is the primitive your UDT owns.  
     the argument should be passed by copy.
 */
-DoubleType& DoubleType::pow(int i)
+DoubleType& DoubleType::pow(double d)
 {
-    return *this;
+    return powInternal(d);
 }
 
 DoubleType& DoubleType::powInternal(const double d)
 {
-    return *this;
+    *value = std::pow(*value, d);
+    return *this;   //powInternal() should be chainable.
 }
 
 /*
     1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
 */
-DoubleType& DoubleType::pow(const IntType&)
+DoubleType& DoubleType::pow(const IntType& i)
 {
-    return *this;
+    return powInternal(static_cast<double>(i));
 }
 
-DoubleType& DoubleType::pow(const FloatType&)
+DoubleType& DoubleType::pow(const FloatType& f)
 {
-    return *this;
+    return powInternal(static_cast<double>(f));
 }
 
-DoubleType& DoubleType::pow(const DoubleType&)
+DoubleType& DoubleType::pow(const DoubleType& d)
 {
-    return *this;
+    return powInternal(static_cast<double>(d));
 }
 
 /* IntType member function definitions */
@@ -597,30 +597,31 @@ IntType& IntType::divide(int i)
 */
 IntType& IntType::pow(int i)
 {
-    return *this;
+    return powInternal(static_cast<int>(i));
 }
 
 IntType& IntType::powInternal(const int i)
 {
-    return *this;
+    *value = std::pow(*value, i);
+    return *this;   //powInternal() should be chainable.
 }
 
 /*
     1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
 */
-IntType& IntType::pow(const IntType&)
+IntType& IntType::pow(const IntType& i)
 {
-    return *this;
+    return powInternal(static_cast<int>(i));
 }
 
-IntType& IntType::pow(const FloatType&)
+IntType& IntType::pow(const FloatType& f)
 {
-    return *this;
+    return powInternal(static_cast<int>(f));
 }
 
-IntType& IntType::pow(const DoubleType&)
+IntType& IntType::pow(const DoubleType& d)
 {
-    return *this;
+    return powInternal(static_cast<int>(d));
 }
 
 void part3()
