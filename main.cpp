@@ -554,7 +554,7 @@ Point& Point::multiply(IntType& i)
 */
 void Point::toString()
 {
-    std::cout << "x: " << x << " y: " << y << std::endl;
+    std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
 }
 
 void part3()
@@ -716,7 +716,7 @@ int main()
 
     part3();
 
-    //part4();    // 4) insert part4(); at the end of main, before the 'good to go'
+    part4();    // 4) insert part4(); at the end of main, before the 'good to go'
 
     std::cout << "good to go!\n";
 
