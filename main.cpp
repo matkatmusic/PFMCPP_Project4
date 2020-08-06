@@ -58,7 +58,6 @@ struct Point
     3) modify the Point class below to have Constructors that accept your UDTs.
     a) make the Constructor's UDT arguments initialize the Point class's two member variables.
 */
-    Point(float _x, float _y);
     ~Point();
 
     Point(const FloatType& _x, const FloatType& _y);
@@ -449,11 +448,6 @@ IntType::~IntType()
     value = nullptr;
 }
 
-// IntType& IntType::operator=(const IntType&)
-// {
-//     return *this;
-// }
-
 IntType& IntType::add(int i)
 {
     *value += i;
@@ -497,7 +491,8 @@ IntType& IntType::pow(int i)
 
 IntType& IntType::powInternal(int i)
 {
-    *value = std::pow(*value, i);
+    // use the float pow ( float base, float exp );
+    *value = static_cast<int>( std::pow(static_cast<float>(*value), static_cast<float>(i)) );
     return *this;   //powInternal() should be chainable.
 }
 
@@ -520,15 +515,14 @@ IntType& IntType::pow(const DoubleType& d)
 }
 
 /* Point member function definitions */
-Point::Point(float _x, float _y) : x(_x), y(_y) {}
 
 Point::~Point() {}
 
-Point::Point(const FloatType& _x, const FloatType& _y) : Point(static_cast<float>(_x),static_cast<float>(_y)) { }
+Point::Point(const FloatType& _x, const FloatType& _y) : x(static_cast<float>(_x)), y(static_cast<float>(_y)) { }
 
-Point::Point(const DoubleType& _x, const DoubleType& _y) : Point(static_cast<float>(_x),static_cast<float>(_y)) { }
+Point::Point(const DoubleType& _x, const DoubleType& _y) : x(static_cast<float>(_x)), y(static_cast<float>(_y)) { }
 
-Point::Point(const IntType& _x, const IntType& _y) : Point(static_cast<float>(_x),static_cast<float>(_y)) { }
+Point::Point(const IntType& _x, const IntType& _y) : x(static_cast<float>(_x)), y(static_cast<float>(_y)) { }
 
 Point& Point::multiply(float m)
 {
