@@ -215,7 +215,6 @@ struct FloatType
     FloatType& divide(float f);
 
     operator float() const { return *value; }
-    // FloatType& operator=(const FloatType&);
 
 /* 
     1) add pow() functions, and a powInternal() function to each of your UDTs
@@ -247,7 +246,6 @@ struct DoubleType
     DoubleType& divide(double d);
 
     operator double() const { return *value; }
-    // DoubleType& operator=(const DoubleType&);
 
 /* 
     1) add pow() functions, and a powInternal() function to each of your UDTs
@@ -279,7 +277,6 @@ struct IntType
     IntType& divide(int i);
 
     operator int() const { return *value; }
-    // IntType& operator=(const IntType&);
 
 /* 
     1) add pow() functions, and a powInternal() function to each of your UDTs
@@ -308,11 +305,6 @@ FloatType::~FloatType()
     delete value;
     value = nullptr;
 }
-
-// FloatType& FloatType::operator=(const FloatType&)
-// {
-//     return *this;
-// }
 
 FloatType& FloatType::add(float f)
 {
@@ -384,11 +376,6 @@ DoubleType::~DoubleType()
     delete value;
     value = nullptr;
 }
-
-// DoubleType& DoubleType::operator=(const DoubleType&)
-// {
-//     return *this;
-// }
 
 DoubleType& DoubleType::add(double d)
 {
@@ -505,7 +492,7 @@ IntType& IntType::divide(int i)
 */
 IntType& IntType::pow(int i)
 {
-    return powInternal(static_cast<int>(i));
+    return powInternal(i);
 }
 
 IntType& IntType::powInternal(int i)
