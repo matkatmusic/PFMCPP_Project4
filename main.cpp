@@ -214,9 +214,8 @@ struct FloatType
     FloatType& multiply(float f);
     FloatType& divide(float f);
 
-    operator float() { return *value; }
-    FloatType& operator=(const FloatType&);
-
+    operator float() const { return *value; }
+    // FloatType& operator=(const FloatType&);
 
 /* 
     1) add pow() functions, and a powInternal() function to each of your UDTs
@@ -228,9 +227,9 @@ struct FloatType
 /*
     1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
 */
-    FloatType& pow(const IntType&);
-    FloatType& pow(const FloatType&);
-    FloatType& pow(const DoubleType&);
+    FloatType& pow(const IntType& i);
+    FloatType& pow(const FloatType& f);
+    FloatType& pow(const DoubleType& d);
 
 private:
     float* value = nullptr;
@@ -247,8 +246,8 @@ struct DoubleType
     DoubleType& multiply(double d);
     DoubleType& divide(double d);
 
-    operator double() { return *value; }
-    DoubleType& operator=(const DoubleType&);
+    operator double() const { return *value; }
+    // DoubleType& operator=(const DoubleType&);
 
 /* 
     1) add pow() functions, and a powInternal() function to each of your UDTs
@@ -260,9 +259,9 @@ struct DoubleType
 /*
     1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
 */
-    DoubleType& pow(const IntType&);
-    DoubleType& pow(const FloatType&);
-    DoubleType& pow(const DoubleType&);
+    DoubleType& pow(const IntType& i);
+    DoubleType& pow(const FloatType& f);
+    DoubleType& pow(const DoubleType& d);
 
 private:
     double* value = nullptr;
@@ -279,8 +278,8 @@ struct IntType
     IntType& multiply(int i);
     IntType& divide(int i);
 
-    operator int() { return *value; }
-    IntType& operator=(const IntType&);
+    operator int() const { return *value; }
+    // IntType& operator=(const IntType&);
 
 /* 
     1) add pow() functions, and a powInternal() function to each of your UDTs
@@ -292,9 +291,9 @@ struct IntType
 /*
     1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
 */
-    IntType& pow(const IntType&);
-    IntType& pow(const FloatType&);
-    IntType& pow(const DoubleType&);
+    IntType& pow(const IntType& i);
+    IntType& pow(const FloatType& f );
+    IntType& pow(const DoubleType& d);
 
 private:
     int* value = nullptr;
@@ -310,10 +309,10 @@ FloatType::~FloatType()
     value = nullptr;
 }
 
-FloatType& operator=(const FloatType&)
-{
-    return *this;
-}
+// FloatType& FloatType::operator=(const FloatType&)
+// {
+//     return *this;
+// }
 
 FloatType& FloatType::add(float f)
 {
@@ -354,7 +353,7 @@ FloatType& FloatType::pow(float f)
     *val = std::pow( *val, arg );
     where 'arg' is the passed-in type, converted to whatever type your object is holding.
 */
-FloatType& FloatType::powInternal(const float f)
+FloatType& FloatType::powInternal(float f)
 {
     *value = std::pow(*value, f);
     return *this;   //powInternal() should be chainable.
@@ -386,10 +385,10 @@ DoubleType::~DoubleType()
     value = nullptr;
 }
 
-DoubleType& operator=(const DoubleType&)
-{
-    return *this;
-}
+// DoubleType& DoubleType::operator=(const DoubleType&)
+// {
+//     return *this;
+// }
 
 DoubleType& DoubleType::add(double d)
 {
@@ -429,7 +428,7 @@ DoubleType& DoubleType::pow(double d)
     return powInternal(d);
 }
 
-DoubleType& DoubleType::powInternal(const double d)
+DoubleType& DoubleType::powInternal(double d)
 {
     *value = std::pow(*value, d);
     return *this;   //powInternal() should be chainable.
@@ -463,10 +462,10 @@ IntType::~IntType()
     value = nullptr;
 }
 
-IntType& operator=(const IntType&)
-{
-    return *this;
-}
+// IntType& IntType::operator=(const IntType&)
+// {
+//     return *this;
+// }
 
 IntType& IntType::add(int i)
 {
@@ -509,7 +508,7 @@ IntType& IntType::pow(int i)
     return powInternal(static_cast<int>(i));
 }
 
-IntType& IntType::powInternal(const int i)
+IntType& IntType::powInternal(int i)
 {
     *value = std::pow(*value, i);
     return *this;   //powInternal() should be chainable.
