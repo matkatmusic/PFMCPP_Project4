@@ -27,30 +27,6 @@ Do not delete your previous main.
  5) delete the example below after it makes sense how your code will change due to 1).
  */
 
-// namespace Example
-// {
-//     int main()
-//     {
-//         FloatType floatNum(4.3f);
-//         IntType intNum(2);
-//         IntType intNum2(6);
-
-//         /* 
-//         if you previously had a line like this demonstrating chaining:
-            
-//             intNum.add(3).add(4.5f).divide(floatNum); 
-
-//         it should become:
-//         */
-//         intNum += 3;
-//         intNum += 4.5f;
-//         intNum /= floatNum;
-//         std::cout << "intNum: " << intNum << std::endl;
-        
-//         return 0;
-//     }
-// }
-
  /*
  6) compile/link/run to make sure you don't have any errors or warnings.
 
