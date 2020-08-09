@@ -27,29 +27,29 @@ Do not delete your previous main.
  5) delete the example below after it makes sense how your code will change due to 1).
  */
 
-namespace Example
-{
-    int main()
-    {
-        FloatType floatNum(4.3f);
-        IntType intNum(2);
-        IntType intNum2(6);
+// namespace Example
+// {
+//     int main()
+//     {
+//         FloatType floatNum(4.3f);
+//         IntType intNum(2);
+//         IntType intNum2(6);
 
-        /* 
-        if you previously had a line like this demonstrating chaining:
+//         /* 
+//         if you previously had a line like this demonstrating chaining:
             
-            intNum.add(3).add(4.5f).divide(floatNum); 
+//             intNum.add(3).add(4.5f).divide(floatNum); 
 
-        it should become:
-        */
-        intNum += 3;
-        intNum += 4.5f;
-        intNum /= floatNum;
-        std::cout << "intNum: " << intNum << std::endl;
+//         it should become:
+//         */
+//         intNum += 3;
+//         intNum += 4.5f;
+//         intNum /= floatNum;
+//         std::cout << "intNum: " << intNum << std::endl;
         
-        return 0;
-    }
-}
+//         return 0;
+//     }
+// }
 
  /*
  6) compile/link/run to make sure you don't have any errors or warnings.
@@ -210,10 +210,10 @@ struct FloatType
     FloatType(float floatPrimitive);
     ~FloatType();
 
-    FloatType& add(float f);
-    FloatType& subtract(float f);
-    FloatType& multiply(float f);
-    FloatType& divide(float f);
+    FloatType& operator+=(float f);
+    FloatType& operator-=(float f);
+    FloatType& operator*=(float f);
+    FloatType& operator/=(float f);
 
     operator float() const { return *value; }
 
@@ -280,25 +280,25 @@ FloatType::~FloatType()
     value = nullptr;
 }
 
-FloatType& FloatType::add(float f)
+FloatType& FloatType::operator+=(float f)
 {
     *value += f;
     return *this;
 }
 
-FloatType& FloatType::subtract(float f)
+FloatType& FloatType::operator-=(float f)
 {
     *value -= f;
     return *this;
 }
 
-FloatType& FloatType::multiply(float f)
+FloatType& FloatType::operator*=(float f)
 {
     *value *= f;
     return *this;
 }
 
-FloatType& FloatType::divide(float f)
+FloatType& FloatType::operator/=(float f)
 {
     if (f == 0.f)
     {
@@ -539,7 +539,10 @@ void part3()
     IntType it ( 34 );
     DoubleType pi( 3.14 );
 
-    std::cout << "The result of FloatType^4 divided by IntType is: " << ft.multiply( ft ).multiply( ft ).divide( it ) << std::endl;
+    ft *= ft;
+    ft *= ft;
+    ft /= it;
+    std::cout << "The result of FloatType^4 divided by IntType is: " << ft << std::endl;
 
     std::cout << "The result of DoubleType times 3 plus IntType is : " << dt.multiply( 3 ).add( it ) << std::endl;
 
@@ -648,10 +651,14 @@ int main()
     DoubleType dt ( 2 );
     IntType it ( 2 ) ;
 
-    std::cout << "FloatType add result=" << ft.add( 2.0f ) << std::endl;
-    std::cout << "FloatType subtract result=" << ft.subtract( 2.0f ) << std::endl;
-    std::cout << "FloatType multiply result=" << ft.multiply( 2.0f ) << std::endl;
-    std::cout << "FloatType divide result=" << ft.divide( 16.0f) << std::endl << std::endl;
+    ft += 2.0f;
+    std::cout << "FloatType add result=" << ft << std::endl;
+    ft -= 2.0f;
+    std::cout << "FloatType subtract result=" << ft << std::endl;
+    ft *= 2.0f;
+    std::cout << "FloatType multiply result=" << ft << std::endl;
+    ft /= 16.0f;
+    std::cout << "FloatType divide result=" << ft << std::endl << std::endl;
 
     std::cout << "DoubleType add result=" << dt.add(2.0) << std::endl;
     std::cout << "DoubleType subtract result=" << dt.subtract(2.0) << std::endl;
@@ -666,7 +673,10 @@ int main()
 
     // FloatType object instanciation and method tests
     // --------
-    std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " << ft.add( 3.0f ).multiply(1.5f).divide(5.0f) << std::endl;
+    ft += 3.0f;
+    ft *= 1.5f;
+    ft /= 5.0f;
+    std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " << ft << std::endl;
        
     std::cout << "---------------------\n" << std::endl; 
     
@@ -684,7 +694,8 @@ int main()
     // --------
     std::cout << "Intercept division by 0 " << std::endl;
     std::cout << "New value of it = it / 0 = " << it.divide(0) << std::endl;
-    std::cout << "New value of ft = ft / 0 = " << ft.divide(0) << std::endl;
+    ft /= 0;
+    std::cout << "New value of ft = ft / 0 = " << ft << std::endl;
     std::cout << "New value of dt = dt / 0 = " << dt.divide(0) << std::endl;
 
     std::cout << "---------------------\n" << std::endl; 
