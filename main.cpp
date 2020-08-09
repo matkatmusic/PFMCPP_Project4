@@ -1,91 +1,68 @@
-/*
-Project 4: Part 4 / 9
- Chapter 4 Part 7
- Function/Constructor Overloading
 
- Create a branch named Part4
- 
- Do not delete your previous main. you will be adding to it.
+#include <iostream>
+/*
+Project 4: Part 5 / 9
+ video: Chapter 5 Part 2
+ Operator Overloading.
+
+Do not delete your previous main. 
+
+ Create a branch named Part5
 
     Build/Run often with this task to make sure you're not breaking the code with each step.
     I recommend committing after you get each step working so you can revert to a working version easily if needed.
  
- 1) add pow() functions, and a powInternal() function to each of your UDTs
-     a) your pow() functions should call powInternal()
-     b) add a pow() whose argument type is the primitive your UDT owns.  the argument should be passed by copy.
-     c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
-         the argument should be passed as const ref
-         i.e. if you had UDTs named IntType, FloatType, DoubleType
-             in your IntType class, you'd have:
-                 pow(const IntType&),
-                 pow(const FloatType&),
-                 pow(const DoubleType&),
-                 and pow(int)
-     d) be sure to remember the rules about what member functions can be called on const objects.
-             (const objects can only call their const member functions)
-     e) the pow() functions should be chainable.
+ 1) replace the add/subtract/multiply/etc functions with overloaded math operators 
+        e.g. add() would become operator+=() because it modifies the internal heap-allocated object.
+        The easiest way to do this is to just rename your member functions.  Don't delete them and add new ones.
  
- 2) your powInternal() function should do something like this in its body:    *val = std::pow( *val, arg );
-         where 'arg' is the passed-in type, converted to whatever type your object is holding.
-             if your UDT owns an int, then arg would be an int.
-             if your UDT owns a float, then arg would be a float.
-         std::pow's documentation is found here: https://en.cppreference.com/w/cpp/numeric/math/pow so be sure to include
-             the proper header file listed there.
-         powInternal() should be chainable.
+ 2) Your overloaded operators should only take primitives, passed by value.
+    since they are passed by value, they do not need to be const.
  
- 3) modify the Point class below to have Constructors that accept your UDTs.
-     a) make the Constructor's UDT arguments initialize the Point class's two member variables.
-     b) overload the multiply() function so it can accept each of your UDTs.  I've added an implementation you can mimick for this function.
-     c) add a toString() function to the Point class that prints out the x and y members via std::cout.
+ 3) don't delete your conversion functions.
  
- 4) insert part4(); at the end of main, before the 'good to go'
- 
- 
- 5) make sure it compiles without errors.
- 
- You will need to use Forward Declaration and out-of-class definitions to complete this.
+ 4) your main() function should be the same as Project 4 part 4, 
+    excluding the changes made due to 1)
+     
+ 5) delete the example below after it makes sense how your code will change due to 1).
  */
-#include <iostream>
 
-struct FloatType;
-struct DoubleType;
-struct IntType;
-
-struct Point
+namespace Example
 {
+    int main()
+    {
+        FloatType floatNum(4.3f);
+        IntType intNum(2);
+        IntType intNum2(6);
 
-/*
-    3) modify the Point class below to have Constructors that accept your UDTs.
-    a) make the Constructor's UDT arguments initialize the Point class's two member variables.
-*/
-    ~Point();
+        /* 
+        if you previously had a line like this demonstrating chaining:
+            
+            intNum.add(3).add(4.5f).divide(floatNum); 
 
-    Point(const FloatType& _x, const FloatType& _y);
-    Point(const DoubleType& _x, const DoubleType& _y);
-    Point(const IntType& _x, const IntType& _y);
+        it should become:
+        */
+        intNum += 3;
+        intNum += 4.5f;
+        intNum /= floatNum;
+        std::cout << "intNum: " << intNum << std::endl;
+        
+        return 0;
+    }
+}
 
-    Point& multiply(float m);
+ /*
+ 6) compile/link/run to make sure you don't have any errors or warnings.
 
-/*
-    3 b) overload the multiply() function so it can accept each of your UDTs.
-*/
-    Point& multiply(FloatType& f);
-    Point& multiply(DoubleType& d);
-    Point& multiply(IntType& i);
-
-/*
-    3 c) add a toString() function to the Point class that prints out the x and y members via std::cout.
-*/
-    void toString();
-
-private:
-    float x{0}, y{0};
-};
+ 7) your program should produce the exact same output as Project 4 part 4, listed below.
+    use https://www.diffchecker.com/diff to make sure it is the same.
+ */
 
 /*
 your program should generate the following output EXACTLY.
-This includes the warnings.  
- The output should have zero warnings.
+This includes any warnings included below.  
+
+The output should have zero warnings.
 
 
 FloatType add result=4
@@ -122,7 +99,7 @@ New value of dt = dt / 0 = warning: floating point division by zero!
 inf
 ---------------------
 
-The result of FloatType^4 divided by IntType is: 26.9136
+The result of FloatType^3 divided by IntType is: 26.9136
 The result of DoubleType times 3 plus IntType is : 67.3
 The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: 711
 An operation followed by attempts to divide by 0, which are ignored and warns user: 
@@ -182,6 +159,31 @@ good to go!
 Use a service like https://www.diffchecker.com/diff to compare your output. 
 */
 
+#include <iostream>
+
+struct FloatType;
+struct DoubleType;
+struct IntType;
+
+struct Point
+{
+    ~Point();
+
+    Point(const FloatType& _x, const FloatType& _y);
+    Point(const DoubleType& _x, const DoubleType& _y);
+    Point(const IntType& _x, const IntType& _y);
+
+    Point& multiply(float m);
+    Point& multiply(FloatType& f);
+    Point& multiply(DoubleType& d);
+    Point& multiply(IntType& i);
+
+    void toString();
+
+private:
+    float x{0}, y{0};
+};
+
 struct A {};
 struct HeapA
 {
@@ -215,16 +217,7 @@ struct FloatType
 
     operator float() const { return *value; }
 
-/* 
-    1) add pow() functions, and a powInternal() function to each of your UDTs
-    b) add a pow() whose argument type is the primitive your UDT owns.  
-    the argument should be passed by copy.
-*/
     FloatType& pow(float f);
-
-/*
-    1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
-*/
     FloatType& pow(const IntType& i);
     FloatType& pow(const FloatType& f);
     FloatType& pow(const DoubleType& d);
@@ -246,16 +239,7 @@ struct DoubleType
 
     operator double() const { return *value; }
 
-/* 
-    1) add pow() functions, and a powInternal() function to each of your UDTs
-    b) add a pow() whose argument type is the primitive your UDT owns.  
-    the argument should be passed by copy.
-*/
     DoubleType& pow(double d);
-
-/*
-    1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
-*/
     DoubleType& pow(const IntType& i);
     DoubleType& pow(const FloatType& f);
     DoubleType& pow(const DoubleType& d);
@@ -276,17 +260,8 @@ struct IntType
     IntType& divide(int i);
 
     operator int() const { return *value; }
-
-/* 
-    1) add pow() functions, and a powInternal() function to each of your UDTs
-    b) add a pow() whose argument type is the primitive your UDT owns.  
-    the argument should be passed by copy.
-*/
+    
     IntType& pow(int i);
-
-/*
-    1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
-*/
     IntType& pow(const IntType& i);
     IntType& pow(const FloatType& f );
     IntType& pow(const DoubleType& d);
