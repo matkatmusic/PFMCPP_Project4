@@ -76,57 +76,6 @@ Templates and Containers
 If you need to view an example, see: https://bitbucket.org/MatkatMusic/pfmcpptasks/src/master/Projects/Project4/Part7Example.cpp
 */
 
-void part7()
-{
-    Numeric ft3(3.0f);
-    Numeric dt3(4.0);
-    Numeric it3(5);
-    
-    std::cout << "Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:" << std::endl;
-    std::cout << "ft3 before: " << ft3 << std::endl;
-
-    {
-        using Type = #4;
-        ft3.apply( [](std::unique...){} );
-    }
-
-    std::cout << "ft3 after: " << ft3 << std::endl;
-    std::cout << "Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:" << std::endl;
-    std::cout << "ft3 before: " << ft3 << std::endl;
-    ft3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
-    std::cout << "ft3 after: " << ft3 << std::endl;
-    std::cout << "---------------------\n" << std::endl;
-
-    std::cout << "Calling Numeric<double>::apply() using a lambda (adds 6.0) and Numeric<double> as return type:" << std::endl;
-    std::cout << "dt3 before: " << dt3 << std::endl;
-
-    {
-        using Type = #4;
-        dt3.apply( [](std::unique...){} ); // This calls the templated apply fcn
-    }
-    
-    std::cout << "dt3 after: " << dt3 << std::endl;
-    std::cout << "Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:" << std::endl;
-    std::cout << "dt3 before: " << dt3 << std::endl;
-    dt3.apply(myNumericFreeFunct<double>).apply(myNumericFreeFunct<double>); // This calls the templated apply fcn
-    std::cout << "dt3 after: " << dt3 << std::endl;
-    std::cout << "---------------------\n" << std::endl;
-
-    std::cout << "Calling Numeric<int>::apply() using a lambda (adds 5) and Numeric<int> as return type:" << std::endl;
-    std::cout << "it3 before: " << it3 << std::endl;
-
-    {
-        using Type = #4;
-        it3.apply( [](std::unique...){} );
-    }
-    std::cout << "it3 after: " << it3 << std::endl;
-    std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
-    std::cout << "it3 before: " << it3 << std::endl;
-    it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
-    std::cout << "it3 after: " << it3 << std::endl;
-    std::cout << "---------------------\n" << std::endl;    
-}
-
 /*
 your program should generate the following output EXACTLY.
 This includes the warnings. 
@@ -253,8 +202,9 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 */
 
 #include <iostream>
-#include <cmath>// header file for std::pow
+#include <cmath>
 #include <functional>
+#include <memory>
 
 struct FloatType;
 struct DoubleType;
@@ -290,7 +240,6 @@ struct HeapA
     {
         delete pointerToA;
     }
-
 };
 
 struct FloatType;
@@ -314,21 +263,11 @@ struct FloatType
     FloatType& pow(const FloatType& f);
     FloatType& pow(const DoubleType& d);
 
-    /*
-        1) add two member functions named "apply()" to each of your Heap-Allocated Numeric Type wrappers.
-    */
-
-    //  both apply() functions should work with chaining
-    //  2) One of the apply() functions should takes a std::function<> object as the function argument.
-    //  the std::function<> object should return *this;
     FloatType& apply(std::function<FloatType&(float&)> func);
-
-    //  3) the other apply() function should take a function pointer. 
-    //  the function pointer should return void.
     FloatType& apply(void(*func)(float&));
 
 private:
-    float* value = nullptr;
+    std::unique_ptr<float> value;
     FloatType& powInternal(const float f);
 };
 
@@ -353,7 +292,7 @@ struct DoubleType
     DoubleType& apply(void(*func)(double&));
 
 private:
-    double* value = nullptr;
+    std::unique_ptr<double> value;
     DoubleType& powInternal(const double d);
 };
 
@@ -378,17 +317,19 @@ struct IntType
     IntType& apply(void(*func)(int&));
 
 private:
-    int* value = nullptr;
+    std::unique_ptr<int> value;
     IntType& powInternal(const int i);
 };
 
 /* FloatType member function definitions */
-FloatType::FloatType(float floatPrimitive) : value(new float(floatPrimitive)) { }
+FloatType::FloatType(float floatPrimitive)
+{
+    value.reset(new float(floatPrimitive));
+}
 
 FloatType::~FloatType() 
 {
-    delete value;
-    value = nullptr;
+    value.reset(nullptr);
 }
 
 FloatType& FloatType::operator+=(float f)
@@ -419,24 +360,17 @@ FloatType& FloatType::operator/=(float f)
     return *this;
 }
 
-// 1) add pow() functions, and a powInternal() function to each of your UDTs
 FloatType& FloatType::pow(float f)
 {
     return powInternal(f);
 }
 
-/*
- 2) your powInternal() function should do something like this in its body:    
-    *val = std::pow( *val, arg );
-    where 'arg' is the passed-in type, converted to whatever type your object is holding.
-*/
 FloatType& FloatType::powInternal(float f)
 {
     *value = std::pow(*value, f);
-    return *this;   //powInternal() should be chainable.
+    return *this;
 }
 
-// c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
 FloatType& FloatType::pow(const IntType& i)
 {
     return powInternal(static_cast<float>(i));
@@ -452,8 +386,6 @@ FloatType& FloatType::pow(const DoubleType& d)
     return powInternal(static_cast<float>(d));    
 }
 
-//  2) One of the apply() functions should takes a std::function<> object as the function argument.
-// the std::function<> object should return *this;
 FloatType& FloatType::apply(std::function<FloatType&(float&)> func)
 {
     if(func)
@@ -463,9 +395,7 @@ FloatType& FloatType::apply(std::function<FloatType&(float&)> func)
 
     return *this; 
 }
-
-//  3) the other apply() function should take a function pointer. 
-// the function pointer should return void.
+ 
 FloatType& FloatType::apply( void(*func)(float&) )
 {
     if(func)
@@ -481,14 +411,14 @@ void myFloatFreeFunct( float& value)
     value += 7.0f;
 }
 
-/* DoubleType member function definitions */
-
-DoubleType::DoubleType(double doublePrimitive) : value(new double(doublePrimitive)) {}
+DoubleType::DoubleType(double doublePrimitive) 
+{
+    value.reset(new double(doublePrimitive));
+}
 
 DoubleType::~DoubleType() 
 {
-    delete value;
-    value = nullptr;
+    value.reset(nullptr);
 }
 
 DoubleType& DoubleType::operator+=(double d)
@@ -519,11 +449,6 @@ DoubleType& DoubleType::operator/=(double d)
     return *this;
 }
 
-/* 
-    1) add pow() functions, and a powInternal() function to each of your UDTs
-    b) add a pow() whose argument type is the primitive your UDT owns.  
-    the argument should be passed by copy.
-*/
 DoubleType& DoubleType::pow(double d)
 {
     return powInternal(d);
@@ -532,12 +457,9 @@ DoubleType& DoubleType::pow(double d)
 DoubleType& DoubleType::powInternal(double d)
 {
     *value = std::pow(*value, d);
-    return *this;   //powInternal() should be chainable.
+    return *this;
 }
 
-/*
-    1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
-*/
 DoubleType& DoubleType::pow(const IntType& i)
 {
     return powInternal(static_cast<double>(i));
@@ -578,14 +500,14 @@ void myDoubleFreeFunct( double& value)
     value += 6.0;
 }
 
-/* IntType member function definitions */
-
-IntType::IntType(int intPrimitive) : value(new int(intPrimitive)) {}
+IntType::IntType(int intPrimitive) 
+{
+    value.reset(new int(intPrimitive));
+}
 
 IntType::~IntType() 
 {
-    delete value;
-    value = nullptr;
+    value.reset(nullptr);
 }
 
 IntType& IntType::operator+=(int i)
@@ -619,11 +541,6 @@ IntType& IntType::operator/=(int i)
     return *this;
 }
 
-/* 
-    1) add pow() functions, and a powInternal() function to each of your UDTs
-    b) add a pow() whose argument type is the primitive your UDT owns.  
-    the argument should be passed by copy.
-*/
 IntType& IntType::pow(int i)
 {
     return powInternal(i);
@@ -631,14 +548,10 @@ IntType& IntType::pow(int i)
 
 IntType& IntType::powInternal(int i)
 {
-    // use the float pow ( float base, float exp );
     *value = static_cast<int>( std::pow(static_cast<float>(*value), static_cast<float>(i)) );
-    return *this;   //powInternal() should be chainable.
+    return *this;
 }
 
-/*
-    1c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
-*/
 IntType& IntType::pow(const IntType& i)
 {
     return powInternal(static_cast<int>(i));
@@ -679,8 +592,6 @@ void myIntFreeFunct( int& value)
     value += 5;
 }
 
-/* Point member function definitions */
-
 Point::~Point() {}
 
 Point::Point(const FloatType& _x, const FloatType& _y) : x(static_cast<float>(_x)), y(static_cast<float>(_y)) { }
@@ -696,9 +607,6 @@ Point& Point::multiply(float m)
     return *this;
 }
 
-/*
-    3 b) overload the multiply() function so it can accept each of your UDTs.
-*/
 Point& Point::multiply(FloatType& f)
 {
     return multiply(static_cast<float>(f));
@@ -714,9 +622,6 @@ Point& Point::multiply(IntType& i)
     return multiply(static_cast<float>(i));
 }
 
-/*
-    3 c) add a toString() function to the Point class that prints out the x and y members via std::cout.
-*/
 void Point::toString()
 {
     std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
@@ -844,6 +749,7 @@ void part4()
     std::cout << "---------------------\n" << std::endl;
 }
 
+/*
 void part6()
 {
     FloatType ft3(3.0f);
@@ -892,7 +798,61 @@ void part6()
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "---------------------\n" << std::endl;    
 }
+*/
 
+// 12) move part7() to before main()
+/*
+void part7()
+{
+    Numeric ft3(3.0f);
+    Numeric dt3(4.0);
+    Numeric it3(5);
+    
+    std::cout << "Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:" << std::endl;
+    std::cout << "ft3 before: " << ft3 << std::endl;
+
+    {
+        using Type = #4;
+        ft3.apply( [](std::unique...){} );
+    }
+
+    std::cout << "ft3 after: " << ft3 << std::endl;
+    std::cout << "Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:" << std::endl;
+    std::cout << "ft3 before: " << ft3 << std::endl;
+    ft3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+    std::cout << "ft3 after: " << ft3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;
+
+    std::cout << "Calling Numeric<double>::apply() using a lambda (adds 6.0) and Numeric<double> as return type:" << std::endl;
+    std::cout << "dt3 before: " << dt3 << std::endl;
+
+    {
+        using Type = #4;
+        dt3.apply( [](std::unique...){} ); // This calls the templated apply fcn
+    }
+    
+    std::cout << "dt3 after: " << dt3 << std::endl;
+    std::cout << "Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:" << std::endl;
+    std::cout << "dt3 before: " << dt3 << std::endl;
+    dt3.apply(myNumericFreeFunct<double>).apply(myNumericFreeFunct<double>); // This calls the templated apply fcn
+    std::cout << "dt3 after: " << dt3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;
+
+    std::cout << "Calling Numeric<int>::apply() using a lambda (adds 5) and Numeric<int> as return type:" << std::endl;
+    std::cout << "it3 before: " << it3 << std::endl;
+
+    {
+        using Type = #4;
+        it3.apply( [](std::unique...){} );
+    }
+    std::cout << "it3 after: " << it3 << std::endl;
+    std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
+    std::cout << "it3 before: " << it3 << std::endl;
+    it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+    std::cout << "it3 after: " << it3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;    
+}
+*/
 int main()
 {   
     //testing instruction 0
@@ -968,9 +928,11 @@ int main()
 
     part3();
 
-    part4();    // 4) insert part4(); at the end of main, before the 'good to go'
+    part4();
 
-    part6();    // 7) call part6() after part4() is called at the end of main().
+    //part6();
+
+    //part7();    // call part7() in main(), after where you were calling part6()
 
     std::cout << "good to go!\n";
 
