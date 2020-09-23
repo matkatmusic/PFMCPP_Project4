@@ -211,7 +211,7 @@ struct Numeric
 {    
     using Type = NumericType;
 
-    Numeric(Type t) : value( std::make_unique<Type>(t) ) {}
+    Numeric(Type t) : value( std::make_unique<Type>(t) ) { }
 
     ~Numeric() 
     {
@@ -280,7 +280,7 @@ private:
     std::unique_ptr<Type> value;
     Numeric& powInternal(Type t)
     {
-        *value = static_cast<Type>( std::pow(static_cast<Type>(*value), static_cast<Type>(t)) );
+        *value = static_cast<Type>( std::pow(*value,t) );
         return *this;
     }
 };
@@ -291,59 +291,35 @@ void myNumericFreeFunct( NumericType& value)
     value += 5;
 }
 
+template<typename Type>
 struct Point
 {
-    ~Point();
+    Point(float _x, float _y) : x(_x), y(_y) { }
+    
+    Point(Type& _x, Type& _y) : Point(static_cast<float>(_x), static_cast<float>(_y) ) { }
 
-    Point(const Numeric<float>& _x, const Numeric<float>& _y);
-    Point(const Numeric<double>& _x, const Numeric<double>& _y);
-    Point(const Numeric<int>& _x, const Numeric<int>& _y);
+    ~Point() { }
 
-    Point& multiply(float m);
-    Point& multiply(Numeric<float>& f);
-    Point& multiply(Numeric<double>& d);
-    Point& multiply(Numeric<int>& i);
+    Point& multiply(float m)
+    {
+        x *= m;
+        y *= m;
+        return *this;
+    }
 
-    void toString();
+    Point& multiply(Type& t)
+    {
+        return multiply(static_cast<float>(t));
+    }
+
+    void toString()
+    {
+        std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
+    }
 
 private:
     float x{0}, y{0};
 };
-
-Point::~Point() {}
-
-Point::Point(const Numeric<float>& _x, const Numeric<float>& _y) : x(static_cast<float>(_x)), y(static_cast<float>(_y)) { }
-
-Point::Point(const Numeric<double>& _x, const Numeric<double>& _y) : x(static_cast<float>(_x)), y(static_cast<float>(_y)) { }
-
-Point::Point(const Numeric<int>& _x, const Numeric<int>& _y) : x(static_cast<float>(_x)), y(static_cast<float>(_y)) { }
-
-Point& Point::multiply(float m)
-{
-    x *= m;
-    y *= m;
-    return *this;
-}
-
-Point& Point::multiply(Numeric<float>& f)
-{
-    return multiply(static_cast<float>(f));
-}
-
-Point& Point::multiply(Numeric<double>& d)
-{
-    return multiply(static_cast<float>(d));
-}
-
-Point& Point::multiply(Numeric<int>& i)
-{
-    return multiply(static_cast<float>(i));
-}
-
-void Point::toString()
-{
-    std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
-}
 
 void part3()
 {
@@ -403,14 +379,14 @@ void part4()
     std::cout << "pow(ft1, floatExp) = " << ft1 << "^" << floatExp << " = " << ft1.pow(floatExp)  << std::endl;
     std::cout << "pow(ft1, itExp) = " << ft1 << "^" << itExp << " = " << ft1.pow(itExp)  << std::endl;
     std::cout << "pow(ft1, ftExp) = " << ft1 << "^" << ftExp << " = " << ft1.pow(ftExp)  << std::endl;    
-    std::cout << "pow(ft1, dtExp) = " << ft1 << "^" << dtExp << " = " << ft1.pow(dtExp)  << std::endl;    
-    std::cout << "---------------------\n" << std::endl;  
+    std::cout << "pow(ft1, dtExp) = " << ft1 << "^" << dtExp << " = " << ft1.pow(static_cast<float>(dtExp)) << std::endl;    
+    std::cout << "---------------------\n" << std::endl;
 
     // Power tests with DoubleType
     std::cout << "Power tests with DoubleType " << std::endl;
     std::cout << "pow(dt1, doubleExp) = " << dt1 << "^" << doubleExp << " = " << dt1.pow(intExp)  << std::endl;
     std::cout << "pow(dt1, itExp) = " << dt1 << "^" << itExp << " = " << dt1.pow(itExp)  << std::endl;
-    std::cout << "pow(dt1, ftExp) = " << dt1 << "^" << ftExp << " = " << dt1.pow(ftExp)  << std::endl;    
+    std::cout << "pow(dt1, ftExp) = " << dt1 << "^" << ftExp << " = " << dt1.pow(static_cast<double>(ftExp))  << std::endl;    
     std::cout << "pow(dt1, dtExp) = " << dt1 << "^" << dtExp << " = " << dt1.pow(dtExp)  << std::endl;    
     std::cout << "---------------------\n" << std::endl;    
 
@@ -418,8 +394,8 @@ void part4()
     std::cout << "Power tests with IntType " << std::endl;
     std::cout << "pow(it1, intExp) = " << it1 << "^" << intExp << " = " << it1.pow(intExp)  << std::endl;
     std::cout << "pow(it1, itExp) = " << it1 << "^" << itExp << " = " << it1.pow(itExp)  << std::endl;
-    std::cout << "pow(it1, ftExp) = " << it1 << "^" << ftExp << " = " << it1.pow(ftExp)  << std::endl;    
-    std::cout << "pow(it1, dtExp) = " << it1 << "^" << dtExp << " = " << it1.pow(dtExp)  << std::endl;    
+    std::cout << "pow(it1, ftExp) = " << it1 << "^" << ftExp << " = " << it1.pow(static_cast<int>(ftExp))  << std::endl;    
+    std::cout << "pow(it1, dtExp) = " << it1 << "^" << dtExp << " = " << it1.pow(static_cast<int>(dtExp))  << std::endl;    
     std::cout << "===============================\n" << std::endl; 
 
     // ------------------------------------------------------------
