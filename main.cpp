@@ -281,7 +281,7 @@ struct Numeric
     {
         if(stdFunction)
         {
-            return stdFunction(*value);
+            return stdFunction(value);
         }
 
         return *this; 
@@ -291,14 +291,103 @@ struct Numeric
     {
         if(freeFunction)
         {
-            freeFunction(*value);
+            freeFunction(value);
         }
 
         return *this; 
     }
 
 private:
-    std::unique_ptr<Type> value;
+    std::unique_ptr<Type> value = nullptr;
+    Numeric& powInternal(Type t)
+    {
+        *value = static_cast<Type>( std::pow(*value,t) );
+        return *this;
+    }
+};
+
+template<>
+struct Numeric<double>
+{    
+    using Type = double;
+
+    Numeric(Type t) : value( std::make_unique<Type>(t) ) { }
+
+    ~Numeric() 
+    {
+        value = nullptr;
+    }
+
+    operator Type() const { return *value; }
+
+    Numeric& operator+=(Type t)
+    {
+        *value += t;
+        return *this;
+    }
+
+    Numeric& operator-=(Type t)
+    {
+        *value -= t;
+        return *this;
+    }
+
+    Numeric& operator*=(Type t)
+    {
+        *value *= t;
+        return *this;
+    }
+
+    Numeric& operator/=(Type t)
+    {
+        // template type is an int
+        if constexpr (std::is_same<int, Type>::value)
+        {
+            // parameter's type is also an int
+            if constexpr (std::is_same<int, decltype(t)>::value)
+            {
+                // parameter is 0 don't do the division
+                if (t == 0.0)
+                {
+                    std::cerr << "can't divide integers by zero!" << std::endl;
+                    return *this;
+                }
+            }
+            else if ( t < std::numeric_limits<Type>::epsilon() )
+            {
+                // else if it's less than epsilon dont do the divison
+                std::cerr << "can't divide integers by zero!" << std::endl;
+                return *this;
+            }
+        } 
+        else if ( t < std::numeric_limits<Type>::epsilon() )
+        {
+            // if it's less than epsilon warn about doing the division
+            std::cerr << "warning: floating point division by zero!" << std::endl;
+        }
+
+        *value /= t;
+        return *this;
+    }
+
+    Numeric& pow(const Type& t)
+    {
+        return powInternal(static_cast<Type>(t));
+    }
+
+    template<typename Callable>
+    Numeric& apply( Callable callable)
+    {
+        if(callable)
+        {
+            return callable(value);
+        }
+
+        return *this; 
+    }
+
+private:
+    std::unique_ptr<Type> value = nullptr;
     Numeric& powInternal(Type t)
     {
         *value = static_cast<Type>( std::pow(*value,t) );
