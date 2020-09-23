@@ -215,6 +215,7 @@ struct Numeric
     using Type = NumericType;   // #3
 
     Numeric(Type t) : value( std::make_unique<Type>(t) ) { }
+    Numeric() : Numeric(0) { }
 
     ~Numeric() 
     {
@@ -223,33 +224,36 @@ struct Numeric
 
     operator Type() const { return *value; }
 
-    Numeric& operator+=(Type t)
+    Numeric& operator+=(const Type& t)
     {
         *value += t;
         return *this;
     }
 
-    Numeric& operator-=(Type t)
+    Numeric& operator-=(const Type& t)
     {
         *value -= t;
         return *this;
     }
 
-    Numeric& operator*=(Type t)
+    Numeric& operator*=(const Type& t)
     {
         *value *= t;
         return *this;
     }
 
     // #11
-    Numeric& operator/=(Type t)
+    template<typename T>
+    Numeric& operator/=(const T& t)
     {
         // template type is an int
-        if constexpr (std::is_same<int, Type>::value)
+        if constexpr (std::is_same<int, T>::value)
         {
+            //std::cout << "T is same as int" << std::endl;
             // parameter's type is also an int
-            if constexpr (std::is_same<int, decltype(t)>::value)
+            if constexpr (std::is_same<const int, decltype(t)>::value)
             {
+                std::cout << "decltype(t) is same as int" << std::endl;
                 // parameter is 0 don't do the division
                 if (t == 0)
                 {
@@ -257,14 +261,14 @@ struct Numeric
                     return *this;
                 }
             }
-            else if ( t < std::numeric_limits<Type>::epsilon() )
+            else if ( t < std::numeric_limits<T>::epsilon() )
             {
                 // else if it's less than epsilon dont do the divison
                 std::cerr << "	can't divide integers by zero!" << std::endl;
                 return *this;
             }
         } 
-        else if ( t < std::numeric_limits<Type>::epsilon() )
+        else if ( t < std::numeric_limits<T>::epsilon() )
         {
             // if it's less than epsilon warn about doing the division
             std::cerr << "warning: floating point division by zero!" << std::endl;
@@ -301,7 +305,7 @@ struct Numeric
     }
 
 private:
-    std::unique_ptr<Type> value = nullptr;  // #2
+    std::unique_ptr<Type> value;  // #2
     Numeric& powInternal(Type t)
     {
         *value = static_cast<Type>( std::pow(*value,t) );
@@ -324,25 +328,25 @@ struct Numeric<double>
 
     operator Type() const { return *value; }
 
-    Numeric& operator+=(Type t)
+    Numeric& operator+=(const Type& t)
     {
         *value += t;
         return *this;
     }
 
-    Numeric& operator-=(Type t)
+    Numeric& operator-=(const Type& t)
     {
         *value -= t;
         return *this;
     }
 
-    Numeric& operator*=(Type t)
+    Numeric& operator*=(const Type& t)
     {
         *value *= t;
         return *this;
     }
 
-    Numeric& operator/=(Type t)
+    Numeric& operator/=(const Type& t)
     {
         if(t==0.0)
         {
