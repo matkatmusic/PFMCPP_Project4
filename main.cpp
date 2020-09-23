@@ -290,7 +290,7 @@ struct Numeric
     }
 
     // #5
-    Numeric& apply( void(*freeFunction)(Type&) )
+    Numeric& apply( void(*freeFunction)(std::unique_ptr<Type>&) )
     {
         if(freeFunction)
         {
