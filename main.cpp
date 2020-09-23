@@ -108,7 +108,7 @@ New value of dt = (dt * it) / 5.0f + ft = 95.375
 ---------------------
 
 Intercept division by 0 
-New value of it = it / 0 = error: integer division by zero is an error and will crash the program!
+New value of it = it / 0 = can't divide integers by zero!
 590
 New value of ft = ft / 0 = warning: floating point division by zero!
 inf
@@ -260,7 +260,7 @@ struct Numeric
             else if ( t < std::numeric_limits<Type>::epsilon() )
             {
                 // else if it's less than epsilon dont do the divison
-                std::cerr << "can't divide integers by zero!" << std::endl;
+                std::cerr << "	can't divide integers by zero!" << std::endl;
                 return *this;
             }
         } 
@@ -745,7 +745,7 @@ int main()
         nd.apply(myNumericFreeFunct<double>);
     }
 
-    //part7();    // call part7() in main(), after where you were calling part6()
+    part7();    // call part7() in main(), after where you were calling part6()
 
     std::cout << "good to go!\n";
 
