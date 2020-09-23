@@ -400,7 +400,7 @@ private:
 template<typename NumericType> 
 void myNumericFreeFunct( std::unique_ptr<NumericType>& value)
 {
-    value += 7;
+    *value += 7;
 }
 
 struct Point
