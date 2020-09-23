@@ -208,10 +208,11 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <type_traits>
 #include <cstdint>
 
+// #1
 template<typename NumericType>
 struct Numeric
 {    
-    using Type = NumericType;
+    using Type = NumericType;   // #3
 
     Numeric(Type t) : value( std::make_unique<Type>(t) ) { }
 
@@ -240,6 +241,7 @@ struct Numeric
         return *this;
     }
 
+    // #11
     Numeric& operator/=(Type t)
     {
         // template type is an int
@@ -287,6 +289,7 @@ struct Numeric
         return *this; 
     }
 
+    // #5
     Numeric& apply( void(*freeFunction)(Type&) )
     {
         if(freeFunction)
@@ -298,7 +301,7 @@ struct Numeric
     }
 
 private:
-    std::unique_ptr<Type> value = nullptr;
+    std::unique_ptr<Type> value = nullptr;  // #2
     Numeric& powInternal(Type t)
     {
         *value = static_cast<Type>( std::pow(*value,t) );
@@ -306,10 +309,11 @@ private:
     }
 };
 
+// #6
 template<>
 struct Numeric<double>
 {    
-    using Type = double;
+    using Type = double;    // #3
 
     Numeric(Type t) : value( std::make_unique<Type>(t) ) { }
 
@@ -338,6 +342,7 @@ struct Numeric<double>
         return *this;
     }
 
+    // #11
     Numeric& operator/=(Type t)
     {
         // template type is an int
@@ -375,19 +380,16 @@ struct Numeric<double>
         return powInternal(static_cast<Type>(t));
     }
 
+    // #7
     template<typename Callable>
     Numeric& apply( Callable callable)
     {
-        if(callable)
-        {
-            return callable(value);
-        }
-
+        callable(value);
         return *this; 
     }
 
 private:
-    std::unique_ptr<Type> value = nullptr;
+    std::unique_ptr<Type> value = nullptr;  // #2
     Numeric& powInternal(Type t)
     {
         *value = static_cast<Type>( std::pow(*value,t) );
@@ -554,7 +556,7 @@ void part4()
     std::cout << "---------------------\n" << std::endl;
 }
 
-/*
+/* #0
 void part6()
 {
     Numeric<float> ft3(3.0f);
@@ -605,7 +607,7 @@ void part6()
 }
 */
 
-/*
+// #12
 void part7()
 {
     Numeric ft3(3.0f);
@@ -616,8 +618,12 @@ void part7()
     std::cout << "ft3 before: " << ft3 << std::endl;
 
     {
-        using Type = #4;
-        ft3.apply( [](std::unique...){} );
+        using NumericFloat = decltype(ft3);
+        ft3.apply( [&ft3](std::unique_ptr<NumericFloat::Type>& val) -> NumericFloat& 
+        {
+            *val += 7.0f;
+            return ft3;
+        } );
     }
 
     std::cout << "ft3 after: " << ft3 << std::endl;
@@ -631,8 +637,12 @@ void part7()
     std::cout << "dt3 before: " << dt3 << std::endl;
 
     {
-        using Type = #4;
-        dt3.apply( [](std::unique...){} ); // This calls the templated apply fcn
+        using NumericDouble = decltype(dt3);
+        dt3.apply( [&dt3](std::unique_ptr<NumericDouble::Type>& val) -> NumericDouble& 
+        {
+            *val += 6.0;
+            return dt3;
+        } );
     }
     
     std::cout << "dt3 after: " << dt3 << std::endl;
@@ -646,9 +656,14 @@ void part7()
     std::cout << "it3 before: " << it3 << std::endl;
 
     {
-        using Type = #4;
-        it3.apply( [](std::unique...){} );
+        using NumericInt = decltype(it3);
+        it3.apply( [&it3](std::unique_ptr<NumericInt::Type>& val) -> NumericInt& 
+        {
+            *val += 5;
+            return it3;
+        } );
     }
+
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
     std::cout << "it3 before: " << it3 << std::endl;
@@ -656,7 +671,7 @@ void part7()
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "---------------------\n" << std::endl;    
 }
-*/
+
 int main()
 {   
     //assign heap primitives
