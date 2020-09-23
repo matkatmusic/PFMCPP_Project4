@@ -205,6 +205,8 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <cmath>
 #include <functional>
 #include <memory>
+#include <type_traits>
+#include <cstdint>
 
 template<typename NumericType>
 struct Numeric
@@ -240,14 +242,32 @@ struct Numeric
 
     Numeric& operator/=(Type t)
     {
-        if (t == 0)
+        // template type is an int
+        if constexpr (std::is_same<int, Type>::value)
         {
-            std::cerr << "error: integer division by zero is an error and will crash the program!" << std::endl;
+            // parameter's type is also an int
+            if constexpr (std::is_same<int, decltype(t)>::value)
+            {
+                // parameter is 0 don't do the division
+                if (t == 0)
+                {
+                    std::cerr << "can't divide integers by zero!" << std::endl;
+                    return *this;
+                }
+            }
+            else if ( t < std::numeric_limits<Type>::epsilon() )
+            {
+                // else if it's less than epsilon dont do the divison
+                return *this;
+            }
         } 
-        else
+        else if ( t < std::numeric_limits<Type>::epsilon() )
         {
-            *value /= t;
+            // if it's less than epsilon warn about doing the division
+            std::cerr << "warning: floating point division by zero!" << std::endl;
         }
+
+        *value /= t;
         return *this;
     }
 
@@ -291,11 +311,10 @@ void myNumericFreeFunct( NumericType& value)
     value += 5;
 }
 
-
 struct Point
 {
     Point(float _x, float _y) : x(_x), y(_y) { }
-    
+
     template<typename Type>
     Point(Type& _x, Type& _y) : Point(static_cast<float>(_x), static_cast<float>(_y) ) { }
 
