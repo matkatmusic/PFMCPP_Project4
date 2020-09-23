@@ -397,8 +397,8 @@ private:
     }
 };
 
-template<typename NumericType> 
-void myNumericFreeFunct( std::unique_ptr<NumericType>& value)
+template<typename Type> 
+void myNumericFreeFunct( std::unique_ptr<Type>& value)
 {
     *value += 7;
 }
@@ -623,7 +623,7 @@ void part7()
         {
             *val += 7.0f;
             return ft3;
-        } );
+        });
     }
 
     std::cout << "ft3 after: " << ft3 << std::endl;
@@ -642,7 +642,7 @@ void part7()
         {
             *val += 6.0;
             return dt3;
-        } );
+        });
     }
     
     std::cout << "dt3 after: " << dt3 << std::endl;
@@ -661,7 +661,7 @@ void part7()
         {
             *val += 5;
             return it3;
-        } );
+        });
     }
 
     std::cout << "it3 after: " << it3 << std::endl;
@@ -747,6 +747,25 @@ int main()
     part4();
 
     //part6();
+
+    //  #8) instantiate your explicit template specialization
+    Numeric<double> nd(5);
+
+    //  #9) call the apply function twice, once with a lambda 
+    //  and once with the free function
+    // the free function is templated, so you might need to call it including the template arguments.
+    //  #10) in addition to using the lambda argument to modify the owned object
+    //  make the lambda use your explicit template instance (maybe via a std::cout)
+    {
+        using NumericDouble = decltype(nd );
+        nd.apply( [&nd](std::unique_ptr<NumericDouble::Type>& doubleValue) -> NumericDouble& 
+        {
+            *doubleValue += 6.0;
+            return nd;
+        });
+
+        nd.apply(myNumericFreeFunct<double>);
+    }
 
     //part7();    // call part7() in main(), after where you were calling part6()
 
