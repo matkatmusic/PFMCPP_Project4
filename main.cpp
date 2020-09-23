@@ -307,9 +307,9 @@ private:
 };
 
 template<typename NumericType> 
-void myNumericFreeFunct( NumericType& value)
+void myNumericFreeFunct( std::unique_ptr<NumericType>& value)
 {
-    value += 5;
+    value += 7;
 }
 
 struct Point
