@@ -291,11 +291,12 @@ void myNumericFreeFunct( NumericType& value)
     value += 5;
 }
 
-template<typename Type>
+
 struct Point
 {
     Point(float _x, float _y) : x(_x), y(_y) { }
     
+    template<typename Type>
     Point(Type& _x, Type& _y) : Point(static_cast<float>(_x), static_cast<float>(_y) ) { }
 
     ~Point() { }
@@ -307,6 +308,7 @@ struct Point
         return *this;
     }
 
+    template<typename Type>
     Point& multiply(Type& t)
     {
         return multiply(static_cast<float>(t));
@@ -401,9 +403,9 @@ void part4()
     // ------------------------------------------------------------
     //                          Point tests
     // ------------------------------------------------------------
-    Numeric<float> ft2(3.0f);
-    Numeric<double> dt2(4.0);
-    Numeric<int> it2(5);
+    Numeric ft2(3.0f);
+    Numeric dt2(4.0);
+    Numeric it2(5);
     float floatMul = 6.0f;
 
     // Point tests with float
