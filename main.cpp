@@ -258,6 +258,7 @@ struct Numeric
             else if ( t < std::numeric_limits<Type>::epsilon() )
             {
                 // else if it's less than epsilon dont do the divison
+                std::cerr << "can't divide integers by zero!" << std::endl;
                 return *this;
             }
         } 
