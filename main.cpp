@@ -248,13 +248,13 @@ struct Numeric
         // template type is an int
         if constexpr (std::is_same<int, NumericType>::value)
         {
-            std::cout << std::endl;
-            std::cout << "Template type is same as int" << std::endl;
+            //std::cout << std::endl;
+            //std::cout << "Template type is same as int" << std::endl;
             // parameter's type is also an int
             if constexpr (std::is_same<int, Type>::value)
             {
-                std::cout << std::endl;
-                std::cout << "parameter type is same as int" << std::endl;
+                //std::cout << std::endl;
+                //std::cout << "parameter type is same as int" << std::endl;
                 // parameter is 0 don't do the division
                 if (t == 0)
                 {
