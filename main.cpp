@@ -342,33 +342,11 @@ struct Numeric<double>
         return *this;
     }
 
-    // #11
     Numeric& operator/=(Type t)
     {
-        // template type is an int
-        if constexpr (std::is_same<int, Type>::value)
+        if(t==0.0)
         {
-            // parameter's type is also an int
-            if constexpr (std::is_same<int, decltype(t)>::value)
-            {
-                // parameter is 0 don't do the division
-                if (t == 0.0)
-                {
-                    std::cerr << "can't divide integers by zero!" << std::endl;
-                    return *this;
-                }
-            }
-            else if ( t < std::numeric_limits<Type>::epsilon() )
-            {
-                // else if it's less than epsilon dont do the divison
-                std::cerr << "can't divide integers by zero!" << std::endl;
-                return *this;
-            }
-        } 
-        else if ( t < std::numeric_limits<Type>::epsilon() )
-        {
-            // if it's less than epsilon warn about doing the division
-            std::cerr << "warning: floating point division by zero!" << std::endl;
+            std::cout << "warning: floating point division by zero!\n";
         }
 
         *value /= t;
