@@ -243,17 +243,18 @@ struct Numeric
     }
 
     // #11
-    template<typename T>
-    Numeric& operator/=(const T& t)
+    Numeric& operator/=(const Type& t)
     {
         // template type is an int
-        if constexpr (std::is_same<int, T>::value)
+        if constexpr (std::is_same<int, NumericType>::value)
         {
-            //std::cout << "T is same as int" << std::endl;
+            std::cout << std::endl;
+            std::cout << "Template type is same as int" << std::endl;
             // parameter's type is also an int
-            if constexpr (std::is_same<const int, decltype(t)>::value)
+            if constexpr (std::is_same<int, Type>::value)
             {
-                std::cout << "decltype(t) is same as int" << std::endl;
+                std::cout << std::endl;
+                std::cout << "parameter type is same as int" << std::endl;
                 // parameter is 0 don't do the division
                 if (t == 0)
                 {
@@ -261,14 +262,14 @@ struct Numeric
                     return *this;
                 }
             }
-            else if ( t < std::numeric_limits<T>::epsilon() )
+            else if ( t < std::numeric_limits<Type>::epsilon() )
             {
                 // else if it's less than epsilon dont do the divison
                 std::cerr << "	can't divide integers by zero!" << std::endl;
                 return *this;
             }
         } 
-        else if ( t < std::numeric_limits<T>::epsilon() )
+        else if ( t < std::numeric_limits<Type>::epsilon() )
         {
             // if it's less than epsilon warn about doing the division
             std::cerr << "warning: floating point division by zero!" << std::endl;
