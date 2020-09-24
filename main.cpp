@@ -730,17 +730,23 @@ int main()
     //  #9) call the apply function twice, once with a lambda 
     //  and once with the free function
     // the free function is templated, so you might need to call it including the template arguments.
-    //  #10) in addition to using the lambda argument to modify the owned object
-    //  make the lambda use your explicit template instance (maybe via a std::cout)
     
+    //std::cout << "Value of nd before applying lambda: " << nd << std::endl;
     using NumericDouble = decltype(nd);
     nd.apply( [&nd](std::unique_ptr<NumericDouble::Type>& doubleValue) -> NumericDouble& 
     {
         *doubleValue += 6.0;
+        //  #10) in addition to using the lambda argument to modify the owned object
+        //  make the lambda use your explicit template instance (maybe via a std::cout)
+        //std::cout << "New value of nd inside lambda: " << nd << std::endl;
         return nd;
     });
 
+    //std::cout << "Value of nd before applying myNumericFreeFunct: " << nd << std::endl;
+
     nd.apply(myNumericFreeFunct<double>);
+
+    //std::cout << "New value of nd after applying myNumericFreeFunct: " << nd << std::endl;
     
     part7();    // #12
 
