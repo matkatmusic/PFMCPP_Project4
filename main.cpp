@@ -1,5 +1,3 @@
-
-#include <iostream>
 /*
 Project 4: Part 7 / 9
 Video: Chapter 5 Part 4
@@ -205,8 +203,6 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 #include <cmath>
 #include <functional>
 #include <memory>
-#include <type_traits>
-#include <cstdint>
 
 // #1
 template<typename NumericType>
@@ -226,7 +222,7 @@ struct Numeric
 
     Numeric& operator+=(const Type& t)
     {
-        *value += t
+        *value += t;
         return *this;
     }
 
@@ -243,31 +239,32 @@ struct Numeric
     }
 
     // #11
-    Numeric& operator/=(const Type& t)
+    template<typename DivisorType> 
+    Numeric& operator/=(const DivisorType& t)
     {
-        // template type is an int
-        if constexpr (std::is_same<int, NumericType>::value)
+        // struct Numeric template type is int
+        if constexpr (std::is_same<Type,int>::value)
         {
-            // parameter's type is also an int
-            if constexpr (std::is_same<int, Type>::value)
+            // function parameter type is also int
+            if constexpr (std::is_same<DivisorType,int>::value)
             {
-                // parameter is 0 don't do the division
+                // function parameter is integer 0 don't do the division
                 if (t == 0)
                 {
                     std::cerr << "can't divide integers by zero!" << std::endl;
                     return *this;
                 }
             }
-            else if ( t < std::numeric_limits<Type>::epsilon() )
+            else if ( t < std::numeric_limits<DivisorType>::epsilon() )
             {
-                // else if it's less than epsilon dont do the divison
-                std::cerr << "	can't divide integers by zero!" << std::endl;
+                // else if function parameter is less than epsilon dont do the divison
+                std::cerr << "can't divide integers by zero!" << std::endl;
                 return *this;
             }
         } 
         else if ( t < std::numeric_limits<Type>::epsilon() )
         {
-            // if it's less than epsilon warn about doing the division
+            // if template type is less than epsilon warn about doing the division
             std::cerr << "warning: floating point division by zero!" << std::endl;
         }
 
@@ -652,7 +649,7 @@ void part7()
 }
 
 int main()
-{   
+{
     //assign heap primitives
     Numeric<float> ft(2.0f);
     Numeric<double> dt(2);
@@ -735,18 +732,17 @@ int main()
     // the free function is templated, so you might need to call it including the template arguments.
     //  #10) in addition to using the lambda argument to modify the owned object
     //  make the lambda use your explicit template instance (maybe via a std::cout)
+    
+    using NumericDouble = decltype(nd);
+    nd.apply( [&nd](std::unique_ptr<NumericDouble::Type>& doubleValue) -> NumericDouble& 
     {
-        using NumericDouble = decltype(nd );
-        nd.apply( [&nd](std::unique_ptr<NumericDouble::Type>& doubleValue) -> NumericDouble& 
-        {
-            *doubleValue += 6.0;
-            return nd;
-        });
+        *doubleValue += 6.0;
+        return nd;
+    });
 
-        nd.apply(myNumericFreeFunct<double>);
-    }
-
-    part7();    // call part7() in main(), after where you were calling part6()
+    nd.apply(myNumericFreeFunct<double>);
+    
+    part7();    // #12
 
     std::cout << "good to go!\n";
 
