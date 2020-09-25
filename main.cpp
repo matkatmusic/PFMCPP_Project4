@@ -211,7 +211,6 @@ struct Numeric
     using Type = NumericType;   // #3
 
     Numeric(Type t) : value( std::make_unique<Type>(t) ) { }
-    Numeric() : Numeric(0) { }
 
     ~Numeric() 
     {
