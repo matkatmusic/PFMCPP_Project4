@@ -1,203 +1,211 @@
 /*
-Project 4: Part 7 / 9
-Video: Chapter 5 Part 4
+Prject 4: Part 8 / 9
+ video: Chapter 5 Part 6 Task 
 
-Create a branch named Part7
+Create a branch named Part8
 
-Do not delete your previous main. you will be adding to it.
+ R-Values L-Values Move Semantics.
 
-Templates and Containers
+ This Task is going to demonstrate R-Values and writing Generic Code
 
     Build/Run often with this task to make sure you're not breaking the code with each step.
     I recommend committing after you get each step working so you can revert to a working version easily if needed.
     it's very easy to mess this task up. 
+ 
+ Your job is to replace the owned type (the primitive specified by your template argument) from the 
+     Templated Class you created in Ch5 p04 with a struct named Temporary that can behave ENTIRELY as a temporary object.
+ 
+ That means you must use conversion functions to interact with what it owns.
+ 
+ You need to figure out how to use conversion functions to be able to GET and SET the 'value' member variable.
+    hint: conversion functions can return by value and also by ___...
+  
+ 1) Here is a starting point for how to implement your Temporary struct.
+ */
 
-0) comment out part6(), both the function and where it is called.
+#include <typeinfo>
+template<typename NumericType>
+struct Temporary
+{
+    Temporary(NumericType t) : v(t)
+    {
+        std::cout << "I'm a Temporary<" << typeid(v).name() << "> object, #"
+                  << counter++ << std::endl;
+    }
+    /*
+     revise these conversion functions to read/write to 'v' here
+     hint: what qualifier do read-only functions usually have?
+     */
+    operator ___() { /* read-only function */ }
+    operator ___() { /* read/write function */ }
+private:
+    static int counter;
+    NumericType v;
+};
 
-#1) if you're not using std::unique_ptr to own your heap-allocated type as a member variable, 
-    replace your manual memory management techniques with a private std::unique_ptr member variable.
-
-#2) replace your Heap-Allocated Numeric Type-owning classes with a single templated class called 'Numeric'.
-        replace all instances of your previous classes (IntType, etc) with this templated class.
-
-#3) add a 'using Type = <your class template parameter>;' 
-        treat this type declaration via 'using' as a static member variable
-        use this Type alias as the argument everywhere you previously used the template argument.
-        this will make it very easy to change the type if needed.
-            i.e. if you have 'std::unique_ptr<NumericType> value;' before
-                you'd replace NumericType in that variable declaration with 'Type'
-        
-#4) you'll need to pair it with decltype() to help the compiler figure out the type of the object 
-    your class owns when you make your lambda and free function that takes your unique_ptr.  
-    i.e. like this for determining the template parameter of the unique_ptr function argument to your class's apply() function
-        std::unique_ptr< decltype( <instance of class> )::Type >
-    
-#5) template your free function for the apply() that takes a function pointer so it can be used with your Wrapper class's apply() function
-
-#6) add an explicit template specialization for 'double' of your wrapper class
-        this template specialization will have one apply() function instead of 2. 
-
-#7) this apply() function will be templated, and expect a Callable object, not std::function<>. 
-        the function should allow for chaining.  
-        the callable object should return void, like the function pointer-based apply() function in the primary class template
-
-#8) instantiate your explicit template specialization
-
-#9) call the apply function twice, once with a lambda and once with the free function
-        the free function is templated, so you might need to call it including the template arguments.
-        
-#10) in addition to using the lambda argument to modify the owned object:  (your previous task's lambdas did this same thing) 
-        make the lambda use your explicit template instance (maybe via a std::cout), 
-
-#11) now that your class is templated, you'll need to adjust your logic in your division function to handle if your input is a zero or not, based on your templated type.  
-        - look up how to use std::is_same<>::value on cppreference to determine the type of your template parameter.
-        
-        - look up how to use std::numeric_limits<>::epsilon() to determine if you're dividing by a floating point 0
-        
-        - read about Knuth's algorithm here: https://www.learncpp.com/cpp-tutorial/relational-operators-and-floating-point-comparisons/
-
-        - in plain-english, you'll need to implement this logic:
-        if your template type is an int
-                if your parameter's type is also an int
-                        if your parameter is 0
-                                don't do the division
-                else if it's less than epsilon
-                        dont do the divison
-        else if it's less than epsilon
-                warn about doing the division
-
-        - to make these checks work during compilation, your if() statements will need to be 'constexpr':  if constexpr (expression)
-
-12) move part7() to before main()
-        call part7() in main(), after where you were calling part6()
-
-If you need to view an example, see: https://bitbucket.org/MatkatMusic/pfmcpptasks/src/master/Projects/Project4/Part7Example.cpp
+/*
+ 2) add the definition of Temporary::counter here, which is a static variable and must be defined outside of the class.
+    Remember the rules about how to define a Template member variable/function outside of the class.
 */
 
 /*
-your program should generate the following output EXACTLY.
-This includes the warnings. 
- The output should have zero warnings.
+ 3) You'll need to template your overloaded math operator functions in your Templated Class from Ch5 p04
+    use static_cast to convert whatever type is passed in to your template's NumericType before performing the +=, -=, etc.  here's an example implementation:
+ */
+namespace example
+{
+template<typename NumericType>
+struct Numeric
+{
+    //snip
+    template<typename OtherType>
+    Numeric& operator-=(const OtherType& o) 
+    { 
+        *value -= static_cast<NumericType>(o); 
+        return *this; 
+    }
+    //snip
+};
+}
+
+/*
+ 4) remove your specialized <double> template of your Numeric<T> class from the previous task (ch5 p04)
+    replace the 2 apply() functions in your Numeric<T> with the single templated apply() function from the specialized <double> template.
+ */
+
+/*
+ 5) Template your pow() function the same way you templated the overloaded math operators
+    Remove the call to powInternal() and just call std::pow() directly.
+    you'll need to static_cast<> the pow() argument the same way you did in the overloaded math operators, when you pass it to std::pow()
+ */
+/*
+ 
+ 6) Finally, your conversion function in your templated class is going to be returning this Temporary, 
+        so you should probably NOT return by copy if you want your templated class's owned object to be modified by any math operation.
+    See the previous hint for implementing the conversion functions for the Temporary if you want to get the held value
+*/
 
 
-FloatType add result=4
-FloatType subtract result=2
-FloatType multiply result=4
-FloatType divide result=0.25
+/*
+ 7)   replace main() with the main below
 
-DoubleType add result=4
-DoubleType subtract result=2
-DoubleType multiply result=4
-DoubleType divide result=0.8
-
-IntType add result=4
-IntType subtract result=2
-IntType multiply result=4
-IntType divide result=1
-
-Chain calculation = 590
-New value of ft = (ft + 3.0f) * 1.5f / 5.0f = 0.975
----------------------
-
-Initial value of dt: 0.8
-Initial value of it: 590
-Use of function concatenation (mixed type arguments) 
-New value of dt = (dt * it) / 5.0f + ft = 95.375
----------------------
-
-Intercept division by 0 
-New value of it = it / 0 = can't divide integers by zero!
-590
-New value of ft = ft / 0 = warning: floating point division by zero!
-inf
-New value of dt = dt / 0 = warning: floating point division by zero!
-inf
----------------------
-
-The result of FloatType^3 divided by IntType is: 26.9136
-The result of DoubleType times 3 plus IntType is : 67.3
-The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: 711
-An operation followed by attempts to divide by 0, which are ignored and warns user: 
-can't divide integers by zero!
-can't divide integers by zero!
-can't divide integers by zero!
-505521
-FloatType x IntType  =  13143546
-(IntType + DoubleType + FloatType) x 24 = 315447336
-Power tests with FloatType 
-pow(ft1, floatExp) = 2^2 = 4
-pow(ft1, itExp) = 4^2 = 16
-pow(ft1, ftExp) = 16^2 = 256
-pow(ft1, dtExp) = 256^2 = 65536
----------------------
-
-Power tests with DoubleType 
-pow(dt1, doubleExp) = 2^2 = 4
-pow(dt1, itExp) = 4^2 = 16
-pow(dt1, ftExp) = 16^2 = 256
-pow(dt1, dtExp) = 256^2 = 65536
----------------------
-
-Power tests with IntType 
-pow(it1, intExp) = 2^2 = 4
-pow(it1, itExp) = 4^2 = 16
-pow(it1, ftExp) = 16^2 = 256
-pow(it1, dtExp) = 256^2 = 65536
-===============================
-
-Point tests with float argument:
-Point { x: 3, y: 6 }
-Multiplication factor: 6
-Point { x: 18, y: 36 }
----------------------
-
-Point tests with FloatType argument:
-Point { x: 3, y: 3 }
-Multiplication factor: 3
-Point { x: 9, y: 9 }
----------------------
-
-Point tests with DoubleType argument:
-Point { x: 3, y: 4 }
-Multiplication factor: 4
-Point { x: 12, y: 16 }
----------------------
-
-Point tests with IntType argument:
-Point { x: 3, y: 4 }
-Multiplication factor: 5
-Point { x: 15, y: 20 }
----------------------
-
-Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:
-ft3 before: 3
-ft3 after: 10
-Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:
-ft3 before: 10
-ft3 after: 24
----------------------
-
-Calling Numeric<double>::apply() using a lambda (adds 6.0) and Numeric<double> as return type:
-dt3 before: 4
-dt3 after: 10
-Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:
-dt3 before: 10
-dt3 after: 24
----------------------
-
-Calling Numeric<int>::apply() using a lambda (adds 5) and Numeric<int> as return type:
-it3 before: 5
-it3 after: 10
-Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:
-it3 before: 10
-it3 after: 24
----------------------
-
-good to go!
-
+ If you did everything correctly, this is the output you should get:
+ 
+I'm a Temporary<f> object, #0
+I'm a Temporary<i> object, #0
+I'm a Temporary<d> object, #0
+f: -1.89
+d: -3.024
+i: -9
+Point { x: -1.89, y: -9 }
+d: 3.024
+I'm a Temporary<d> object, #1
+I'm a Temporary<d> object, #2
+d: 1.49519e+08
+Point { x: -2.82591e+08, y: -1.34567e+09 }
+I'm a Temporary<f> object, #1
+I'm a Temporary<i> object, #1
+I'm a Temporary<i> object, #2
+I'm a Temporary<i> object, #3
+intNum: 5
+I'm a Temporary<f> object, #2
+f squared: 3.5721
+I'm a Temporary<f> object, #3
+f cubed: 45.5796
+I'm a Temporary<d> object, #3
+d squared: 2.2356e+16
+I'm a Temporary<d> object, #4
+d cubed: 1.11733e+49
+I'm a Temporary<i> object, #4
+i squared: 81
+I'm a Temporary<i> object, #5
+i cubed: 531441
 
 Use a service like https://www.diffchecker.com/diff to compare your output. 
 */
+
+#include <iostream>
+int main()
+{
+    Numeric<float> f(0.1f);
+    Numeric<int> i(3);
+    Numeric<double> d(4.2);
+    
+    f += 2.f;
+    f -= i;
+    f *= d;
+    f /= 2.f;
+    std::cout << "f: " << f << std::endl;
+    
+    d += 2.f;
+    d -= i;
+    d *= f;
+    d /= 2.f;
+    std::cout << "d: " << d << std::endl;
+    
+    i += 2.f; i -= f; i *= d; i /= 2.f;
+    std::cout << "i: "<< i << std::endl;
+    
+    Point p(f, i);
+    p.toString();
+    
+    d *= -1;
+    std::cout << "d: " << d << std::endl;
+    
+    p.multiply(d.pow(f).pow(i));
+    std::cout << "d: " << d << std::endl;
+    
+    p.toString();
+    
+    Numeric<float> floatNum(4.3f);
+    Numeric<int> intNum(2);
+    Numeric<int> intNum2(6);
+    intNum = 2 + (intNum2 - 4) + static_cast<double>(floatNum) / 2.3;
+    std::cout << "intNum: " << intNum << std::endl;
+    
+    {
+        using Type = decltype(f)::Type;
+        f.apply([&f](std::unique_ptr<Type>&value) -> decltype(f)&
+                {
+                    auto& v = *value;
+                    v = v * v;
+                    return f;
+                });
+        std::cout << "f squared: " << f << std::endl;
+        
+        f.apply( cube<Type> );
+        std::cout << "f cubed: " << f << std::endl;
+    }
+    
+    {
+        using Type = decltype(d)::Type;
+        d.apply([&d](std::unique_ptr<Type>&value) -> decltype(d)&
+                {
+                    auto& v = *value;
+                    v = v * v;
+                    return d;
+                });
+        std::cout << "d squared: " << d << std::endl;
+        
+        d.apply( cube<Type> );
+        std::cout << "d cubed: " << d << std::endl;
+    }
+    
+    {
+        using Type = decltype(i)::Type;
+        i.apply([&i](std::unique_ptr<Type>&value) -> decltype(i)&
+                {
+                    auto& v = *value;
+                    v = v * v;
+                    return i;
+                });
+        std::cout << "i squared: " << i << std::endl;
+        
+        i.apply( cube<Type> );
+        std::cout << "i cubed: " << i << std::endl;
+    }
+}
+
 
 #include <iostream>
 #include <cmath>
