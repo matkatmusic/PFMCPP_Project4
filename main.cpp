@@ -181,10 +181,10 @@ struct Numeric
     template<typename OtherType> 
     Numeric& operator/=(const OtherType& o) // #3
     {
-        // struct Numeric template type is int
+        // template type is int
         if constexpr (std::is_same<NumericType,int>::value)
         {
-            // function parameter type is also int
+            // function parameter type is int
             if constexpr (std::is_same<OtherType,int>::value)
             {
                 // function parameter is integer 0 don't do the division
@@ -232,7 +232,7 @@ private:
 template<typename Type> 
 void cube( std::unique_ptr<Type>& value) // #7
 {
-    *value *= *value *= *value;
+    *value = *value * *value * *value;
 }
 
 struct Point
