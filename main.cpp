@@ -41,8 +41,9 @@ struct Temporary
      revise these conversion functions to read/write to 'v' here
      hint: what qualifier do read-only functions usually have?
      */
-    Temporary& operator&() { /* read-only function */ return &this; } const
-    Temporary& operator=(const NumericType& t ) { /* read/write function */ v = t; return *this; }
+    operator NumericType() const { /* read-only function */ return v; }
+    operator NumericType&() { /* read/write function */ return v; }
+
 private:
     static int counter;
     NumericType v;
@@ -52,7 +53,8 @@ private:
  2) add the definition of Temporary::counter here, which is a static variable and must be defined outside of the class.
     Remember the rules about how to define a Template member variable/function outside of the class.
 */
-Temporary::counter = 0;
+template<typename NumericType>
+int Temporary<NumericType>::counter { 0 };
 
 /*
  3) You'll need to template your overloaded math operator functions in your Templated Class from Ch5 p04
@@ -134,7 +136,7 @@ Use a service like https://www.diffchecker.com/diff to compare your output.
 template<typename NumericType>
 struct Numeric
 {    
-    using Type = NumericType;
+    using Type = Temporary<NumericType>;
 
     Numeric(Type t) : value( std::make_unique<Type>(t) ) { }
 
@@ -144,6 +146,16 @@ struct Numeric
     }
 
     operator Type() const { return *value; }
+
+    operator NumericType() const { return *value; }
+    operator NumericType&() { return *value; }
+
+    template<typename OtherType>
+    Numeric& operator=(const OtherType& o) 
+    { 
+        *value = static_cast<NumericType>(o); 
+        return *this; 
+    }
 
     template<typename OtherType>
     Numeric& operator+=(const OtherType& o) // #3
