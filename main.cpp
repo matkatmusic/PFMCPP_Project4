@@ -37,6 +37,7 @@ struct Temporary
         std::cout << "I'm a Temporary<" << typeid(v).name() << "> object, #"
                   << counter++ << std::endl;
     }
+
     /*
      revise these conversion functions to read/write to 'v' here
      hint: what qualifier do read-only functions usually have?
@@ -179,35 +180,35 @@ struct Numeric
     }
 
     template<typename OtherType> 
-    Numeric& operator/=(const OtherType& o) // #3
+    Numeric& operator/=(const OtherType& otherType) // #3
     {
         // template type is int
-        if constexpr (std::is_same<OtherType,int>::value)
+        if constexpr (std::is_same<NumericType,int>::value)
         {
             // function parameter type is int
-            if constexpr (std::is_same<decltype(o),int>::value)
+            if constexpr (std::is_same<OtherType,int>::value)
             {
                 // function parameter is integer 0 don't do the division
-                if (o == 0)
+                if (otherType == 0)
                 {
                     std::cerr << "can't divide integers by zero!" << std::endl;
                     return *this;
                 }
             }
-            else if ( o < std::numeric_limits<OtherType>::epsilon() )
+            else if ( otherType < std::numeric_limits<OtherType>::epsilon() )
             {
                 // else if function parameter is less than epsilon dont do the divison
                 std::cerr << "can't divide integers by zero!" << std::endl;
                 return *this;
             }
         } 
-        else if ( o < std::numeric_limits<OtherType>::epsilon() )
+        else if ( static_cast<NumericType>(otherType) < std::numeric_limits<NumericType>::epsilon() )
         {
             // if template type is less than epsilon warn about doing the division
             std::cerr << "warning: floating point division by zero!" << std::endl;
         }
 
-        *value /= static_cast<NumericType>(o);
+        *value /= static_cast<NumericType>(otherType);
         return *this;
     }
 
@@ -232,7 +233,8 @@ private:
 template<typename Type> 
 void cube( std::unique_ptr<Type>& value) // #7
 {
-    *value = *value * *value * *value;
+    auto& v = *value;
+    v = v * v * v;
 }
 
 struct Point
