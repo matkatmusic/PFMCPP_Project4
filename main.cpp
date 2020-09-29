@@ -182,7 +182,7 @@ struct Numeric
     Numeric& operator/=(const OtherType& o) // #3
     {
         // struct Numeric template type is int
-        if constexpr (std::is_same<Type,int>::value)
+        if constexpr (std::is_same<NumericType,int>::value)
         {
             // function parameter type is also int
             if constexpr (std::is_same<OtherType,int>::value)
@@ -201,7 +201,7 @@ struct Numeric
                 return *this;
             }
         } 
-        else if ( o < std::numeric_limits<Type>::epsilon() )
+        else if ( o < std::numeric_limits<NumericType>::epsilon() )
         {
             // if template type is less than epsilon warn about doing the division
             std::cerr << "warning: floating point division by zero!" << std::endl;
@@ -214,7 +214,7 @@ struct Numeric
     template<typename OtherType>
     Numeric& pow(const OtherType& o) // #5
     {
-        *value = static_cast<Type>( std::pow(*value,static_cast<Type>(o)) );
+        *value = static_cast<Type>( std::pow(*value,static_cast<NumericType>(o)) );
         return *this;
     }
 
