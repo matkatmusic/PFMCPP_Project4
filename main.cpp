@@ -95,7 +95,9 @@ struct Temporary
 private:
     static int counter;
     NumericType v;
+
 };
+JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Temporary)
 
 template<typename NumericType>
 int Temporary<NumericType>::counter { 0 };
