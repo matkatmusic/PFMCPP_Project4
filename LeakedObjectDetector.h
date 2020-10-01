@@ -60,3 +60,9 @@ namespace juce
 friend class juce::LeakedObjectDetector<OwnerClass>; \
 static const char* getLeakedObjectClassName() noexcept { return #OwnerClass; } \
 juce::LeakedObjectDetector<OwnerClass> JUCE_JOIN_MACRO (leakDetector, __LINE__);
+#define JUCE_DECLARE_NON_COPYABLE(className) \
+            className (const className&) = delete;\
+            className& operator= (const className&) = delete;
+#define JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(className) \
+            JUCE_DECLARE_NON_COPYABLE(className) \
+            JUCE_LEAK_DETECTOR(className)

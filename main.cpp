@@ -12,7 +12,7 @@ Create a branch named Part9
  
  2) add these macros after the JUCE_LEAK_DETECTOR macro :
  */
-
+/*
 #define JUCE_DECLARE_NON_COPYABLE(className) \
             className (const className&) = delete;\
             className& operator= (const className&) = delete;
@@ -20,7 +20,7 @@ Create a branch named Part9
 #define JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(className) \
             JUCE_DECLARE_NON_COPYABLE(className) \
             JUCE_LEAK_DETECTOR(className)
-
+*/
 /*
  3) add JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Temporary) to the end of the  Temporary<> struct
  
@@ -69,12 +69,12 @@ i cubed: 531441
 Use a service like https://www.diffchecker.com/diff to compare your output. 
 */
 
-
 #include <iostream>
 #include <typeinfo>
 #include <cmath>
 #include <functional>
 #include <memory>
+#include "LeakedObjectDetector.h"
 
 template<typename NumericType>
 struct Temporary
@@ -96,8 +96,9 @@ private:
     static int counter;
     NumericType v;
 
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Temporary)
 };
-JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Temporary)
+
 
 template<typename NumericType>
 int Temporary<NumericType>::counter { 0 };
@@ -196,6 +197,8 @@ struct Numeric
 
 private:
     std::unique_ptr<Type> value;
+
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(Numeric)
 };
 
 template<typename Type> 
