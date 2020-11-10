@@ -113,7 +113,7 @@ struct FloatType
     }
     float divide( float lhs, float rhs )
     {
-        if (rhs == 0)
+        if (rhs == 0.0f)
         {
             std::cout << "WARNING: You are dividing by zero!" << std::endl;
         }
@@ -137,7 +137,7 @@ struct DoubleType
     }
     double divide( double lhs, double rhs )
     {
-        if (rhs == 0)
+        if (rhs == 0.0f)
         {
             std::cout << "WARNING: You are dividing by zero!" << std::endl;
         }
@@ -168,7 +168,6 @@ struct IntType
             std::cout << "Returning lhs: " << std::endl;
             return lhs;
         }
-
         else
         {
             return (lhs / rhs);
