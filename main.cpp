@@ -137,7 +137,7 @@ struct DoubleType
     }
     double divide( double lhs, double rhs )
     {
-        if (rhs == 0.0f)
+        if (rhs == 0.0)
         {
             std::cout << "WARNING: You are dividing by zero!" << std::endl;
         }
