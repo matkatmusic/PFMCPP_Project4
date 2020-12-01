@@ -474,10 +474,6 @@ IntType& IntType::divide(IntType& it)
     return divide(*it.value);
 }
 
-//MY QUESSTIONS
-//WHY THE & AFTERTHETYPES
-//WHY THHE*BEFORE THE ITEMS INN THE END = so they return the number not the adress because they are pointers
-//HOW DID WE CALL THE SAME FUNCNTIONS OVER AND OVER AGANIN 
 
 #include <iostream>
 
