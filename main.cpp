@@ -541,9 +541,9 @@ private:
 
 Point::Point(const FloatType& num1, const FloatType& num2) : x(static_cast<float>(num1)), y(static_cast<float>(num2)) {}
 
-Point::Point(const IntType& num1, const IntType& num2) : x(static_cast<int>(num1)), y(static_cast<int>(num2)) {}
+Point::Point(const IntType& num1, const IntType& num2) : x(static_cast<float>(num1)), y(static_cast<float>(num2)) {}
 
-Point::Point(const DoubleType& num1, const DoubleType& num2) : x(static_cast<double>(num1)), y(static_cast<double>(num2)) {}
+Point::Point(const DoubleType& num1, const DoubleType& num2) : x(static_cast<float>(num1)), y(static_cast<float>(num2)) {}
 
 Point& Point::multiply(float num)
 {
