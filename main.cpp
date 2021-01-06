@@ -255,99 +255,94 @@ struct DoubleType;
 
 struct FloatType
 {
+    FloatType(float num) : value( new float (num) ){}
+
+    ~FloatType()
+    {
+        delete value;
+        value = nullptr;
+    }
+
+    operator float() const { return *value;}
+
+    FloatType& add( float rhs );
+    FloatType& subtract( float rhs );
+    FloatType& multiply( float rhs );
+    FloatType& divide( float rhs );
+
+    FloatType& pow(const IntType& rhs);
+
+    FloatType& pow(const FloatType& rhs);
+
+    FloatType& pow(const DoubleType& rhs);
+
+    FloatType& pow(float rhs);
 
     private:
         float* value;
         FloatType& powInternal(float arg);
-
-    public:    
-        FloatType(float num) : value( new float (num) ){}
-
-        ~FloatType()
-        {
-            delete value;
-            value = nullptr;
-        }
-
-        operator float() const { return *value;}
-
-        FloatType& add( float rhs );
-        FloatType& subtract( float rhs );
-        FloatType& multiply( float rhs );
-        FloatType& divide( float rhs );
-
-        FloatType& pow(const IntType& rhs);
-
-        FloatType& pow(const FloatType& rhs);
-
-        FloatType& pow(const DoubleType& rhs);
-
-        FloatType& pow(float rhs);
-    
- 
 };
 
 struct DoubleType
 {
-    
+    DoubleType(double num) : value( new double (num) ){}
+
+    ~DoubleType()
+    {
+        delete value;
+        value = nullptr;
+    }
+
+    operator double() const { return *value;}
+
+    DoubleType& add(double rhs);
+    DoubleType& subtract(double rhs);
+    DoubleType& multiply(double rhs);
+    DoubleType& divide(double rhs);
+
+    DoubleType& pow(const IntType& rhs);
+
+    DoubleType& pow(const FloatType& rhs);
+
+    DoubleType& pow(const DoubleType& rhs);
+
+    DoubleType& pow(double rhs);
+
     private:
         double* value;
         DoubleType& powInternal(double arg);
 
-    public:
-        DoubleType(double num) : value( new double (num) ){}
-
-        ~DoubleType()
-        {
-            delete value;
-            value = nullptr;
-        }
-
-        operator double() const { return *value;}
-
-        DoubleType& add(double rhs);
-        DoubleType& subtract(double rhs);
-        DoubleType& multiply(double rhs);
-        DoubleType& divide(double rhs);
-
-        DoubleType& pow(const IntType& rhs);
-
-        DoubleType& pow(const FloatType& rhs);
-
-        DoubleType& pow(const DoubleType& rhs);
-
-        DoubleType& pow(double rhs);
 };
 
 struct IntType
 {
+    IntType(int num) : value( new int (num) ){}
+
+    ~IntType()
+    {
+        delete value;
+        value = nullptr;
+    }
+
+    operator int() const { return *value;}
+
+    IntType& add( int rhs);
+    IntType& subtract( int rhs);
+    IntType& multiply( int rhs);
+    IntType& divide( int rhs);
+
+    IntType& pow(const IntType& rhs);
+
+    IntType& pow(const FloatType& rhs);
+
+    IntType& pow(const DoubleType& rhs);
+
+    IntType& pow(int rhs);
+
     private:
         int* value;
         IntType& powInternal(int arg);
 
-    public:
-        IntType(int num) : value( new int (num) ){}
-
-        ~IntType()
-        {
-            delete value;
-            value = nullptr;
-        }
-
-        operator int() const { return *value;}
-
-        IntType& add( int rhs);
-        IntType& subtract( int rhs);
-        IntType& multiply( int rhs);
-        IntType& divide( int rhs);
-
-        IntType& pow(const IntType& rhs);
-
-        IntType& pow(const FloatType& rhs);
-
-        IntType& pow(const DoubleType& rhs);
-
-        IntType& pow(int rhs);
 };
 
 FloatType& FloatType::add(float rhs)
