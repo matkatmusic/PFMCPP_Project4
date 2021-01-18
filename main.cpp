@@ -24,26 +24,10 @@ Create a branch named Part8
 
 
 #include <typeinfo>
-template<typename NumericType>
-struct Temporary
-{
-    Temporary(NumericType t) : v(t)
-    {
-        std::cout << "I'm a Temporary<" << typeid(v).name() << "> object, #"
-                  << counter++ << std::endl;
-    }
-    
-     revise these conversion functions to read/write to 'v' here
-     hint: what qualifier do read-only functions usually have?
-    
-    operator NumericType() const { return v }
-    operator NumericType&() { return v }
-private:
-    static int counter;
-    NumericType v;
-};
+*/
 
 
+/*
  2) add the definition of Temporary::counter here, which is a static variable and must be defined outside of the class.
     Remember the rules about how to define a Template member variable/function outside of the class.
 
@@ -146,15 +130,42 @@ struct HeapA
     }
 };
 
+template<typename NumericType>
+struct Temporary
+{
+    Temporary(NumericType t) : v(t)
+    {
+        std::cout << "I'm a Temporary<" << typeid(v).name() << "> object, #"
+                  << counter++ << std::endl;
+    }
+    
+    operator NumericType() const { return v; }
+    operator NumericType&() { return v; }
+private:
+    static int counter;
+    NumericType v;
+};
+
+template <typename NumericType>
+int Temporary<NumericType>::counter {0};
+
 template <typename NumericType>
 struct Numeric
 {
-    using Type = NumericType;
+    using Type = Temporary<NumericType>;
 
     Numeric( Type val ) : value( std::make_unique<Type>(val)) {}
 
     operator NumericType() const { return *value; }
     operator NumericType&() { return *value; }
+
+    template<typename OtherType>
+    Numeric& operator= (const OtherType& o )
+    {
+        if (value != nullptr)
+            *value = static_cast<NumericType>(o);
+        return *this;
+    }
 
     template<typename OtherType>
     Numeric& operator+=(const OtherType& o) 
@@ -178,7 +189,7 @@ struct Numeric
     }
 
     template<typename OtherType>
-    Numeric& operator/=( OtherType& num )
+    Numeric& operator/= ( const OtherType& num )
     {
         if constexpr (std::is_same<Type, int>::value)
         {
@@ -204,7 +215,7 @@ struct Numeric
         }  
 
         if ( value != nullptr )
-            *value /= num;
+            *value /= static_cast<NumericType>(num);
         return *this;
     }
 
@@ -212,7 +223,7 @@ struct Numeric
     Numeric& pow(const OtherType& ft)
     {
         *value = static_cast<Type>(std::pow( *value, static_cast<NumericType>(ft)));
-        return *value;
+        return *this;
     }
 
     template<typename Callable>
