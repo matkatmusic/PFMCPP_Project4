@@ -90,8 +90,109 @@ good to go!
 
  Wait for my code review.
  */
+ 
+// result of ft.add(): 555.556
+// result of ft.subtract(): -308.644
+// result of ft.multiply(): 53345.3
+// result of ft.divide(): 0.285712
+
 
 #include <iostream>
+
+struct FloatType {
+    float add( float lhs, float rhs );
+    float subtract( float lhs, float rhs );
+    float multiply( float lhs, float rhs );
+    float divide( float lhs, float rhs );
+};
+struct DoubleType {
+    double add( double lhs, double rhs );
+    double subtract( double lhs, double rhs );
+    double multiply( double lhs, double rhs );
+    double divide( double lhs, double rhs );
+};
+struct IntType {
+    int add( int lhs, int rhs );
+    int subtract( int lhs, int rhs );
+    int multiply( int lhs, int rhs );
+    int divide( int lhs, int rhs );
+};
+
+float FloatType::add( float lhs, float rhs ) {
+    float result = lhs + rhs;
+    return result;
+}
+
+float FloatType::subtract( float lhs, float rhs ) {
+    float result = lhs - rhs;
+    return result;
+}
+
+float FloatType::multiply( float lhs, float rhs ) {
+    float result = lhs * rhs;
+    return result;
+}
+
+float FloatType::divide( float lhs, float rhs ) {
+    if(rhs == 0)
+    {
+        std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
+    }
+    float result = lhs / rhs;
+    return result;
+}
+
+
+double DoubleType::add( double lhs, double rhs ) {
+    double result = lhs + rhs;
+    return result;
+}
+
+double DoubleType::subtract( double lhs, double rhs ) {
+    double result = lhs - rhs;
+    return result;
+}
+
+double DoubleType::multiply( double lhs, double rhs ) {
+    double result = lhs * rhs;
+    return result;
+}
+
+double DoubleType::divide( double lhs, double rhs ) {
+    if(rhs == 0)
+    {
+        std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
+    }
+    double result = lhs / rhs;
+    return result;
+}
+
+int IntType::add( int lhs, int rhs ) {
+    int result = lhs + rhs;
+    return result;
+}
+
+int IntType::subtract( int lhs, int rhs ) {
+    int result = lhs - rhs;
+    return result;
+}
+
+int IntType::multiply( int lhs, int rhs ) {
+    int result = lhs * rhs;
+    return result;
+}
+
+int IntType::divide( int lhs, int rhs ) {
+    if( rhs == 0 ) 
+    {
+        std::cout << "error, integer division by zero will crash the program!\nreturning lhs\n";
+        return lhs;
+    }
+    int result = lhs / rhs;
+    return result;
+}
+
+
 int main() 
 {
     FloatType ft;
