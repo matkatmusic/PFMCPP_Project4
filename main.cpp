@@ -233,7 +233,7 @@ FloatType &FloatType::divide(float rhs)
 {
     if (rhs == 0.f) 
     {
-        std::cout << "warning: floating point division by zero!" << std::endl;
+        std::cout << "warning: floating point division by zero! " << std::endl;
     }
     *value /= rhs;
     return *this;
@@ -262,7 +262,7 @@ DoubleType &DoubleType::divide(double rhs)
 {
     if (rhs == 0.0)
     {
-        std::cout << "warning: floating point division by zero!" << std::endl;
+        std::cout << "warning: floating point division by zero! " << std::endl;
     }
     *value /= rhs;
     return *this;
@@ -523,16 +523,16 @@ int main()
     std::cout << "Initial value of dt: " << *dt.value << std::endl;
     std::cout << "Initial value of it: " << *it.value << std::endl;
     // --------
-    std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
+    std::cout << "Use of function concatenation (mixed type arguments)" << std::endl;
     std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << *(dt.multiply(it).divide(5.0f).add(ft).value) << std::endl;
 
     std::cout << "---------------------\n" << std::endl;
 
     // Intercept division by 0
     // --------
-    std::cout << "Intercept division by 0 " << std::endl;
-    std::cout << "New value of it = it / 0 = " << *it.divide(0).value << std::endl;
-    std::cout << "New value of ft = ft / 0 = " << *ft.divide(0).value << std::endl;
+    std::cout << "Intercept division by 0" << std::endl;
+    std::cout << "New value of it = it / 0 = " << *it.divide(0).value << " " << std::endl;
+    std::cout << "New value of ft = ft / 0 = " << *ft.divide(0).value << " " << std::endl;
     std::cout << "New value of dt = dt / 0 = " << *dt.divide(0).value << std::endl;
 
     std::cout << "---------------------\n" << std::endl;
