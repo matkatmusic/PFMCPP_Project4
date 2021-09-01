@@ -154,7 +154,7 @@ struct DoubleType
 	double *value;
 	DoubleType(double doubleV) : value(new double(doubleV)){}
 	~DoubleType()
-    {
+	{
 		delete value;
 		value = nullptr;
 	}
@@ -165,13 +165,13 @@ struct DoubleType
 	DoubleType &divide(double rhs);
 
     DoubleType &add(const DoubleType &dV);
-	DoubleType &subtract(const DoubleType &dV);
-	DoubleType &multiply(const DoubleType &dV);
-	DoubleType &divide(const DoubleType &dV);
+    DoubleType &subtract(const DoubleType &dV);
+    DoubleType &multiply(const DoubleType &dV);
+    DoubleType &divide(const DoubleType &dV);
 
-	DoubleType &add(const IntType &iV);
-	DoubleType &subtract(const IntType &iV);
-	DoubleType &multiply(const IntType &iV);
+    DoubleType &add(const IntType &iV);
+    DoubleType &subtract(const IntType &iV);
+    DoubleType &multiply(const IntType &iV);
 	DoubleType &divide(const IntType &iV);
 
 	DoubleType &add(const FloatType &fV);
@@ -188,7 +188,7 @@ struct IntType
     {
 		delete value;
 		value = nullptr;
-	}
+    }
 	IntType &add(int rhs);
 	IntType &subtract(int rhs);
 	IntType &multiply(int rhs);
@@ -234,7 +234,7 @@ FloatType &FloatType::divide(float rhs)
 	if (rhs == 0.f) 
     {
 		std::cout << "warning: floating point division by zero!" << std::endl;
-	}
+    }
     *value /= rhs;
 	return *this;
 }
@@ -260,10 +260,10 @@ DoubleType &DoubleType::multiply(double rhs)
 
 DoubleType &DoubleType::divide(double rhs) 
 {
-	if (rhs == 0.0) 
+	if (rhs == 0.0)
     {
 		std::cout << "warning: floating point division by zero!" << std::endl;
-	}
+    }
     *value /= rhs;
 	return *this;
 }
@@ -288,11 +288,11 @@ IntType &IntType::multiply(int rhs) {
 
 IntType &IntType::divide(int rhs) 
 {
-	if (rhs != 0) 
+	if (rhs != 0)
     {
 		*value /= rhs;
 		return *this;
-	}
+    }
 	std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl;
 	return *this;
 }
@@ -410,7 +410,7 @@ DoubleType &DoubleType::add(const FloatType &fV)
 
 DoubleType &DoubleType::subtract(const FloatType &fV) 
 {
-	return subtract(*fV.value);
+    return subtract(*fV.value);
 }
 
 DoubleType &DoubleType::multiply(const FloatType &fV) 
@@ -485,7 +485,8 @@ IntType &IntType::divide(const DoubleType &dV)
     return divide(*dV.value);
 }
 
-int main() {
+int main() 
+{
 	// testing instruction 0
 	HeapA heapA;
 
