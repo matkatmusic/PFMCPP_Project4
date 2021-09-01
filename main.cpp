@@ -96,10 +96,12 @@ New value of dt = (dt * it) / 5.0f + ft = 95.375
 ---------------------
 
 Intercept division by 0
-New value of it = it / 0 = error: integer division by zero is an error and will
-crash the program! 590 New value of ft = ft / 0 = warning: floating point
-division by zero! inf New value of dt = dt / 0 = warning: floating point
-division by zero! inf
+New value of it = it / 0 = error: integer division by zero is an error and will crash the program!
+590 
+New value of ft = ft / 0 = warning: floating point division by zero! 
+inf 
+New value of dt = dt / 0 = warning: floating point division by zero! 
+inf
 ---------------------
 
 good to go!
@@ -229,13 +231,11 @@ FloatType &FloatType::multiply(float rhs)
 
 FloatType &FloatType::divide(float rhs) 
 {
-	if (*value != 0.f) 
+	if (rhs == 0.f) 
     {
-		*value /= rhs;
-		return *this;
+		std::cout << "warning: floating point division by zero!" << std::endl;
 	}
-	std::cout << "error, integer division by zero will crash the program!" << std::endl;
-	std::cout << "returning lhs" << std::endl;
+    *value /= rhs;
 	return *this;
 }
 
@@ -260,13 +260,11 @@ DoubleType &DoubleType::multiply(double rhs)
 
 DoubleType &DoubleType::divide(double rhs) 
 {
-	if (*value != 0.0) 
+	if (rhs == 0.0) 
     {
-		*value /= rhs;
-		return *this;
+		std::cout << "warning: floating point division by zero!" << std::endl;
 	}
-	std::cout << "error, integer division by zero will crash the program!" << std::endl;
-	std::cout << "returning lhs" << std::endl;
+    *value /= rhs;
 	return *this;
 }
 
@@ -290,13 +288,12 @@ IntType &IntType::multiply(int rhs) {
 
 IntType &IntType::divide(int rhs) 
 {
-	if (*value != 0) 
+	if (rhs != 0) 
     {
 		*value /= rhs;
 		return *this;
 	}
-	std::cout << "error, integer division by zero will crash the program!" << std::endl;
-	std::cout << "returning lhs" << std::endl;
+	std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl;
 	return *this;
 }
 
@@ -342,13 +339,7 @@ FloatType &FloatType::multiply(const DoubleType &dV)
 
 FloatType &FloatType::divide(const DoubleType &dV) 
 {
-	if (*dV.value != 0.0) 
-    {
-		return divide(*dV.value);
-	}
-	std::cout << "error, integer division by zero will crash the program!" << std::endl;
-	std::cout << "returning lhs" << std::endl;
-	return *this;
+    return divide(*dV.value);
 }
 
 // Float - Int
@@ -369,30 +360,24 @@ FloatType &FloatType::multiply(const IntType &iV)
 
 FloatType &FloatType::divide(const IntType &iV) 
 {
-	if (*iV.value != 0) 
-    {
-		return divide(*iV.value);
-	}
-	std::cout << "error, integer division by zero will crash the program!" << std::endl;
-	std::cout << "returning lhs" << std::endl;
-	return *this;
+	return divide(*iV.value);	
 }
 //Double-Double
 
-DoubleType &add(const DoubleType &dV)
+DoubleType &DoubleType::add(const DoubleType &dV)
 {
     return add(*dV.value);
 }
 
-DoubleType &subtract(const DoubleType &dV)
+DoubleType &DoubleType::subtract(const DoubleType &dV)
 {
     return subtract(*dV.value);
 }
-DoubleType &multiply(const DoubleType &dV)
+DoubleType &DoubleType::multiply(const DoubleType &dV)
 {
     return multiply(*dV.value);
 }
-DoubleType &divide(const DoubleType &dV)
+DoubleType &DoubleType::divide(const DoubleType &dV)
 {
     return divide(*dV.value);
 }
@@ -415,13 +400,7 @@ DoubleType &DoubleType::multiply(const IntType &iV)
 
 DoubleType &DoubleType::divide(const IntType &iV) 
 {
-	if (*iV.value != 0) 
-    {
-		return divide(*iV.value);
-	}
-	std::cout << "error, integer division by zero will crash the program!" << std::endl;
-	std::cout << "returning lhs" << std::endl;
-	return *this;
+    return divide(*iV.value);	
 }
 // Double-Float
 DoubleType &DoubleType::add(const FloatType &fV) 
@@ -441,31 +420,25 @@ DoubleType &DoubleType::multiply(const FloatType &fV)
 
 DoubleType &DoubleType::divide(const FloatType &fV) 
 {
-	if (*fV.value != 0.f) 
-    {
-		return divide(*fV.value);
-	}
-	std::cout << "error, integer division by zero will crash the program!"<< std::endl;
-	std::cout << "returning lhs" << std::endl;
-	return *this;
+    return divide(*fV.value);
 }
 //Int-Int
-IntType &add(const IntType &iV)
+IntType &IntType::add(const IntType &iV)
 {
     return add(*iV.value);
 }
 
-IntType &subtract(const IntType &iV)
+IntType &IntType::subtract(const IntType &iV)
 {
     return subtract(*iV.value);
 }
 
-IntType &multiply(const IntType &iV)
+IntType &IntType::multiply(const IntType &iV)
 {
     return multiply(*iV.value);
 }
 
-IntType &divide(const IntType &iV)
+IntType &IntType::divide(const IntType &iV)
 {
     return divide(*iV.value);
 }
@@ -488,13 +461,7 @@ IntType &IntType::multiply(const FloatType &fV)
 
 IntType &IntType::divide(const FloatType &fV) 
 {
-	if (*fV.value != 0.f) 
-    {
-		return divide(*fV.value);
-	}
-	std::cout << "error, integer division by zero will crash the program!" << std::endl;
-	std::cout << "returning lhs" << std::endl;
-	return *this;
+    return divide(*fV.value);
 }
 
 // Int-Double
@@ -515,13 +482,7 @@ IntType &IntType::multiply(const DoubleType &dV)
 
 IntType &IntType::divide(const DoubleType &dV) 
 {
-	if (*dV.value != 0.0) 
-    {
-		return divide(*dV.value);
-	}
-	std::cout << "error, integer division by zero will crash the program!"<< std::endl;
-	std::cout << "returning lhs" << std::endl;
-	return *this;
+    return divide(*dV.value);
 }
 
 int main() {
