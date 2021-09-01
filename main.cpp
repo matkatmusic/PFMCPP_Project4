@@ -128,25 +128,25 @@ struct FloatType
         value = nullptr;
     }
 
-FloatType &add(float rhs);
-FloatType &subtract(float rhs);
-FloatType &multiply(float rhs);
-FloatType &divide(float rhs);
+    FloatType &add(float rhs);
+    FloatType &subtract(float rhs);
+    FloatType &multiply(float rhs);
+    FloatType &divide(float rhs);
 
-FloatType &add(const FloatType &fV);
-FloatType &subtract(const FloatType &fV);
-FloatType &multiply(const FloatType &fV);
-FloatType &divide(const FloatType &fV);
+    FloatType &add(const FloatType &fV);
+    FloatType &subtract(const FloatType &fV);
+    FloatType &multiply(const FloatType &fV);
+    FloatType &divide(const FloatType &fV);
 
-FloatType &add(const DoubleType &dV);
-FloatType &subtract(const DoubleType &dV);
-FloatType &multiply(const DoubleType &dV);
-FloatType &divide(const DoubleType &dV);
+    FloatType &add(const DoubleType &dV);
+    FloatType &subtract(const DoubleType &dV);
+    FloatType &multiply(const DoubleType &dV);
+    FloatType &divide(const DoubleType &dV);
 
-FloatType &add(const IntType &iV);
-FloatType &subtract(const IntType &iV);
-FloatType &multiply(const IntType &iV);
-FloatType &divide(const IntType &iV);
+    FloatType &add(const IntType &iV);
+    FloatType &subtract(const IntType &iV);
+    FloatType &multiply(const IntType &iV);
+    FloatType &divide(const IntType &iV);
 };
 
 struct DoubleType 
