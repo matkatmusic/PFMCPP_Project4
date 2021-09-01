@@ -151,33 +151,33 @@ struct FloatType
 
 struct DoubleType 
 {
-double *value;
-DoubleType(double doubleV) : value(new double(doubleV)){}
-~DoubleType()
-{
-    delete value;
-    value = nullptr;
-}
+    double *value;
+    DoubleType(double doubleV) : value(new double(doubleV)){}
+    ~DoubleType()
+    {
+        delete value;
+        value = nullptr;
+    }
 
-DoubleType &add(double rhs);
-DoubleType &subtract(double rhs);
-DoubleType &multiply(double rhs);
-DoubleType &divide(double rhs);
+    DoubleType &add(double rhs);
+    DoubleType &subtract(double rhs);
+    DoubleType &multiply(double rhs);
+    DoubleType &divide(double rhs);
 
-DoubleType &add(const DoubleType &dV);
-DoubleType &subtract(const DoubleType &dV);
-DoubleType &multiply(const DoubleType &dV);
-DoubleType &divide(const DoubleType &dV);
+    DoubleType &add(const DoubleType &dV);
+    DoubleType &subtract(const DoubleType &dV);
+    DoubleType &multiply(const DoubleType &dV);
+    DoubleType &divide(const DoubleType &dV);
 
-DoubleType &add(const IntType &iV);
-DoubleType &subtract(const IntType &iV);
-DoubleType &multiply(const IntType &iV);
-DoubleType &divide(const IntType &iV);
+    DoubleType &add(const IntType &iV);
+    DoubleType &subtract(const IntType &iV);
+    DoubleType &multiply(const IntType &iV);
+    DoubleType &divide(const IntType &iV);
 
-DoubleType &add(const FloatType &fV);
-DoubleType &subtract(const FloatType &fV);
-DoubleType &multiply(const FloatType &fV);
-DoubleType &divide(const FloatType &fV);
+    DoubleType &add(const FloatType &fV);
+    DoubleType &subtract(const FloatType &fV);
+    DoubleType &multiply(const FloatType &fV);
+    DoubleType &divide(const FloatType &fV);
 };
 
 struct IntType 
