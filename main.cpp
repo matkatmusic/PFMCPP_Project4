@@ -18,12 +18,13 @@ smart pointers.
 
 struct A {};
 
-struct HeapA {
+struct HeapA 
+{
 	A *ptrToA;
-	HeapA() : ptrToA(new A) {
-	}
+	HeapA() : ptrToA(new A) {}
 
-	~HeapA() {
+	~HeapA() 
+    {
 		delete ptrToA;
 		ptrToA = nullptr;
 	}
@@ -115,11 +116,12 @@ struct FloatType;
 struct DoubleType;
 struct IntType;
 
-struct FloatType {
+struct FloatType 
+{
 	float *value;
-	FloatType(float floatV) : value(new float(floatV)) {
-	}
-	~FloatType() {
+	FloatType(float floatV) : value(new float(floatV)) {}
+	~FloatType() 
+    {
 		delete value;
 		value = nullptr;
 	}
@@ -140,11 +142,12 @@ struct FloatType {
 	FloatType &divide(const IntType &iV);
 };
 
-struct DoubleType {
+struct DoubleType 
+{
 	double *value;
-	DoubleType(double doubleV) : value(new double(doubleV)) {
-	}
-	~DoubleType() {
+	DoubleType(double doubleV) : value(new double(doubleV)){}
+	~DoubleType()
+    {
 		delete value;
 		value = nullptr;
 	}
@@ -165,11 +168,12 @@ struct DoubleType {
 	DoubleType &divide(const FloatType &fV);
 };
 
-struct IntType {
+struct IntType 
+{
 	int *value;
-	IntType(int intV) : value(new int(intV)) {
-	}
-	~IntType() {
+	IntType(int intV) : value(new int(intV)) {}
+	~IntType() 
+    {
 		delete value;
 		value = nullptr;
 	}
@@ -188,20 +192,28 @@ struct IntType {
 };
 
 // Float - Float
-FloatType &FloatType::add(float rhs) {
-	*value += rhs;
-	return *this;
+FloatType &FloatType::add(float rhs) 
+{
+    *value += rhs; 
+    return *this;
 }
-FloatType &FloatType::subtract(float rhs) {
-	*value -= rhs;
-	return *this;
+
+FloatType &FloatType::subtract(float rhs) 
+{
+    *value -= rhs;
+    return *this;
 }
-FloatType &FloatType::multiply(float rhs) {
+
+FloatType &FloatType::multiply(float rhs) 
+{
 	*value *= rhs;
 	return *this;
 }
-FloatType &FloatType::divide(float rhs) {
-	if (*value != 0.f) {
+
+FloatType &FloatType::divide(float rhs) 
+{
+	if (*value != 0.f) 
+    {
 		*value /= rhs;
 		return *this;
 	}
@@ -211,20 +223,28 @@ FloatType &FloatType::divide(float rhs) {
 }
 
 // Double-Double
-DoubleType &DoubleType::add(double rhs) {
+DoubleType &DoubleType::add(double rhs) 
+{
 	*value += rhs;
 	return *this;
 }
-DoubleType &DoubleType::subtract(double rhs) {
+
+DoubleType &DoubleType::subtract(double rhs) 
+{
 	*value -= rhs;
 	return *this;
 }
-DoubleType &DoubleType::multiply(double rhs) {
+
+DoubleType &DoubleType::multiply(double rhs) 
+{
 	*value *= rhs;
 	return *this;
 }
-DoubleType &DoubleType::divide(double rhs) {
-	if (*value != 0.0) {
+
+DoubleType &DoubleType::divide(double rhs) 
+{
+	if (*value != 0.0) 
+    {
 		*value /= rhs;
 		return *this;
 	}
@@ -234,21 +254,27 @@ DoubleType &DoubleType::divide(double rhs) {
 }
 
 // Int-Int
-IntType &IntType::add(int rhs) {
+IntType &IntType::add(int rhs) 
+{
 	*value += rhs;
 	return *this;
 }
 
-IntType &IntType::subtract(int rhs) {
+IntType &IntType::subtract(int rhs) 
+{
 	*value -= rhs;
 	return *this;
 }
+
 IntType &IntType::multiply(int rhs) {
 	*value *= rhs;
 	return *this;
 }
-IntType &IntType::divide(int rhs) {
-	if (*value != 0) {
+
+IntType &IntType::divide(int rhs) 
+{
+	if (*value != 0) 
+    {
 		*value /= rhs;
 		return *this;
 	}
@@ -262,17 +288,25 @@ IntType &IntType::divide(int rhs) {
 */
 
 // Float - Double
-FloatType &FloatType::add(const DoubleType &dV) {
+FloatType &FloatType::add(const DoubleType &dV) 
+{
 	return add(*dV.value);
 }
-FloatType &FloatType::subtract(const DoubleType &dV) {
+
+FloatType &FloatType::subtract(const DoubleType &dV) 
+{
 	return subtract(*dV.value);
 }
-FloatType &FloatType::multiply(const DoubleType &dV) {
+
+FloatType &FloatType::multiply(const DoubleType &dV) 
+{
 	return multiply(*dV.value);
 }
-FloatType &FloatType::divide(const DoubleType &dV) {
-	if (*dV.value != 0.0) {
+
+FloatType &FloatType::divide(const DoubleType &dV) 
+{
+	if (*dV.value != 0.0) 
+    {
 		return divide(*dV.value);
 	}
 	std::cout << "error, integer division by zero will crash the program!" << std::endl;
@@ -281,17 +315,25 @@ FloatType &FloatType::divide(const DoubleType &dV) {
 }
 
 // Float - Int
-FloatType &FloatType::add(const IntType &iV) {
+FloatType &FloatType::add(const IntType &iV) 
+{
 	return add(*iV.value);
 }
-FloatType &FloatType::subtract(const IntType &iV) {
+
+FloatType &FloatType::subtract(const IntType &iV) 
+{
 	return subtract(*iV.value);
 }
-FloatType &FloatType::multiply(const IntType &iV) {
+
+FloatType &FloatType::multiply(const IntType &iV) 
+{
 	return multiply(*iV.value);
 }
-FloatType &FloatType::divide(const IntType &iV) {
-	if (*iV.value != 0) {
+
+FloatType &FloatType::divide(const IntType &iV) 
+{
+	if (*iV.value != 0) 
+    {
 		return divide(*iV.value);
 	}
 	std::cout << "error, integer division by zero will crash the program!" << std::endl;
@@ -300,17 +342,25 @@ FloatType &FloatType::divide(const IntType &iV) {
 }
 
 // Double-Int
-DoubleType &DoubleType::add(const IntType &iV) {
+DoubleType &DoubleType::add(const IntType &iV) 
+{
 	return add(*iV.value);
 }
-DoubleType &DoubleType::subtract(const IntType &iV) {
+
+DoubleType &DoubleType::subtract(const IntType &iV) 
+{
 	return subtract(*iV.value);
 }
-DoubleType &DoubleType::multiply(const IntType &iV) {
+
+DoubleType &DoubleType::multiply(const IntType &iV) 
+{
 	return multiply(*iV.value);
 }
-DoubleType &DoubleType::divide(const IntType &iV) {
-	if (*iV.value != 0) {
+
+DoubleType &DoubleType::divide(const IntType &iV) 
+{
+	if (*iV.value != 0) 
+    {
 		return divide(*iV.value);
 	}
 	std::cout << "error, integer division by zero will crash the program!" << std::endl;
@@ -318,17 +368,25 @@ DoubleType &DoubleType::divide(const IntType &iV) {
 	return *this;
 }
 // Double-Float
-DoubleType &DoubleType::add(const FloatType &fV) {
+DoubleType &DoubleType::add(const FloatType &fV) 
+{
 	return add(*fV.value);
 }
-DoubleType &DoubleType::subtract(const FloatType &fV) {
+
+DoubleType &DoubleType::subtract(const FloatType &fV) 
+{
 	return subtract(*fV.value);
 }
-DoubleType &DoubleType::multiply(const FloatType &fV) {
+
+DoubleType &DoubleType::multiply(const FloatType &fV) 
+{
 	return multiply(*fV.value);
 }
-DoubleType &DoubleType::divide(const FloatType &fV) {
-	if (*fV.value != 0.f) {
+
+DoubleType &DoubleType::divide(const FloatType &fV) 
+{
+	if (*fV.value != 0.f) 
+    {
 		return divide(*fV.value);
 	}
 	std::cout << "error, integer division by zero will crash the program!"
@@ -338,17 +396,25 @@ DoubleType &DoubleType::divide(const FloatType &fV) {
 }
 
 // Int-Float
-IntType &IntType::add(const FloatType &fV) {
+IntType &IntType::add(const FloatType &fV) 
+{
 	return add(*fV.value);
 }
-IntType &IntType::subtract(const FloatType &fV) {
+
+IntType &IntType::subtract(const FloatType &fV) 
+{
 	return subtract(*fV.value);
 }
-IntType &IntType::multiply(const FloatType &fV) {
+
+IntType &IntType::multiply(const FloatType &fV) 
+{
 	return multiply(*fV.value);
 }
-IntType &IntType::divide(const FloatType &fV) {
-	if (*fV.value != 0.f) {
+
+IntType &IntType::divide(const FloatType &fV) 
+{
+	if (*fV.value != 0.f) 
+    {
 		return divide(*fV.value);
 	}
 	std::cout << "error, integer division by zero will crash the program!" << std::endl;
@@ -357,17 +423,25 @@ IntType &IntType::divide(const FloatType &fV) {
 }
 
 // Int-Double
-IntType &IntType::add(const DoubleType &dV) {
+IntType &IntType::add(const DoubleType &dV) 
+{
 	return add(*dV.value);
 }
-IntType &IntType::subtract(const DoubleType &dV) {
+
+IntType &IntType::subtract(const DoubleType &dV) 
+{
 	return subtract(*dV.value);
 }
-IntType &IntType::multiply(const DoubleType &dV) {
+
+IntType &IntType::multiply(const DoubleType &dV) 
+{
 	return multiply(*dV.value);
 }
-IntType &IntType::divide(const DoubleType &dV) {
-	if (*dV.value != 0.0) {
+
+IntType &IntType::divide(const DoubleType &dV) 
+{
+	if (*dV.value != 0.0) 
+    {
 		return divide(*dV.value);
 	}
 	std::cout << "error, integer division by zero will crash the program!"<< std::endl;
@@ -396,7 +470,7 @@ int main() {
 
 	std::cout << "IntType add result=" << it.add(2).value << std::endl;
 	std::cout << "IntType subtract result=" << it.subtract(2).value << std::endl;
-	std::cout << "IntType multiply result=" << it.multiply(2).valuev << std::endl;
+	std::cout << "IntType multiply result=" << it.multiply(2).value << std::endl;
 	std::cout << "IntType divide result=" << it.divide(3).value << std::endl << std::endl;
 	std::cout << "Chain calculation = " << (it.multiply(1000).divide(2).subtract(10).add(100)).value << std::endl;
 
