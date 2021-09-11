@@ -129,7 +129,7 @@ struct FloatType
     FloatType &multiply(float rhs);
     FloatType &divide(float rhs);
 
-	operator float(){ return *value;}
+    operator float(){ return *value;}
 
 private:
     float *value;
@@ -150,7 +150,7 @@ struct DoubleType
     DoubleType &multiply(double rhs);
     DoubleType &divide(double rhs);
 
-	operator double(){ return *value;}
+    operator double(){ return *value;}
 
 private:
 	double *value;
@@ -171,7 +171,7 @@ struct IntType
     IntType &multiply(int rhs);
     IntType &divide(int rhs);
 
-	operator int(){ return *value;}
+    operator int(){ return *value;}
 
 private:
     int *value;
