@@ -153,7 +153,7 @@ struct DoubleType
     operator double(){ return *value;}
 
 private:
-	double *value;
+    double *value;
 
 };
 
