@@ -110,9 +110,9 @@ struct HeapA
 
 #include <iostream>
 //need to declare first
-struct FloatType;
-struct DoubleType;
-struct IntType;
+// struct FloatType;
+// struct DoubleType;
+// struct IntType;
 
 struct FloatType 
 {
