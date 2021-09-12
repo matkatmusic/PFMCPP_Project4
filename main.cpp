@@ -57,12 +57,22 @@ Project 4: Part 4 / 9
 
 struct Point
 {
+    Point(float a, float b);
+    Point(const FloatType &a, const FloatType &b);
+    Point(const DoubleType &a, const DoubleType &b);
+    Point(const IntType &a, const IntType &b);
+
     Point& multiply(float m)
     {
         x *= m;
         y *= m;
         return *this;
     }
+    Point &multiply(FloatType &m);
+    Point &multiply(DoubleType &m);
+    Point &multiply(IntType &m);
+    void toString();
+
 private:
     float x{0}, y{0};
 };
@@ -286,11 +296,16 @@ struct FloatType
     FloatType &subtract(float rhs);
     FloatType &multiply(float rhs);
     FloatType &divide(float rhs);
+    FloatType &pow(float exp);
+    FloatType &pow(const FloatType &exp);
+    FloatType &pow(const DoubleType &exp);
+    FloatType &pow(const IntType &exp);
 
     operator float(){ return *value;}
 
 private:
     float *value;
+    FloatType &powInternal(float exp);
 };
 
 struct DoubleType 
@@ -307,11 +322,16 @@ struct DoubleType
     DoubleType &subtract(double rhs);
     DoubleType &multiply(double rhs);
     DoubleType &divide(double rhs);
+    DoubleType &pow(double exp);
+    DoubleType &pow(const FloatType &exp);
+    DoubleType &pow(const DoubleType &exp);
+    DoubleType &pow(const IntType &exp);
 
     operator double(){ return *value;}
 
 private:
     double *value;
+    DoubleType &powInternal(double exp);
 
 };
 
@@ -328,11 +348,16 @@ struct IntType
     IntType &subtract(int rhs);
     IntType &multiply(int rhs);
     IntType &divide(int rhs);
+    IntType &pow(int exp);
+    IntType &pow(const FloatType &exp);
+    IntType &pow(const DoubleType &exp);
+    IntType &pow(const IntType &exp);
 
     operator int(){ return *value;}
 
 private:
     int *value;
+    IntType &powInternal(int exp);
 };
 
 // Float
@@ -364,6 +389,32 @@ FloatType &FloatType::divide(float rhs)
     return *this;
 }
 
+FloatType &FloatType::pow(float exp)
+{
+    return powInternal(float exp);
+}
+
+FloatType &FloatType::pow(const FloatType &exp)
+{
+    return powInternal(static_cast<float>(exp));
+}
+
+FloatType &FloatType::pow(const DoubleType &exp)
+{
+    return powInternal(static_cast<float>(exp));
+}
+
+FloatType &FloatType::pow(const IntType &exp)
+{
+    return powInternal(static_cast<float>(exp));
+}
+
+FloatType &FloatType::powInternal(float exp)
+{*value = static_cast<float>(std::pow(*value, exp));   
+    return *this;
+}
+
+
 // Double
 DoubleType &DoubleType::add(double rhs) 
 {
@@ -390,6 +441,32 @@ DoubleType &DoubleType::divide(double rhs)
         std::cout << "warning: floating point division by zero!" << std::endl;
     }
     *value /= rhs;
+    return *this;
+}
+
+DoubleType &DoubleType::pow(double exp)
+{
+    return powInternal(exp);
+}
+
+DoubleType &DoubleType::pow(const FloatType &exp)
+{
+    return powInternal(static_cast<double>(exp));
+}
+
+DoubleType &DoubleType::pow(const DoubleType &exp)
+{
+    return powInternal(static_cast<double>(exp));
+}
+
+DoubleType &DoubleType::pow(const IntType &exp)
+{
+    return powInternal(static_cast<double>(exp));
+}
+
+FloatType &FloatType::powInternal(float exp)
+{
+    *value = static_cast<float>(std::pow(*value, exp));   
     return *this;
 }
 
@@ -421,6 +498,62 @@ IntType &IntType::divide(int rhs)
     }
     std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl;
     return *this;
+}
+
+IntType &IntType::pow(int exp)
+{
+    return powInternal(exp);
+}
+
+IntType &IntType::pow(const FloatType &exp)
+{
+    return powInternal(static_cast<int>(exp));
+}
+
+IntType &IntType::pow(const DoubleType &exp)
+{
+    return powInternal(static_cast<int>(exp));
+}
+
+IntType &IntType::pow(const IntType &exp)
+{
+    return powInternal(static_cast<int>(exp));
+}
+
+IntType &IntType::powInternal(float exp)
+{
+    *value = static_cast<int>(std::pow(*value, exp));   
+    return *this;
+}
+
+// Point
+
+Point::Point(float a, float b) : x(a), y(b){}
+
+Point::Point(const FloatType &a, const FloatType &b) : x(static_cast<float>a), y(static_cast<float>a){}
+
+Point::Point(const DoubleType &a, const DoubleType &b) : x(static_cast<float>a), y(static_cast<float>a){}
+
+Point::Point(const IntType &a, const IntType &b) : x(static_cast<float>a), y(static_cast<float>a){}
+
+Point::Point &multiply(FloatType &m)
+{
+    return multiply(m);
+}
+
+Point::Point &multiply(DoubleType &m)
+{
+    return multiply(static_cast<float>(m);
+}
+
+Point::Point &multiply(IntType &m)
+{
+    return multiply(static_cast<float>(m);
+}
+
+void Point::toString()
+{
+    std::cout << "x, y: " << x << " " << y << std::endl;
 }
 
 
@@ -493,6 +626,8 @@ int main()
     std::cout << "---------------------\n" << std::endl;
 
     part3();
+
+    part4();
 
     std::cout << "good to go!\n";
 
