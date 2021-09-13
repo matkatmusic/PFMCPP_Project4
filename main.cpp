@@ -159,14 +159,13 @@ struct A {};
 
 struct HeapA 
 {
-	A *ptrToA;
-	HeapA() : ptrToA(new A) {}
-
-	~HeapA() 
+    A *ptrToA;
+    HeapA() : ptrToA(new A) {}
+    ~HeapA() 
     {
-		delete ptrToA;
-		ptrToA = nullptr;
-	}
+        delete ptrToA;
+        ptrToA = nullptr;
+    }
 };
 
 #include <cmath>
@@ -178,9 +177,7 @@ struct IntType;
 
 struct FloatType 
 {
-	explicit FloatType(float floatV) : value(new float(floatV)) 
-    {
-	}
+    explicit FloatType(float floatV) : value(new float(floatV)){}
 	~FloatType() 
     {
 		delete value;
