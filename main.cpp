@@ -254,8 +254,8 @@ struct IntType
     }
 
 private:
-	int *value;
-	IntType &powInternal(int exp);
+    int *value;
+    IntType &powInternal(int exp);
 };
 
 // Float
