@@ -193,10 +193,10 @@ struct FloatType
         value = nullptr;
     }
 
-    FloatType& add(float rhs);
-    FloatType& subtract(float rhs);
-    FloatType& multiply(float rhs);
-    FloatType& divide(float rhs);
+    FloatType& operator+=(float rhs);
+    FloatType& operator-=(float rhs);
+    FloatType& operator*=(float rhs);
+    FloatType& operator/=(float rhs);
     FloatType& pow(float exp);
     FloatType& pow(const FloatType& exp);
     FloatType& pow(const DoubleType& exp);
@@ -219,10 +219,10 @@ struct DoubleType
         value = nullptr;
     }
 
-    DoubleType& add(double rhs);
-    DoubleType& subtract(double rhs);
-    DoubleType& multiply(double rhs);
-    DoubleType& divide(double rhs);
+    DoubleType& operator+=(double rhs);
+    DoubleType& operator-=(double rhs);
+    DoubleType& operator*=(double rhs);
+    DoubleType& operator/=(double rhs);
     DoubleType& pow(double exp);
     DoubleType& pow(const FloatType&exp);
     DoubleType& pow(const DoubleType& exp);
@@ -245,10 +245,10 @@ struct IntType
         delete value;
         value = nullptr;
     }
-    IntType& add(int rhs);
-    IntType& subtract(int rhs);
-    IntType& multiply(int rhs);
-    IntType& divide(int rhs);
+    IntType& operator+=(int rhs);
+    IntType& operator-=(int rhs);
+    IntType& operator*=(int rhs);
+    IntType& operator/=(int rhs);
     IntType& pow(int exp);
     IntType& pow(const FloatType& exp);
     IntType& pow(const DoubleType& exp);
@@ -262,25 +262,25 @@ private:
 };
 
 // Float
-FloatType& FloatType::add(float rhs) 
+FloatType& FloatType::operator+=(float rhs) 
 {
     *value += rhs; 
     return *this;
 }
 
-FloatType& FloatType::subtract(float rhs) 
+FloatType& FloatType::operator-=(float rhs) 
 {
     *value -= rhs;
     return *this;
 }
 
-FloatType& FloatType::multiply(float rhs) 
+FloatType& FloatType::operator*=(float rhs) 
 {
     *value *= rhs;
     return *this;
 }
 
-FloatType& FloatType::divide(float rhs) 
+FloatType& FloatType::operator/=(float rhs) 
 {
     if (rhs == 0.f) 
     {
@@ -318,25 +318,25 @@ FloatType& FloatType::powInternal(float exp)
 
 
 // Double
-DoubleType& DoubleType::add(double rhs) 
+DoubleType& DoubleType::operator+=(double rhs) 
 {
     *value += rhs;
     return *this;
 }
 
-DoubleType& DoubleType::subtract(double rhs) 
+DoubleType& DoubleType::operator-=(double rhs) 
 {
     *value -= rhs;
     return *this;
 }
 
-DoubleType& DoubleType::multiply(double rhs) 
+DoubleType& DoubleType::operator*=(double rhs) 
 {
     *value *= rhs;
     return *this;
 }
 
-DoubleType& DoubleType::divide(double rhs) 
+DoubleType& DoubleType::operator/=(double rhs) 
 {
     if (rhs == 0.0)
     {
@@ -373,25 +373,25 @@ DoubleType& DoubleType::powInternal(double exp)
 }
 
 // Int
-IntType& IntType::add(int rhs) 
+IntType& IntType::operator+=(int rhs) 
 {
     *value += rhs;
     return *this;
 }
 
-IntType& IntType::subtract(int rhs) 
+IntType& IntType::operator-=(int rhs) 
 {
     *value -= rhs;
     return *this;
 }
 
-IntType& IntType::multiply(int rhs)
+IntType& IntType::operator*=(int rhs)
 {
     *value *= rhs;
     return *this;
 }
 
-IntType& IntType::divide(int rhs) 
+IntType& IntType::operator/=(int rhs) 
 {
     if (rhs != 0)
     {
