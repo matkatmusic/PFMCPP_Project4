@@ -394,9 +394,7 @@ IntType &IntType::divide(int rhs)
         *value /= rhs;
         return *this;
     }
-    std::cout << "error: integer division by zero is an error and will crash "
-				 "the program!"
-			  << std::endl;
+    std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl;
     return *this;
 }
 
@@ -451,33 +449,30 @@ private:
 
 Point::Point(float a, float b) : x(a), y(b) {}
 
-Point::Point(const FloatType &a, const FloatType &b)
-	: x(static_cast<float>(a)), y(static_cast<float>(b)){}
+Point::Point(const FloatType &a, const FloatType &b) : x(static_cast<float>(a)), y(static_cast<float>(b)){}
 
-Point::Point(const DoubleType &a, const DoubleType &b)
-	: x(static_cast<float>(a)), y(static_cast<float>(b)) {}
+Point::Point(const DoubleType &a, const DoubleType &b) : x(static_cast<float>(a)), y(static_cast<float>(b)) {}
 
-Point::Point(const IntType &a, const IntType &b)
-	: x(static_cast<float>(a)), y(static_cast<float>(b)) {}
+Point::Point(const IntType &a, const IntType &b) : x(static_cast<float>(a)), y(static_cast<float>(b)) {}
 
 Point &Point::multiply(const FloatType &m) 
 {
-	return multiply(static_cast<float>(m));
+    return multiply(static_cast<float>(m));
 }
 
 Point &Point::multiply(const DoubleType &m) 
 {
-	return multiply(static_cast<float>(m));
+    return multiply(static_cast<float>(m));
 }
 
 Point &Point::multiply(const IntType &m) 
 {
-	return multiply(static_cast<float>(m));
+    return multiply(static_cast<float>(m));
 }
 
 void Point::toString() 
 {
-	std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
+    std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
 }
 
 void part3() 
