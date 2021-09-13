@@ -489,7 +489,7 @@ void part3()
 
     ft *= ft;
     ft *= ft;
-    ft /= ft;
+    ft /= it;
     std::cout << "The result of FloatType^4 divided by IntType is: " << ft << std::endl;
     dt *= 3;
     dt += it;
