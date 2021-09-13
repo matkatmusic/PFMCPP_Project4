@@ -393,7 +393,7 @@ IntType &IntType::divide(int rhs)
     {
         *value /= rhs;
         return *this;
-	}
+    }
     std::cout << "error: integer division by zero is an error and will crash "
 				 "the program!"
 			  << std::endl;
@@ -402,28 +402,28 @@ IntType &IntType::divide(int rhs)
 
 IntType &IntType::pow(int exp) 
 {
-	return powInternal(exp);
+    return powInternal(exp);
 }
 
 IntType &IntType::pow(const FloatType &exp) 
 {
-	return powInternal(static_cast<int>(exp));
+    return powInternal(static_cast<int>(exp));
 }
 
 IntType &IntType::pow(const DoubleType &exp) 
 {
-	return powInternal(static_cast<int>(exp));
+    return powInternal(static_cast<int>(exp));
 }
 
 IntType &IntType::pow(const IntType &exp) 
 {
-	return powInternal(static_cast<int>(exp));
+    return powInternal(static_cast<int>(exp));
 }
 
 IntType &IntType::powInternal(int exp) 
 {
-	*value = static_cast<int>(std::pow(*value, exp));
-	return *this;
+    *value = static_cast<int>(std::pow(*value, exp));
+    return *this;
 }
 
 // Point
