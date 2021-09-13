@@ -344,28 +344,28 @@ DoubleType &DoubleType::divide(double rhs)
 
 DoubleType &DoubleType::pow(double exp) 
 {
-	return powInternal(exp);
+    return powInternal(exp);
 }
 
 DoubleType &DoubleType::pow(const FloatType &exp) 
 {
-	return powInternal(static_cast<double>(exp));
+    return powInternal(static_cast<double>(exp));
 }
 
 DoubleType &DoubleType::pow(const DoubleType &exp) 
 {
-	return powInternal(static_cast<double>(exp));
+    return powInternal(static_cast<double>(exp));
 }
 
 DoubleType &DoubleType::pow(const IntType &exp) 
 {
-	return powInternal(static_cast<double>(exp));
+    return powInternal(static_cast<double>(exp));
 }
 
 DoubleType &DoubleType::powInternal(double exp) 
 {
-	*value = std::pow(*value, exp);
-	return *this;
+    *value = std::pow(*value, exp);
+    return *this;
 }
 
 // Int
