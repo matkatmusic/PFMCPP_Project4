@@ -186,45 +186,45 @@ struct FloatType
 
     FloatType &add(float rhs);
     FloatType &subtract(float rhs);
-	FloatType &multiply(float rhs);
-	FloatType &divide(float rhs);
-	FloatType &pow(float exp);
-	FloatType &pow(const FloatType &exp);
-	FloatType &pow(const DoubleType &exp);
-	FloatType &pow(const IntType &exp);
+    FloatType &multiply(float rhs);
+    FloatType &divide(float rhs);
+    FloatType &pow(float exp);
+    FloatType &pow(const FloatType &exp);
+    FloatType &pow(const DoubleType &exp);
+    FloatType &pow(const IntType &exp);
 
-	operator float() const 
+    operator float() const 
     {
-		return *value;
-	}
+        return *value;
+    }
 
 private:
-	float *value;
-	FloatType &powInternal(float exp);
+    float *value;
+    FloatType &powInternal(float exp);
 };
 
 struct DoubleType 
 {
-	explicit DoubleType(double doubleV) : value(new double(doubleV)) {}
-	~DoubleType() 
+    explicit DoubleType(double doubleV) : value(new double(doubleV)) {}
+    ~DoubleType() 
     {
-		delete value;
-		value = nullptr;
-	}
+        delete value;
+        value = nullptr;
+    }
 
-	DoubleType &add(double rhs);
-	DoubleType &subtract(double rhs);
-	DoubleType &multiply(double rhs);
-	DoubleType &divide(double rhs);
-	DoubleType &pow(double exp);
-	DoubleType &pow(const FloatType &exp);
-	DoubleType &pow(const DoubleType &exp);
-	DoubleType &pow(const IntType &exp);
+    DoubleType &add(double rhs);
+    DoubleType &subtract(double rhs);
+    DoubleType &multiply(double rhs);
+    DoubleType &divide(double rhs);
+    DoubleType &pow(double exp);
+    DoubleType &pow(const FloatType &exp);
+    DoubleType &pow(const DoubleType &exp);
+    DoubleType &pow(const IntType &exp);
 
-	operator double() const 
+    operator double() const 
     {
-		return *value;
-	}
+        return *value;
+    }
 
 private:
 	double *value;
