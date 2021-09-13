@@ -334,11 +334,11 @@ DoubleType &DoubleType::multiply(double rhs)
 
 DoubleType &DoubleType::divide(double rhs) 
 {
-	if (rhs == 0.0) {
-		std::cout << "warning: floating point division by zero!" << std::endl;
-	}
-	*value /= rhs;
-	return *this;
+    if (rhs == 0.0) 
+    {
+        std::cout << "warning: floating point division by zero!" << std::endl; }
+        *value /= rhs;
+    return *this;
 }
 
 DoubleType &DoubleType::pow(double exp) 
