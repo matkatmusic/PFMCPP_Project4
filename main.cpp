@@ -178,10 +178,10 @@ struct IntType;
 struct FloatType 
 {
     explicit FloatType(float floatV) : value(new float(floatV)){}
-	~FloatType() 
+    ~FloatType() 
     {
-		delete value;
-		value = nullptr;
+        delete value;
+        value = nullptr;
 	}
 
 	FloatType &add(float rhs);
