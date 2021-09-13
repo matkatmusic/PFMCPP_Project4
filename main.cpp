@@ -429,24 +429,24 @@ IntType &IntType::powInternal(int exp)
 // Point
 struct Point 
 {
-	Point(float a, float b);
-	Point(const FloatType &a, const FloatType &b);
-	Point(const DoubleType &a, const DoubleType &b);
-	Point(const IntType &a, const IntType &b);
+    Point(float a, float b);
+    Point(const FloatType &a, const FloatType &b);
+    Point(const DoubleType &a, const DoubleType &b);
+    Point(const IntType &a, const IntType &b);
 
-	Point &multiply(float m) 
+    Point &multiply(float m) 
     {
-		x *= m;
-		y *= m;
-		return *this;
-	}
-	Point &multiply(const FloatType &m);
-	Point &multiply(const DoubleType &m);
-	Point &multiply(const IntType &m);
-	void toString();
+        x *= m;
+        y *= m;
+        return *this;
+    }
+    Point &multiply(const FloatType &m);
+    Point &multiply(const DoubleType &m);
+    Point &multiply(const IntType &m);
+    void toString();
 
 private:
-	float x{0}, y{0};
+    float x{0}, y{0};
 };
 
 Point::Point(float a, float b) : x(a), y(b) {}
