@@ -227,31 +227,31 @@ struct DoubleType
     }
 
 private:
-	double *value;
-	DoubleType &powInternal(double exp);
+    double *value;
+    DoubleType &powInternal(double exp);
 };
 
 struct IntType 
 {
-	explicit IntType(int intV) : value(new int(intV)) {}
-	~IntType() 
+    explicit IntType(int intV) : value(new int(intV)) {}
+    ~IntType() 
     {
-		delete value;
-		value = nullptr;
-	}
-	IntType &add(int rhs);
-	IntType &subtract(int rhs);
-	IntType &multiply(int rhs);
-	IntType &divide(int rhs);
-	IntType &pow(int exp);
-	IntType &pow(const FloatType &exp);
-	IntType &pow(const DoubleType &exp);
-	IntType &pow(const IntType &exp);
+        delete value;
+        value = nullptr;
+    }
+    IntType &add(int rhs);
+    IntType &subtract(int rhs);
+    IntType &multiply(int rhs);
+    IntType &divide(int rhs);
+    IntType &pow(int exp);
+    IntType &pow(const FloatType &exp);
+    IntType &pow(const DoubleType &exp);
+    IntType &pow(const IntType &exp);
 
-	operator int() const 
+    operator int() const 
     {
-		return *value;
-	}
+        return *value;
+    }
 
 private:
 	int *value;
@@ -261,14 +261,14 @@ private:
 // Float
 FloatType &FloatType::add(float rhs) 
 {
-	*value += rhs;
-	return *this;
+    *value += rhs;
+    return *this;
 }
 
 FloatType &FloatType::subtract(float rhs) 
 {
-	*value -= rhs;
-	return *this;
+    *value -= rhs;
+    return *this;
 }
 
 FloatType &FloatType::multiply(float rhs) 
