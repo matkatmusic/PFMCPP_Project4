@@ -273,18 +273,18 @@ FloatType &FloatType::subtract(float rhs)
 
 FloatType &FloatType::multiply(float rhs) 
 {
-	*value *= rhs;
-	return *this;
+    *value *= rhs;
+    return *this;
 }
 
 FloatType &FloatType::divide(float rhs) 
 {
-	if (rhs == 0.f) 
+    if (rhs == 0.f) 
     {
-		std::cout << "warning: floating point division by zero!" << std::endl;
-	}
-	*value /= rhs;
-	return *this;
+        std::cout << "warning: floating point division by zero!" << std::endl;
+    }
+    *value /= rhs; 
+    return *this;
 }
 
 FloatType &FloatType::pow(float exp) 
