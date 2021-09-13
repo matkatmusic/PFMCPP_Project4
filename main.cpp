@@ -289,47 +289,47 @@ FloatType &FloatType::divide(float rhs)
 
 FloatType &FloatType::pow(float exp) 
 {
-	return powInternal(exp);
+    return powInternal(exp);
 }
 
 FloatType &FloatType::pow(const FloatType &exp) 
 {
-	return powInternal(static_cast<float>(exp));
+    return powInternal(static_cast<float>(exp));
 }
 
 FloatType &FloatType::pow(const DoubleType &exp) 
 {
-	return powInternal(static_cast<float>(exp));
+    return powInternal(static_cast<float>(exp));
 }
 
 FloatType &FloatType::pow(const IntType &exp) 
 {
-	return powInternal(static_cast<float>(exp));
+    return powInternal(static_cast<float>(exp));
 }
 
 FloatType &FloatType::powInternal(float exp) 
 {
-	*value = std::pow(*value, exp);
-	return *this;
+    *value = std::pow(*value, exp);
+    return *this;
 }
 
 // Double
 DoubleType &DoubleType::add(double rhs) 
 {
-	*value += rhs;
-	return *this;
+    *value += rhs;
+    return *this;
 }
 
 DoubleType &DoubleType::subtract(double rhs) 
 {
-	*value -= rhs;
-	return *this;
+    *value -= rhs;
+    return *this;
 }
 
 DoubleType &DoubleType::multiply(double rhs) 
 {
-	*value *= rhs;
-	return *this;
+    *value *= rhs;
+    return *this;
 }
 
 DoubleType &DoubleType::divide(double rhs) 
