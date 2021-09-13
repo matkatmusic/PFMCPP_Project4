@@ -635,8 +635,6 @@ int main()
     it /= 2;
     it -= 10;
     it +=100;
-    /*std::cout << "Chain calculation = " << (it.multiply(1000).divide(2).subtract(10).add(100)) << std::endl;
-    */
     std::cout << "Chain calculation = " << it << std::endl;
 
     // FloatType object instanciation and method tests
@@ -644,8 +642,6 @@ int main()
     ft += 3.0f;
     ft *= 1.5f;
     ft /= 5.0f;
-    /*std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " << ft.add(3.0f).multiply(1.5f).divide(5.0f) << std::endl;
-    */
     std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " << ft << std::endl;
     std::cout << "---------------------\n" << std::endl;
 
@@ -659,8 +655,6 @@ int main()
     dt *= it;
     dt /= static_cast<double>(5.0f);
     dt += static_cast<double>(ft);
-    /*std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << dt.multiply(it).divide(static_cast<double>(5.0f)).add(static_cast<double>(ft)) << std::endl;
-    */
     std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << dt << std::endl;
     std::cout << "---------------------\n" << std::endl;
 
