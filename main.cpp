@@ -371,33 +371,33 @@ DoubleType &DoubleType::powInternal(double exp)
 // Int
 IntType &IntType::add(int rhs) 
 {
-	*value += rhs;
-	return *this;
+    *value += rhs;
+    return *this;
 }
 
 IntType &IntType::subtract(int rhs) 
 {
-	*value -= rhs;
-	return *this;
+    *value -= rhs;
+    return *this;
 }
 
 IntType &IntType::multiply(int rhs) 
 {
-	*value *= rhs;
-	return *this;
+    *value *= rhs;
+    return *this;
 }
 
 IntType &IntType::divide(int rhs) 
 {
-	if (rhs != 0) 
+    if (rhs != 0) 
     {
-		*value /= rhs;
-		return *this;
+        *value /= rhs;
+        return *this;
 	}
-	std::cout << "error: integer division by zero is an error and will crash "
+    std::cout << "error: integer division by zero is an error and will crash "
 				 "the program!"
 			  << std::endl;
-	return *this;
+    return *this;
 }
 
 IntType &IntType::pow(int exp) 
