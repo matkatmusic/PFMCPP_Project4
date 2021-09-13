@@ -182,10 +182,10 @@ struct FloatType
     {
         delete value;
         value = nullptr;
-	}
+    }
 
-	FloatType &add(float rhs);
-	FloatType &subtract(float rhs);
+    FloatType &add(float rhs);
+    FloatType &subtract(float rhs);
 	FloatType &multiply(float rhs);
 	FloatType &divide(float rhs);
 	FloatType &pow(float exp);
