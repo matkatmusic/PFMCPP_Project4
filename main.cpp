@@ -94,19 +94,16 @@ int IntType::divide(int lhs, int rhs)
         std::cout << "returning lhs" << std::endl;
         return (lhs);
     }
-    else
-    {
-        return (lhs / rhs);
-    }
+
+    return (lhs / rhs);
 }
 
-class DoubleType
+struct DoubleType
 {
-    public:
-        double add(double lhs, double rhs) {return (lhs + rhs);}
-        double subtract(double lhs, double rhs) {return (lhs - rhs);}
-        double multiply(double lhs, double rhs) {return (lhs * rhs);}
-        double divide(double lhs, double rhs);
+    double add(double lhs, double rhs) {return (lhs + rhs);}
+    double subtract(double lhs, double rhs) {return (lhs - rhs);}
+    double multiply(double lhs, double rhs) {return (lhs * rhs);}
+    double divide(double lhs, double rhs);
 };
 
 double DoubleType::divide(double lhs, double rhs)
@@ -116,19 +113,16 @@ double DoubleType::divide(double lhs, double rhs)
         std::cout << std::endl << "warning, floating point division by zero returns 'inf' !"<< std::endl;
         return (lhs / rhs);
     }
-    else
-    {
-        return (lhs / rhs);
-    }
+
+    return (lhs / rhs);
 }
 
-class FloatType
+struct FloatType
 {
-    public:
-        float add(float lhs, float rhs) {return (lhs + rhs);}
-        float subtract(float lhs, float rhs) {return (lhs - rhs);}
-        float multiply(float lhs, float rhs) {return (lhs * rhs);}
-        float divide(float lhs,float rhs);
+    float add(float lhs, float rhs) {return (lhs + rhs);}
+    float subtract(float lhs, float rhs) {return (lhs - rhs);}
+    float multiply(float lhs, float rhs) {return (lhs * rhs);}
+    float divide(float lhs,float rhs);
 };
 
 float FloatType::divide(float lhs, float rhs)
@@ -138,10 +132,8 @@ float FloatType::divide(float lhs, float rhs)
         std::cout << std::endl << "warning, floating point division by zero returns 'inf' !"<< std::endl;
         return (lhs / rhs);
     }
-    else
-    {
-        return (lhs / rhs);
-    }
+
+    return (lhs / rhs);
 }
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
