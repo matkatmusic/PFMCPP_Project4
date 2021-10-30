@@ -18,8 +18,24 @@ New/This/Pointers/References conclusion
 
 
 
+struct A
+{
 
+};
 
+struct HeapA
+{
+    HeapA(A* a);
+    ~HeapA();
+    A* aPtr;
+};
+
+HeapA::HeapA(A* a) : aPtr(a) {}
+HeapA::~HeapA()
+{
+    delete aPtr;
+    aPtr = nullptr;
+}
 
 
 
