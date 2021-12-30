@@ -92,6 +92,106 @@ good to go!
  */
 
 #include <iostream>
+
+struct FloatType
+{
+    float add(float, float);
+    float subtract(float, float);
+    float multiply(float, float);
+    float divide(float, float);
+};
+
+float FloatType::add(float lhs, float rhs)
+{
+    return lhs + rhs;
+}
+
+float FloatType::subtract(float lhs, float rhs)
+{
+    return lhs - rhs;
+}
+
+float FloatType::multiply(float lhs, float rhs)
+{
+    return lhs * rhs;
+}
+
+float FloatType::divide(float lhs, float rhs)
+{
+    if (rhs == 0.f)
+    {
+        std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
+    }
+    return lhs / rhs;
+}
+
+struct DoubleType
+{
+    double add(double, double);
+    double subtract(double, double);
+    double multiply(double, double);
+    double divide(double, double);
+};
+
+double DoubleType::add(double lhs, double rhs)
+{
+    return lhs + rhs;
+}
+
+double DoubleType::subtract(double lhs, double rhs)
+{
+    return lhs - rhs;
+}
+
+double DoubleType::multiply(double lhs, double rhs)
+{
+    return lhs * rhs;
+}
+
+double DoubleType::divide(double lhs, double rhs)
+{
+    if (rhs == 0.0)
+    {
+        std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
+    }
+    return lhs / rhs;
+}
+
+struct IntType
+{
+    int add(int, int);
+    int subtract(int, int);
+    int multiply(int, int);
+    int divide(int, int);
+};
+
+int IntType::add(int lhs, int rhs)
+{
+    return lhs + rhs;
+}
+
+int IntType::subtract(int lhs, int rhs)
+{
+    return lhs - rhs;
+}
+
+int IntType::multiply(int lhs, int rhs)
+{
+    return lhs * rhs;
+}
+
+int IntType::divide(int lhs, int rhs)
+{
+    if (rhs == 0)
+    {
+        std::cout << "error, integer division by zero will crash the program! \nreturning lhs \n";
+        return lhs;
+    }
+
+    return lhs / rhs;
+}
+
+
 int main() 
 {
     FloatType ft;
