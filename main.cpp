@@ -90,8 +90,88 @@ good to go!
 
  Wait for my code review.
  */
-
 #include <iostream>
+
+struct FloatType
+{
+    float add( float lhs, float rhs )
+    {
+        return lhs + rhs;
+    }
+    float subtract( float lhs, float rhs )
+    {
+        return lhs - rhs;
+    }
+    float multiply( float lhs, float rhs )
+    {
+        return lhs * rhs;
+    }
+    float divide(float lhs, float rhs)
+    {
+        if( rhs > 0 );
+        else if( rhs < 0 );
+        else
+        {
+            std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
+        }
+
+        return lhs / rhs;
+    }
+};
+
+struct DoubleType
+{
+    double add( double lhs, double rhs )
+    {
+        return lhs + rhs;
+    }
+    double subtract( double lhs, double rhs )
+    {
+        return lhs - rhs;
+    }
+    double multiply( double lhs, double rhs )
+    {
+        return lhs * rhs;
+    }
+    double divide(double lhs, double rhs)
+    {
+        if( rhs > 0 );
+        else if( rhs < 0 );
+        else
+        {
+            std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
+        }
+
+        return lhs / rhs;
+    }
+};
+
+struct IntType
+{
+    int add( int lhs, int rhs )
+    {
+        return lhs + rhs;
+    }
+    int subtract( int lhs, int rhs )
+    {
+        return lhs - rhs;
+    }
+    int multiply( int lhs, int rhs )
+    {
+        return lhs * rhs;
+    }
+    int divide( int lhs, int rhs )
+    {
+        if( rhs > 0 ) return lhs / rhs;
+        else if( rhs < 0 ) return lhs / rhs;
+        else
+        {
+            std::cout << "error, integer division by zero will crash the program!\nreturning lhs\n";
+            return lhs;
+        }
+    }
+};
+
 int main() 
 {
     FloatType ft;
