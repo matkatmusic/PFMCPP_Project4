@@ -103,13 +103,11 @@ public:
     {
         if (rhs == 0.0f)
         {
-            std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
+            std::cout << "\nwarning, floating point division by zero returns 'inf' !" << std::endl;
         }
         return lhs / rhs; 
     }
 };
-
-
 
 struct DoubleType
 {
@@ -121,7 +119,7 @@ public:
     {
         if (rhs == 0.0)
         {
-            std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
+            std::cout << "\nwarning, floating point division by zero returns 'inf' !" << std::endl;
         }
         return lhs / rhs; 
     }
@@ -137,8 +135,7 @@ public:
     {
         if (rhs == 0)
         {
-            std::cout << "\nerror, integer division by zero will crash the program!\n";
-            std::cout << "returning lhs\n";
+            std::cout << "error, integer division by zero will crash the program!\nreturn lhs" << std::endl;
             return lhs;
         }
         
