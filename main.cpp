@@ -95,7 +95,6 @@ good to go!
 
 struct FloatType
 {
-public:
     float add(float lhs, float rhs) { return lhs + rhs; }
     float subtract(float lhs, float rhs) { return lhs - rhs; }
     float multiply(float lhs, float rhs) { return lhs * rhs; }
@@ -111,7 +110,6 @@ public:
 
 struct DoubleType
 {
-public:
     double add(double lhs, double rhs) { return lhs + rhs; }
     double subtract(double lhs, double rhs) { return lhs - rhs; }
     double multiply(double lhs, double rhs) { return lhs * rhs; }
@@ -127,7 +125,6 @@ public:
 
 struct IntType
 {
-public:
     int add(int lhs, int rhs) { return lhs + rhs; }
     int subtract(int lhs, int rhs) { return lhs - rhs; }
     int multiply(int lhs, int rhs) { return lhs * rhs; }
@@ -135,7 +132,8 @@ public:
     {
         if (rhs == 0)
         {
-            std::cout << "error, integer division by zero will crash the program!\nreturn lhs" << std::endl;
+            std::cout << "error, integer division by zero will crash the program!" << std::endl;
+            std::cout << "returning lhs" << std::endl;
             return lhs;
         }
         
