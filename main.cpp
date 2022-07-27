@@ -15,7 +15,14 @@ New/This/Pointers/References conclusion
  */
 
 
+struct A {};
 
+struct HeapA
+{
+    HeapA(A* pToA) : pointerToA(pToA){}
+    ~HeapA(){ delete pointerToA;}
+    A* pointerToA = nullptr;
+};
 
 
 
