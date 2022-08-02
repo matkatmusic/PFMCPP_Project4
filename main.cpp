@@ -13,14 +13,13 @@ New/This/Pointers/References conclusion
      on the lines below it, write a struct named 'HeapA' that correctly shows how to own an instance of 'A' 
          on the heap without leaking, without using smart pointers. 
  */
-
+#include <iostream>
 
 struct A {};
 
 struct HeapA
 {
-    HeapA(){}
-    HeapA(A* pToA) : pointerToA(pToA){}
+    HeapA() : pointerToA(new A){}
     ~HeapA(){ delete pointerToA;}
     A* pointerToA = nullptr;
 };
@@ -113,7 +112,7 @@ good to go!
 */
 
 
-#include <iostream>
+
 
 struct IntType
 {
@@ -122,9 +121,10 @@ struct IntType
     IntType &multiply(int num);
     IntType &divide(int num);
 
-    int *value = new int;
-    IntType(int *pValue): value(pValue){}
+    IntType(int input): value(new int(input)){}
     ~IntType(){delete value;}
+
+    int *value = nullptr;
 
 };
 
@@ -188,9 +188,11 @@ struct DoubleType
     DoubleType &multiply(double num);
     DoubleType &divide(double num);
 
-    double* value = new double;
-    DoubleType(double *pValue): value(pValue){}
+    DoubleType(double input): value(new double(input)){}
+
     ~DoubleType(){delete value;}
+
+    double *value = nullptr;
     
 };
 
@@ -249,8 +251,8 @@ struct FloatType
     FloatType &multiply(float num);
     FloatType &divide(float num);
 
-    float* value = new float;
-    FloatType(float *pValue): value(pValue){}
+    float* value = nullptr;
+    FloatType(float input): value(new float(input)){}
     ~FloatType(){ delete value;}
 };
 
