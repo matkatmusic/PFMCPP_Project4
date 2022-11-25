@@ -66,6 +66,7 @@ float FloatType::divide(float lhs, float rhs)
     }
     return lhs / rhs;
 }
+
 // Defining Double UDT
 struct DoubleType
 {
@@ -95,6 +96,7 @@ double DoubleType::divide(double lhs, double rhs)
     }
     return lhs / rhs;
 }
+
 // Defining Int UDT
 struct IntType
 {
