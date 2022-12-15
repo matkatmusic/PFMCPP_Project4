@@ -90,8 +90,41 @@ good to go!
 
  Wait for my code review.
  */
-
 #include <iostream>
+
+class FloatType 
+{ 
+    public:
+        float add(float lhs, float rhs);
+        float subtract(float lhs, float rhs);
+        float multiply(float lhs, float rhs);
+        float divide(float lhs, float rhs);
+};   
+
+float FloatType::add(float lhs, float rhs)
+{
+    return lhs + rhs;
+} 
+
+float FloatType::subtract(float lhs, float rhs)
+{
+    return lhs - rhs;
+}
+
+float FloatType::multiply(float lhs, float rhs)
+{
+    return lhs * rhs;
+}
+
+float FloatType::divide(float lhs, float rhs)
+{ 
+    if(rhs <= 0) 
+        std::cout << std::endl << "warning, floating point division by zero returns 'inf' !" << std::endl;
+    return 0;
+}
+
+    
+
 int main() 
 {
     FloatType ft;
@@ -104,7 +137,7 @@ int main()
     std::cout << "result of ft.subtract(): " << ft.subtract( 4444.56f, 0.0f) << std::endl;
     std::cout << "result of ft.multiply(): " << ft.multiply( 4444.56f, 0.0f) << std::endl;
     std::cout << "result of ft.divide(): " << ft.divide( 4444.56f, 0.0f) << std::endl;
-
+/*
     DoubleType db;
     std::cout << "result of db.add(): " << db.add( 123.456, 432.1) << std::endl;
     std::cout << "result of db.subtract(): " << db.subtract( 123.456, 432.1) << std::endl;
@@ -126,7 +159,7 @@ int main()
     std::cout << "result of i.subtract(): " << i.subtract( 10, 0) << std::endl;
     std::cout << "result of i.multiply(): " << i.multiply( 10, 0) << std::endl;
     std::cout << "result of i.divide(): " << i.divide( 10, 0) << std::endl;
-
+*/
     std::cout << "good to go!" << std::endl;
 }
 
