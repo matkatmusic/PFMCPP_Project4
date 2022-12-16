@@ -92,9 +92,8 @@ good to go!
  */
 #include <iostream>
 
-class FloatType 
+struct FloatType 
 { 
-    public:
         float add(float lhs, float rhs);
         float subtract(float lhs, float rhs);
         float multiply(float lhs, float rhs);
@@ -118,15 +117,14 @@ float FloatType::multiply(float lhs, float rhs)
 
 float FloatType::divide(float lhs, float rhs)
 { 
-    if(rhs <= 0) 
-        std::cout << std::endl << "warning, floating point division by zero returns 'inf'!" << std::endl << std::endl;
+    if(rhs == 0.0f) 
+        std::cout << std::endl << "warning, floating point division by zero returns 'inf'!" << std::endl;
 
     return lhs / rhs;
 }
 
-class DoubleType 
+struct DoubleType 
 { 
-    public:
         double add(double lhs, double rhs);
         double subtract(double lhs, double rhs);
         double multiply(double lhs, double rhs);
@@ -151,13 +149,13 @@ double DoubleType::multiply(double lhs, double rhs)
 double DoubleType::divide(double lhs, double rhs)
 { 
     
-    if(rhs <= 0) 
-        std::cout << std::endl << "warning, double floating point division by zero returns 'inf'!" << std::endl << std::endl;
+    if(rhs == 0.0) 
+        std::cout << std::endl << "warning, double floating point division by zero returns 'inf'!" << std::endl;
 
     return lhs / rhs;
 }
 
-class IntType 
+struct IntType 
 { 
     public:
         int add(int lhs, int rhs);
@@ -183,13 +181,10 @@ int IntType::multiply(int lhs, int rhs)
 
 int IntType::divide(int lhs, int rhs)
 { 
-    if(rhs <= 0) 
-    {
-        std::cout << std::endl << "warning, integer division by zero returns 'inf' !" << std::endl << "inf" << std::endl << std::endl;
-        exit(0); 
-    }
+    if(rhs == 0) 
+        std::cout << std::endl << "Error, integer division by zero will crash the program!" << std::endl << "returning lhs: "; 
     
-    return lhs / rhs;
+    return lhs;
 }
 
 int main() 
