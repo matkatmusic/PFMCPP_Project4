@@ -180,10 +180,13 @@ int IntType::multiply(int lhs, int rhs)
 
 int IntType::divide(int lhs, int rhs)
 { 
-    if(rhs == 0) 
+    if(rhs == 0)
+    {
         std::cout << std::endl << "Error, integer division by zero will crash the program!" << std::endl << "returning lhs" << std::endl; 
+        return lhs; 
+    } 
     
-    return lhs;
+    return lhs / rhs;
 }
 
 int main() 
