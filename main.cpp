@@ -94,10 +94,10 @@ good to go!
 
 struct FloatType 
 { 
-        float add(float lhs, float rhs);
-        float subtract(float lhs, float rhs);
-        float multiply(float lhs, float rhs);
-        float divide(float lhs, float rhs);
+    float add(float lhs, float rhs);
+    float subtract(float lhs, float rhs);
+    float multiply(float lhs, float rhs);
+    float divide(float lhs, float rhs);
 };   
 
 float FloatType::add(float lhs, float rhs)
@@ -125,10 +125,10 @@ float FloatType::divide(float lhs, float rhs)
 
 struct DoubleType 
 { 
-        double add(double lhs, double rhs);
-        double subtract(double lhs, double rhs);
-        double multiply(double lhs, double rhs);
-        double divide(double lhs, double rhs);
+    double add(double lhs, double rhs);
+    double subtract(double lhs, double rhs);
+    double multiply(double lhs, double rhs);
+    double divide(double lhs, double rhs);
 };   
 
 double DoubleType::add(double lhs, double rhs)
@@ -157,11 +157,10 @@ double DoubleType::divide(double lhs, double rhs)
 
 struct IntType 
 { 
-    public:
-        int add(int lhs, int rhs);
-        int subtract(int lhs, int rhs);
-        int multiply(int lhs, int rhs);
-        int divide(int lhs, int rhs);
+    int add(int lhs, int rhs);
+    int subtract(int lhs, int rhs);
+    int multiply(int lhs, int rhs);
+    int divide(int lhs, int rhs);
 };   
 
 int IntType::add(int lhs, int rhs)
@@ -182,7 +181,7 @@ int IntType::multiply(int lhs, int rhs)
 int IntType::divide(int lhs, int rhs)
 { 
     if(rhs == 0) 
-        std::cout << std::endl << "Error, integer division by zero will crash the program!" << std::endl << "returning lhs: "; 
+        std::cout << std::endl << "Error, integer division by zero will crash the program!" << std::endl << "returning lhs" << std::endl; 
     
     return lhs;
 }
