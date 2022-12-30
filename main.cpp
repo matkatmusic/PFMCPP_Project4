@@ -116,9 +116,17 @@ good to go!
  Wait for my code review.
  */
 
-// ========== FLOAT TYPE ========== \\
+// ========== FLOAT TYPE ========== //
 struct FloatType 
 {  
+    float* value = nullptr;
+
+    FloatType(float floatTypeValue): value(new float(floatTypeValue)) {} 
+    ~FloatType()
+    {
+        delete value;
+    }
+
     float add(float lhs, float rhs);
     float subtract(float lhs, float rhs);
     float multiply(float lhs, float rhs);
@@ -148,10 +156,18 @@ float FloatType::divide(float lhs, float rhs)
     return lhs / rhs;
 }
 
-// ========== DOUBLE TYPE ========== \\
+// ========== DOUBLE TYPE ========== //
 
 struct DoubleType 
-{ 
+{  
+    double* value = nullptr;
+
+    DoubleType(double doubleTypeValue): value(new double(doubleTypeValue)) {} 
+    ~DoubleType()
+    {
+        delete value;
+    }
+
     double add(double lhs, double rhs);
     double subtract(double lhs, double rhs);
     double multiply(double lhs, double rhs);
@@ -182,10 +198,18 @@ double DoubleType::divide(double lhs, double rhs)
     return lhs / rhs;
 }
 
-// ========== INT TYPE ========== \\
+// ========== INT TYPE ========== //
 
 struct IntType 
-{ 
+{  
+    int* value = nullptr;
+
+    IntType(int intTypeValue): value(new int(intTypeValue)) {} 
+    ~IntType()
+    {
+        delete value;
+    }
+
     int add(int lhs, int rhs);
     int subtract(int lhs, int rhs);
     int multiply(int lhs, int rhs);
@@ -218,7 +242,7 @@ int IntType::divide(int lhs, int rhs)
     return lhs / rhs;
 }
 
-// ========== MAIN ========== \\
+// ========== MAIN ========== //
 
 int main()
 {   
