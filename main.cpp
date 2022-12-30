@@ -127,30 +127,30 @@ struct FloatType
         delete value;
     }
 
-    float add(float lhs, float rhs);
-    float subtract(float lhs, float rhs);
-    float multiply(float lhs, float rhs);
-    float divide(float lhs, float rhs);
+    float add(float lhs);
+    float subtract(float lhs);
+    float multiply(float lhs);
+    float divide(float lhs);
 };   
 
-float FloatType::add(float lhs, float rhs)
+float FloatType::add(float lhs)
 {
     return lhs + rhs;
 } 
 
-float FloatType::subtract(float lhs, float rhs)
+float FloatType::subtract(float lhs)
 {
     return lhs - rhs;
 }
 
-float FloatType::multiply(float lhs, float rhs)
+float FloatType::multiply(float lhs)
 {
     return lhs * rhs;
 }
 
-float FloatType::divide(float lhs, float rhs)
+float FloatType::divide(float lhs)
 { 
-    if(rhs == 0.0f) 
+    if(lhs == 0.0f) 
         std::cout << std::endl << "warning, floating point division by zero returns 'inf' !" << std::endl;
 
     return lhs / rhs;
@@ -168,34 +168,34 @@ struct DoubleType
         delete value;
     }
 
-    double add(double lhs, double rhs);
-    double subtract(double lhs, double rhs);
-    double multiply(double lhs, double rhs);
-    double divide(double lhs, double rhs);
+    double add(double lhs);
+    double subtract(double lhs);
+    double multiply(double lhs);
+    double divide(double lhs);
 };   
 
-double DoubleType::add(double lhs, double rhs)
+double DoubleType::add(double lhs)
 {
     return lhs + rhs;
 } 
 
-double DoubleType::subtract(double lhs, double rhs)
+double DoubleType::subtract(double lhs)
 {
     return lhs - rhs;
 }
 
-double DoubleType::multiply(double lhs, double rhs)
+double DoubleType::multiply(double lhs)
 {
     return lhs * rhs;
 }
 
-double DoubleType::divide(double lhs, double rhs)
+double DoubleType::divide(double lhs)
 { 
     
-    if(rhs == 0.0) 
+    if(lhs == 0.0) 
         std::cout << std::endl << "warning, floating point division by zero returns 'inf' !" << std::endl;
 
-    return lhs / rhs;
+    return lhs;
 }
 
 // ========== INT TYPE ========== //
@@ -210,36 +210,36 @@ struct IntType
         delete value;
     }
 
-    int add(int lhs, int rhs);
-    int subtract(int lhs, int rhs);
-    int multiply(int lhs, int rhs);
-    int divide(int lhs, int rhs);
+    int add(int lhs);
+    int subtract(int lhs);
+    int multiply(int lhs);
+    int divide(int lhs);
 };   
 
-int IntType::add(int lhs, int rhs)
+int IntType::add(int lhs)
 {
     return lhs + rhs;
 } 
 
-int IntType::subtract(int lhs, int rhs)
+int IntType::subtract(int lhs)
 {
     return lhs - rhs;
 }
 
-int IntType::multiply(int lhs, int rhs)
+int IntType::multiply(int lhs)
 {
     return lhs * rhs;
 }
 
-int IntType::divide(int lhs, int rhs)
+int IntType::divide(int lhs)
 { 
-    if(rhs == 0)
+    if(lhs == 0)
     {
         std::cout << "error, integer division by zero will crash the program!" << std::endl << "returning lhs" << std::endl; 
         return lhs; 
     } 
     
-    return lhs / rhs;
+    return lhs;
 }
 
 // ========== MAIN ========== //
