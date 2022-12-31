@@ -25,6 +25,7 @@ struct HeapA
     {
         delete pointerToA;
     }
+
     A* pointerToA = nullptr;
 };
 
@@ -116,7 +117,10 @@ good to go!
  Wait for my code review.
  */
 
-// ========== FLOAT TYPE ========== //
+struct FloatType;
+struct DoubleType; 
+struct IntType;
+
 struct FloatType 
 {  
     float* value = nullptr;
@@ -130,8 +134,87 @@ struct FloatType
     FloatType& add(float lhs);
     FloatType& subtract(float lhs);
     FloatType& multiply(float lhs);
-    FloatType& divide(float lhs);
+    FloatType& divide(float lhs); 
+
+    FloatType& add(const FloatType& lhs);
+    FloatType& subtract(const FloatType& lhs);
+    FloatType& multiply(const FloatType& lhs);
+    FloatType& divide(const FloatType& lhs);
+
+    FloatType& add(const IntType& lhs);
+    FloatType& subtract(const IntType& lhs);
+    FloatType& multiply(const IntType& lhs);
+    FloatType& divide(const IntType& lhs);
+
+    FloatType& add(const DoubleType& lhs);
+    FloatType& subtract(const DoubleType& lhs);
+    FloatType& multiply(const DoubleType& lhs);
+    FloatType& divide(const DoubleType& lhs);
+};    
+
+struct DoubleType 
+{  
+    double* value = nullptr;
+
+    DoubleType(double doubleTypeValue): value(new double(doubleTypeValue)) {} 
+    ~DoubleType()
+    {
+        delete value;
+    }
+
+    DoubleType& add(double lhs);
+    DoubleType& subtract(double lhs);
+    DoubleType& multiply(double lhs);
+    DoubleType& divide(double lhs); 
+
+    DoubleType& add(const IntType& lhs);
+    DoubleType& subtract(const IntType& lhs);
+    DoubleType& multiply(const IntType& lhs);
+    DoubleType& divide(const IntType& lhs);
+
+    DoubleType& add(const FloatType& lhs);
+    DoubleType& subtract(const FloatType& lhs);
+    DoubleType& multiply(const FloatType& lhs);
+    DoubleType& divide(const FloatType& lhs);
+
+    DoubleType& add(const DoubleType& lhs);
+    DoubleType& subtract(const DoubleType& lhs);
+    DoubleType& multiply(const DoubleType& lhs);
+    DoubleType& divide(const DoubleType& lhs);
 };   
+
+struct IntType 
+{  
+    int* value = nullptr;
+
+    IntType(int intTypeValue): value(new int(intTypeValue)) {} 
+    ~IntType()
+    {
+        delete value;
+    }
+
+    IntType& add(int lhs);
+    IntType& subtract(int lhs);
+    IntType& multiply(int lhs);
+    IntType& divide(int lhs); 
+
+    IntType& add(const IntType& lhs);
+    IntType& subtract(const IntType& lhs);
+    IntType& multiply(const IntType& lhs);
+    IntType& divide(const IntType& lhs);
+
+    IntType& add(const FloatType& lhs);
+    IntType& subtract(const FloatType& lhs);
+    IntType& multiply(const FloatType& lhs);
+    IntType& divide(const FloatType& lhs);
+
+    IntType& add(const DoubleType& lhs);
+    IntType& subtract(const DoubleType& lhs);
+    IntType& multiply(const DoubleType& lhs);
+    IntType& divide(const DoubleType& lhs);
+};   
+
+// ========== FLOAT TYPE ========== //
 
 FloatType& FloatType::add(float lhs)
 { 
@@ -157,25 +240,69 @@ FloatType& FloatType::divide(float lhs)
         std::cout << std::endl << "warning, floating point division by zero returns 'inf' !" << std::endl;
     *this->value /= lhs;
     return *this;
+} 
+
+FloatType& FloatType::add(const IntType& lhs)
+{
+    return add(*lhs.value);
+}
+
+FloatType& FloatType::subtract(const IntType& lhs)
+{
+    return subtract(*lhs.value);
+}
+
+FloatType& FloatType::multiply(const IntType& lhs)
+{
+    return multiply(*lhs.value);
+}
+
+FloatType& FloatType::divide(const IntType& lhs)
+{
+    return divide(*lhs.value);
+}
+
+FloatType& FloatType::add(const FloatType& lhs)
+{
+    return add(*lhs.value);
+}
+
+FloatType& FloatType::subtract(const FloatType& lhs)
+{
+    return subtract(*lhs.value);
+}
+
+FloatType& FloatType::multiply(const FloatType& lhs)
+{
+    return multiply(*lhs.value);
+}
+
+FloatType& FloatType::divide(const FloatType& lhs)
+{
+    return divide(*lhs.value);
+}
+
+FloatType& FloatType::add(const DoubleType& lhs)
+{
+    return add(*lhs.value);
+}
+
+FloatType& FloatType::subtract(const DoubleType& lhs)
+{
+    return subtract(*lhs.value);
+}
+
+FloatType& FloatType::multiply(const DoubleType& lhs)
+{
+    return multiply(*lhs.value);
+}
+
+FloatType& FloatType::divide(const DoubleType& lhs)
+{
+    return divide(*lhs.value);
 }
 
 // ========== DOUBLE TYPE ========== //
-
-struct DoubleType 
-{  
-    double* value = nullptr;
-
-    DoubleType(double doubleTypeValue): value(new double(doubleTypeValue)) {} 
-    ~DoubleType()
-    {
-        delete value;
-    }
-
-    DoubleType& add(double lhs);
-    DoubleType& subtract(double lhs);
-    DoubleType& multiply(double lhs);
-    DoubleType& divide(double lhs);
-};   
 
 DoubleType& DoubleType::add(double lhs)
 {
@@ -204,23 +331,67 @@ DoubleType& DoubleType::divide(double lhs)
     return *this;
 }
 
+DoubleType& DoubleType::add(const IntType& lhs)
+{
+    return add(*lhs.value);
+}
+
+DoubleType& DoubleType::subtract(const IntType& lhs)
+{
+    return subtract(*lhs.value);
+}
+
+DoubleType& DoubleType::multiply(const IntType& lhs)
+{
+    return multiply(*lhs.value);
+}
+
+DoubleType& DoubleType::divide(const IntType& lhs)
+{
+    return divide(*lhs.value);
+}
+
+DoubleType& DoubleType::add(const FloatType& lhs)
+{
+    return add(*lhs.value);
+}
+
+DoubleType& DoubleType::subtract(const FloatType& lhs)
+{
+    return subtract(*lhs.value);
+}
+
+DoubleType& DoubleType::multiply(const FloatType& lhs)
+{
+    return multiply(*lhs.value);
+}
+
+DoubleType& DoubleType::divide(const FloatType& lhs)
+{
+    return divide(*lhs.value);
+}
+
+DoubleType& DoubleType::add(const DoubleType& lhs)
+{
+    return add(*lhs.value);
+}
+
+DoubleType& DoubleType::subtract(const DoubleType& lhs)
+{
+    return subtract(*lhs.value);
+}
+
+DoubleType& DoubleType::multiply(const DoubleType& lhs)
+{
+    return multiply(*lhs.value);
+}
+
+DoubleType& DoubleType::divide(const DoubleType& lhs)
+{
+    return divide(*lhs.value);
+}
+
 // ========== INT TYPE ========== //
-
-struct IntType 
-{  
-    int* value = nullptr;
-
-    IntType(int intTypeValue): value(new int(intTypeValue)) {} 
-    ~IntType()
-    {
-        delete value;
-    }
-
-    IntType& add(int lhs);
-    IntType& subtract(int lhs);
-    IntType& multiply(int lhs);
-    IntType& divide(int lhs);
-};   
 
 IntType& IntType::add(int lhs)
 {
@@ -249,6 +420,66 @@ IntType& IntType::divide(int lhs)
     } 
     *this->value /= lhs;
     return *this;
+} 
+
+IntType& IntType::add(const IntType& lhs)
+{
+    return add(*lhs.value);
+}
+
+IntType& IntType::subtract(const IntType& lhs)
+{
+    return subtract(*lhs.value);
+}
+
+IntType& IntType::multiply(const IntType& lhs)
+{
+    return multiply(*lhs.value);
+}
+
+IntType& IntType::divide(const IntType& lhs)
+{
+    return divide(*lhs.value);
+}
+
+IntType& IntType::add(const FloatType& lhs)
+{
+    return add(*lhs.value);
+}
+
+IntType& IntType::subtract(const FloatType& lhs)
+{
+    return subtract(*lhs.value);
+}
+
+IntType& IntType::multiply(const FloatType& lhs)
+{
+    return multiply(*lhs.value);
+}
+
+IntType& IntType::divide(const FloatType& lhs)
+{
+    return divide(*lhs.value);
+}
+
+IntType& IntType::add(const DoubleType& lhs)
+{
+    return add(*lhs.value);
+}
+
+IntType& IntType::subtract(const DoubleType& lhs)
+{
+    return subtract(*lhs.value);
+}
+
+IntType& IntType::multiply(const DoubleType& lhs)
+{
+    return multiply(*lhs.value);
+}
+
+IntType& IntType::divide(const DoubleType& lhs)
+{
+    return divide(*lhs.value);
 }
 
 // ========== MAIN ========== //
