@@ -237,7 +237,7 @@ FloatType& FloatType::multiply(float lhs)
 FloatType& FloatType::divide(float lhs)
 { 
     if(lhs == 0.0f) 
-        std::cout << std::endl << "warning, floating point division by zero returns 'inf' !" << std::endl;
+        std::cout << "warning: floating point division by zero!" << std::endl;
     *this->value /= lhs;
     return *this;
 } 
@@ -326,7 +326,7 @@ DoubleType& DoubleType::divide(double lhs)
 { 
     
     if(lhs == 0.0) 
-        std::cout << std::endl << "warning, floating point division by zero returns 'inf' !" << std::endl;
+        std::cout << "warning: floating point division by zero!" << std::endl;
     *this->value /= lhs;
     return *this;
 }
@@ -415,7 +415,7 @@ IntType& IntType::divide(int lhs)
 { 
     if(lhs == 0)
     {
-        std::cout << "error, integer division by zero will crash the program!" << std::endl << "returning lhs" << std::endl; 
+        std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl; 
         return *this; 
     } 
     *this->value /= lhs;
