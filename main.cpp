@@ -122,14 +122,15 @@ public:
     FloatType& multiply(float lhs);
     FloatType& divide(float lhs);  
 
-    operator float() const;
+    operator float() const;//figure out what to do with this later.
     
 };    
 /*
 struct DoubleType 
 {  
+private:
     double* value = nullptr;
-
+public:
     DoubleType(double doubleTypeValue): value(new double(doubleTypeValue)) {} 
     ~DoubleType()
     {
@@ -139,13 +140,16 @@ struct DoubleType
     DoubleType& add(double lhs);
     DoubleType& subtract(double lhs);
     DoubleType& multiply(double lhs);
-    DoubleType& divide(double lhs); 
+    DoubleType& divide(double lhs);  
+
+    operator double() const;//figure out what to do with this later.
 };   
 
 struct IntType 
-{  
+{   
+private:
     int* value = nullptr;
-
+public:
     IntType(int intTypeValue): value(new int(intTypeValue)) {} 
     ~IntType()
     {
@@ -155,7 +159,9 @@ struct IntType
     IntType& add(int lhs);
     IntType& subtract(int lhs);
     IntType& multiply(int lhs);
-    IntType& divide(int lhs); 
+    IntType& divide(int lhs);  
+
+    operator int() const;//figure out what to do with this later.
 };   
 */ 
 // ========== FLOAT TYPE ========== //
@@ -184,7 +190,7 @@ FloatType& FloatType::divide(float lhs)
         std::cout << "warning: floating point division by zero!" << std::endl;
     *this->value /= lhs;
     return *this;
-} 
+}  
 
 // ========== DOUBLE TYPE ========== //
 /*
@@ -318,7 +324,8 @@ int main()
     std::cout << "New value of dt = dt / 0 = " << *dt.divide(0).value << std::endl;
 
     std::cout << "---------------------\n" << std::endl; 
-*/
+*/ 
+    //part3();
     std::cout << "good to go!\n";
 
     return 0;
