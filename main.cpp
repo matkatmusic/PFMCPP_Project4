@@ -32,7 +32,6 @@
         move this part3 function to before main()
 
  9) click the [run] button.  Clear up any errors or warnings as best you can.
-
  */
 
 /*
@@ -106,9 +105,12 @@ struct DoubleType;
 struct IntType;
 
 struct FloatType 
-{  
-    float* value = nullptr;
+{   
 
+private:
+    float* value = nullptr; 
+
+public:
     FloatType(float floatTypeValue): value(new float(floatTypeValue)) {} 
     ~FloatType()
     {
@@ -120,7 +122,7 @@ struct FloatType
     FloatType& multiply(float lhs);
     FloatType& divide(float lhs);  
 
-    operator float();
+    operator float() const;
     
 };    
 /*
