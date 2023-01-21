@@ -86,7 +86,6 @@ error: integer division by zero is an error and will crash the program!
 FloatType x IntType  =  13143546
 (IntType + DoubleType + FloatType) x 24 = 315447336
 good to go!
-
 */
 
 #include <iostream>
@@ -114,29 +113,17 @@ struct FloatType
     ~FloatType()
     {
         delete value;
-    }
+    } 
 
     FloatType& add(float lhs);
     FloatType& subtract(float lhs);
     FloatType& multiply(float lhs);
-    FloatType& divide(float lhs); 
+    FloatType& divide(float lhs);  
 
-    FloatType& add(const FloatType& lhs);
-    FloatType& subtract(const FloatType& lhs);
-    FloatType& multiply(const FloatType& lhs);
-    FloatType& divide(const FloatType& lhs);
-
-    FloatType& add(const IntType& lhs);
-    FloatType& subtract(const IntType& lhs);
-    FloatType& multiply(const IntType& lhs);
-    FloatType& divide(const IntType& lhs);
-
-    FloatType& add(const DoubleType& lhs);
-    FloatType& subtract(const DoubleType& lhs);
-    FloatType& multiply(const DoubleType& lhs);
-    FloatType& divide(const DoubleType& lhs);
+    operator float();
+    
 };    
-
+/*
 struct DoubleType 
 {  
     double* value = nullptr;
@@ -198,7 +185,7 @@ struct IntType
     IntType& multiply(const DoubleType& lhs);
     IntType& divide(const DoubleType& lhs);
 };   
-
+*/ 
 // ========== FLOAT TYPE ========== //
 
 FloatType& FloatType::add(float lhs)
@@ -227,68 +214,8 @@ FloatType& FloatType::divide(float lhs)
     return *this;
 } 
 
-FloatType& FloatType::add(const IntType& lhs)
-{
-    return add(*lhs.value);
-}
-
-FloatType& FloatType::subtract(const IntType& lhs)
-{
-    return subtract(*lhs.value);
-}
-
-FloatType& FloatType::multiply(const IntType& lhs)
-{
-    return multiply(*lhs.value);
-}
-
-FloatType& FloatType::divide(const IntType& lhs)
-{
-    return divide(*lhs.value);
-}
-
-FloatType& FloatType::add(const FloatType& lhs)
-{
-    return add(*lhs.value);
-}
-
-FloatType& FloatType::subtract(const FloatType& lhs)
-{
-    return subtract(*lhs.value);
-}
-
-FloatType& FloatType::multiply(const FloatType& lhs)
-{
-    return multiply(*lhs.value);
-}
-
-FloatType& FloatType::divide(const FloatType& lhs)
-{
-    return divide(*lhs.value);
-}
-
-FloatType& FloatType::add(const DoubleType& lhs)
-{
-    return add(*lhs.value);
-}
-
-FloatType& FloatType::subtract(const DoubleType& lhs)
-{
-    return subtract(*lhs.value);
-}
-
-FloatType& FloatType::multiply(const DoubleType& lhs)
-{
-    return multiply(*lhs.value);
-}
-
-FloatType& FloatType::divide(const DoubleType& lhs)
-{
-    return divide(*lhs.value);
-}
-
 // ========== DOUBLE TYPE ========== //
-
+/*
 DoubleType& DoubleType::add(double lhs)
 {
     *this->value += lhs;
@@ -465,7 +392,8 @@ IntType& IntType::multiply(const DoubleType& lhs)
 IntType& IntType::divide(const DoubleType& lhs)
 {
     return divide(*lhs.value);
-}
+} 
+*/
 
 /*
 void part3()
@@ -494,15 +422,15 @@ int main()
     HeapA heapA; 
 
     //assign heap primitives
-    FloatType ft ( 2.0f );
+    FloatType ft ( 2.0f );/*
     DoubleType dt ( 2 );
-    IntType it ( 2 ) ;
+    IntType it ( 2 ) ;*/
 
     std::cout << "FloatType add result=" << *ft.add( 2.0f ).value << std::endl;
     std::cout << "FloatType subtract result=" << *ft.subtract( 2.0f ).value << std::endl;
     std::cout << "FloatType multiply result=" << *ft.multiply( 2.0f ).value << std::endl;
     std::cout << "FloatType divide result=" << *ft.divide( 16.0f).value << std::endl << std::endl;
-
+/*
     std::cout << "DoubleType add result=" << *dt.add(2.0).value << std::endl;
     std::cout << "DoubleType subtract result=" << *dt.subtract(2.0).value << std::endl;
     std::cout << "DoubleType multiply result=" << *dt.multiply(2.0).value << std::endl;
@@ -538,7 +466,7 @@ int main()
     std::cout << "New value of dt = dt / 0 = " << *dt.divide(0).value << std::endl;
 
     std::cout << "---------------------\n" << std::endl; 
-
+*/
     std::cout << "good to go!\n";
 
     return 0;
