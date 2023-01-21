@@ -89,6 +89,8 @@ good to go!
 
 */
 
+#include <iostream>
+
 struct A {};
 struct HeapA
 { 
@@ -99,8 +101,6 @@ struct HeapA
     }
     A* a = nullptr;
 };
-
-
 
 struct FloatType;
 struct DoubleType; 
@@ -467,6 +467,7 @@ IntType& IntType::divide(const DoubleType& lhs)
     return divide(*lhs.value);
 }
 
+/*
 void part3()
 {
     FloatType ft( 5.5f );
@@ -483,6 +484,7 @@ void part3()
     std::cout << "FloatType x IntType  =  " << it.multiply( ft ) << std::endl;
     std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it.add( dt ).add( ft ).multiply( 24 ) << std::endl;
 }
+*/
 
 // ========== MAIN ========== //
 
