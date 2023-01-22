@@ -284,10 +284,10 @@ int main()
     DoubleType dt ( 2 );
     IntType it ( 2 ) ;*/
 
-    std::cout << "FloatType add result=" << *ft.add( 2.0f ).value << std::endl;
-    std::cout << "FloatType subtract result=" << *ft.subtract( 2.0f ).value << std::endl;
-    std::cout << "FloatType multiply result=" << *ft.multiply( 2.0f ).value << std::endl;
-    std::cout << "FloatType divide result=" << *ft.divide( 16.0f).value << std::endl << std::endl;
+    std::cout << "FloatType add result=" << *ft.add( 2.0f ) << std::endl;
+    std::cout << "FloatType subtract result=" << *ft.subtract( 2.0f ) << std::endl;
+    std::cout << "FloatType multiply result=" << *ft.multiply( 2.0f ) << std::endl;
+    std::cout << "FloatType divide result=" << *ft.divide( 16.0f) << std::endl << std::endl;
 /*
     std::cout << "DoubleType add result=" << *dt.add(2.0).value << std::endl;
     std::cout << "DoubleType subtract result=" << *dt.subtract(2.0).value << std::endl;
