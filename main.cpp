@@ -1,44 +1,161 @@
 /*
- Project 4 - Part 3 / 9
- Video: Chapter 4 Part 3 
- Casting
+Project 4: Part 4 / 9
+ Chapter 4 Part 7
+ Function/Constructor Overloading
 
- Create a branch named Part3
+ Create a branch named Part4
  
- do not remove anything from main().  you'll be revising your main() to work with these new code changes.
- 
+ Do not delete your previous main. you will be adding to it.
+
     Build/Run often with this task to make sure you're not breaking the code with each step.
     I recommend committing after you get each step working so you can revert to a working version easily if needed.
-
- 1) remove your functions that accepted a User-Defined Type
  
- 2) remove any getValue() functions if you added them
+ 1) add pow() functions, and a powInternal() function to each of your UDTs
+     a) your pow() functions should call powInternal()
+     b) add a pow() whose argument type is the primitive your UDT owns.  the argument should be passed by copy.
+     c) for each UDT in the file, your class should have pow() overloads that take that UDT as the function argument.
+         the argument should be passed as const ref
+         i.e. if you had UDTs named IntType, FloatType, DoubleType
+             in your IntType class, you'd have:
+                 pow(const IntType&),
+                 pow(const FloatType&),
+                 pow(const DoubleType&),
+                 and pow(int)
+     d) be sure to remember the rules about what member functions can be called on const objects.
+             (const objects can only call their const member functions)
+     e) the pow() functions should be chainable.
  
- 3) move all of your add/subtract/multiply/divide implementations out of the class.
-  
- 4) add user-defined conversion functions that convert to the numeric type your object holds.
-        i.e. if your type holds an int, you'll need an operator int() function.
-        REMEMBER: if a member function doesn't modify any member variables of the class it exists in, what qualifier can we add to that function's signature?
+ 2) your powInternal() function should do something like this in its body:    *val = std::pow( *val, arg );
+         where 'arg' is the passed-in type, converted to whatever type your object is holding.
+             if your UDT owns an int, then arg would be an int.
+             if your UDT owns a float, then arg would be a float.
+         std::pow's documentation is found here: https://en.cppreference.com/w/cpp/numeric/math/pow so be sure to include
+             the proper header file listed there.
+         powInternal() should be chainable.
+         powInternal() should be a private member function
  
- 5) make your member variable private.
-         this conversion function should be the ONLY WAY to access the held value.
-         use the proper casting technique to invoke this conversion function
+ 3) modify the Point class below to have 3 Constructors that accept your UDTs and one that accepts primitives.
+     a) make the constructor that takes primitives initialize the two member variables.
+     b) for each of your 3 Ctors that accept UDTs: correctly implement a Delegating Constructor that calls the constructor which takes primitives
+     c) overload the multiply() function so it can accept each of your UDTs.  I've added an implementation you can mimick for this function.
+     d) add a toString() function to the Point class that prints out the x and y members via std::cout.
  
- 6) make sure it compiles & runs without errors.
+ 4) mark your UDT constructors as 'explicit'.  
+    Adding this keyword prevents the compiler from implicitly creating instances of your UDT whenever primitives are passed to functions that take your UDT by const reference.
+    This keyword means you can only create an instance of the class by Explicitly writing the type name.
+    You can learn more about the explicit keyword here: 
+    https://en.cppreference.com/w/cpp/language/explicit
  
- 7) use your knowledge of casting to remove any conversion warnings. 
-
- 8) insert 'part3();' before the 'good to go' at the end of your main(); 
-        move this part3 function to before main()
-
- 9) click the [run] button.  Clear up any errors or warnings as best you can.
+ 5) insert part4(); at the end of main, before the 'good to go'
+ 
+ 6) make sure it compiles without errors.
+ 
+ You will need to use Forward Declaration and out-of-class definitions to complete this.
  */
+
+
+
+struct Point
+{
+    Point& multiply(float m)
+    {
+        x *= m;
+        y *= m;
+        return *this;
+    }
+private:
+    float x{0}, y{0};
+};
+
+void part4()
+{
+    // ------------------------------------------------------------
+    //                          Power tests
+    // ------------------------------------------------------------
+    FloatType ft1(2);
+    DoubleType dt1(2);
+    IntType it1(2);    
+    float floatExp = 2.0f;
+    double doubleExp = 2.0;
+    int intExp = 2;
+    IntType itExp(2);
+    FloatType ftExp(2.0f);
+    DoubleType dtExp(2.0);
+    
+    // Power tests with FloatType
+    std::cout << "Power tests with FloatType" << std::endl;
+    std::cout << "pow(ft1, floatExp) = " << ft1 << "^" << floatExp << " = " << ft1.pow(floatExp)  << std::endl;
+    std::cout << "pow(ft1, itExp) = " << ft1 << "^" << itExp << " = " << ft1.pow(itExp)  << std::endl;
+    std::cout << "pow(ft1, ftExp) = " << ft1 << "^" << ftExp << " = " << ft1.pow(ftExp)  << std::endl;    
+    std::cout << "pow(ft1, dtExp) = " << ft1 << "^" << dtExp << " = " << ft1.pow(dtExp)  << std::endl;    
+    std::cout << "---------------------\n" << std::endl;  
+
+    // Power tests with DoubleType
+    std::cout << "Power tests with DoubleType" << std::endl;
+    std::cout << "pow(dt1, doubleExp) = " << dt1 << "^" << doubleExp << " = " << dt1.pow(intExp)  << std::endl;
+    std::cout << "pow(dt1, itExp) = " << dt1 << "^" << itExp << " = " << dt1.pow(itExp)  << std::endl;
+    std::cout << "pow(dt1, ftExp) = " << dt1 << "^" << ftExp << " = " << dt1.pow(ftExp)  << std::endl;    
+    std::cout << "pow(dt1, dtExp) = " << dt1 << "^" << dtExp << " = " << dt1.pow(dtExp)  << std::endl;    
+    std::cout << "---------------------\n" << std::endl;    
+
+    // Power tests with IntType
+    std::cout << "Power tests with IntType" << std::endl;
+    std::cout << "pow(it1, intExp) = " << it1 << "^" << intExp << " = " << it1.pow(intExp)  << std::endl;
+    std::cout << "pow(it1, itExp) = " << it1 << "^" << itExp << " = " << it1.pow(itExp)  << std::endl;
+    std::cout << "pow(it1, ftExp) = " << it1 << "^" << ftExp << " = " << it1.pow(ftExp)  << std::endl;    
+    std::cout << "pow(it1, dtExp) = " << it1 << "^" << dtExp << " = " << it1.pow(dtExp)  << std::endl;    
+    std::cout << "===============================\n" << std::endl; 
+
+    // ------------------------------------------------------------
+    //                          Point tests
+    // ------------------------------------------------------------
+    FloatType ft2(3.0f);
+    DoubleType dt2(4.0);
+    IntType it2(5);
+    float floatMul = 6.0f;
+
+    // Point tests with float
+    std::cout << "Point tests with float argument:" << std::endl;
+    Point p0(ft2, floatMul);
+    p0.toString();   
+    std::cout << "Multiplication factor: " << floatMul << std::endl;
+    p0.multiply(floatMul); 
+    p0.toString();   
+    std::cout << "---------------------\n" << std::endl;
+
+    // Point tests with FloatType
+    std::cout << "Point tests with FloatType argument:" << std::endl;
+    Point p1(ft2, ft2);
+    p1.toString();   
+    std::cout << "Multiplication factor: " << ft2 << std::endl;
+    p1.multiply(ft2); 
+    p1.toString();   
+    std::cout << "---------------------\n" << std::endl;
+
+    // Point tests with DoubleType
+    std::cout << "Point tests with DoubleType argument:" << std::endl;
+    Point p2(ft2, static_cast<float>(dt2));
+    p2.toString();   
+    std::cout << "Multiplication factor: " << dt2 << std::endl;
+    p2.multiply(dt2); 
+    p2.toString();   
+    std::cout << "---------------------\n" << std::endl;
+
+    // Point tests with IntType
+    std::cout << "Point tests with IntType argument:" << std::endl;
+    Point p3(ft2, static_cast<float>(dt2));
+    p3.toString();   
+    std::cout << "Multiplication factor: " << it2 << std::endl;
+    p3.multiply(it2); 
+    p3.toString();   
+    std::cout << "---------------------\n" << std::endl;
+}
 
 /*
 your program should generate the following output EXACTLY.
-This includes the warnings.
-The output should have zero warnings.
-Use a service like https://www.diffchecker.com/diff to compare your output. 
+This includes the warnings.  
+ The output should have zero warnings.
+
 
 FloatType add result=4
 FloatType subtract result=2
@@ -84,7 +201,54 @@ error: integer division by zero is an error and will crash the program!
 505521
 FloatType x IntType  =  13143546
 (IntType + DoubleType + FloatType) x 24 = 315447336
+Power tests with FloatType 
+pow(ft1, floatExp) = 2^2 = 4
+pow(ft1, itExp) = 4^2 = 16
+pow(ft1, ftExp) = 16^2 = 256
+pow(ft1, dtExp) = 256^2 = 65536
+---------------------
+
+Power tests with DoubleType 
+pow(dt1, doubleExp) = 2^2 = 4
+pow(dt1, itExp) = 4^2 = 16
+pow(dt1, ftExp) = 16^2 = 256
+pow(dt1, dtExp) = 256^2 = 65536
+---------------------
+
+Power tests with IntType 
+pow(it1, intExp) = 2^2 = 4
+pow(it1, itExp) = 4^2 = 16
+pow(it1, ftExp) = 16^2 = 256
+pow(it1, dtExp) = 256^2 = 65536
+===============================
+
+Point tests with float argument:
+Point { x: 3, y: 6 }
+Multiplication factor: 6
+Point { x: 18, y: 36 }
+---------------------
+
+Point tests with FloatType argument:
+Point { x: 3, y: 3 }
+Multiplication factor: 3
+Point { x: 9, y: 9 }
+---------------------
+
+Point tests with DoubleType argument:
+Point { x: 3, y: 4 }
+Multiplication factor: 4
+Point { x: 12, y: 16 }
+---------------------
+
+Point tests with IntType argument:
+Point { x: 3, y: 4 }
+Multiplication factor: 5
+Point { x: 15, y: 20 }
+---------------------
+
 good to go!
+
+Use a service like https://www.diffchecker.com/diff to compare your output. 
 */
 
 #include <iostream>  
