@@ -267,7 +267,6 @@ IntType::operator int() const
     return *this->value;
 }
 
-/*
 void part3()
 {
     FloatType ft( 5.5f );
@@ -284,7 +283,6 @@ void part3()
     std::cout << "FloatType x IntType  =  " << it.multiply( ft ) << std::endl;
     std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it.add( dt ).add( ft ).multiply( 24 ) << std::endl;
 }
-*/
 
 // ========== MAIN ========== //
 
@@ -326,7 +324,7 @@ int main()
     std::cout << "Initial value of it: " << it << std::endl;
     // --------
     std::cout << "Use of function concatenation (mixed type arguments) " << std::endl;
-    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << *(dt.multiply(it).divide(5.0f).add(ft)) << std::endl;
+    std::cout << "New value of dt = (dt * it) / 5.0f + ft = " << (dt.multiply(static_cast<double>(it)).divide(static_cast<double>(5.0f)).add(static_cast<double>(ft))) << std::endl;
 
     std::cout << "---------------------\n" << std::endl; 
     
@@ -339,7 +337,7 @@ int main()
 
     std::cout << "---------------------\n" << std::endl;  
     
-    //part3();
+    part3();
     std::cout << "good to go!\n";
 
     return 0;
