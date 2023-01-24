@@ -36,6 +36,98 @@
  6) After you finish defining each type/function, click the [run] button.  Clear up any errors or warnings as best you can.
  */
 
+#include <iostream>
+
+struct FloatType
+{
+    float add (float lhs, float rhs)
+    {
+        return lhs + rhs;
+    }
+
+    float subtract (float lhs, float rhs)
+    {
+        return lhs - rhs;
+    }
+
+    float multiply (float lhs, float rhs)
+    {
+        return lhs * rhs;
+    }
+    
+    float divide (float lhs, float rhs)
+    {
+        if (rhs == 0.f)
+        {
+            std::cout << "warning, floating point division by zero "
+                         "returns 'inf' !"  
+                      << std::endl;
+        }
+        return lhs / rhs;
+    }
+};
+
+struct DoubleType
+{
+    double add (double lhs, double rhs)
+    {
+        return lhs + rhs;
+    }
+    
+    double subtract (double lhs, double rhs)
+    {
+        return lhs - rhs;
+    }
+    
+    double multiply (double lhs, double rhs)
+    {
+        return lhs * rhs;
+    }
+    
+    double divide (double lhs, double rhs)
+    {
+        if (rhs == 0.)
+        {
+            std::cout << "warning, floating point division by zero "
+                         "returns 'inf' !"  
+                      << std::endl;
+        }
+        return lhs / rhs;
+    }
+};
+
+struct IntType
+{
+    int add (int lhs, int rhs)
+    {
+        return lhs + rhs;
+    }
+    
+    int subtract (int lhs, int rhs)
+    {
+        return lhs - rhs;
+    }
+    
+    int multiply (int lhs, int rhs)
+    {
+        return lhs * rhs;
+    }
+    
+    int divide (int lhs, int rhs)
+    {
+        if (rhs == 0)
+        {
+            std::cout << "error, integer division by zero "
+                         "will crash the program!"
+                      << std::endl
+                      << "returning lhs"
+                      << std::endl;
+            return lhs;
+        }
+        return lhs / rhs;
+    }
+};
+
 /*
 your program should generate the following output EXACTLY.
 This includes the warnings.
@@ -91,7 +183,6 @@ good to go!
  Wait for my code review.
  */
 
-#include <iostream>
 int main() 
 {
     FloatType ft;
