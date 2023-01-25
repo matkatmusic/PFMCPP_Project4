@@ -284,7 +284,12 @@ public:
     FloatType& add(float lhs);
     FloatType& subtract(float lhs);
     FloatType& multiply(float lhs);
-    FloatType& divide(float lhs);  
+    FloatType& divide(float lhs);   
+
+    FloatType& pow (float);
+    FloatType& pow (const IntType&);
+    FloatType& pow (const DoubleType&);
+    FloatType& pow (const FloatType&);
 
     operator float() const;
     
@@ -304,7 +309,12 @@ public:
     DoubleType& add(double lhs);
     DoubleType& subtract(double lhs);
     DoubleType& multiply(double lhs);
-    DoubleType& divide(double lhs);  
+    DoubleType& divide(double lhs);   
+
+    DoubleType& pow (double);
+    DoubleType& pow (const IntType&);
+    DoubleType& pow (const DoubleType&);
+    DoubleType& pow (const FloatType&);
 
     operator double() const;
 };   
@@ -323,7 +333,12 @@ public:
     IntType& add(int lhs);
     IntType& subtract(int lhs);
     IntType& multiply(int lhs);
-    IntType& divide(int lhs);  
+    IntType& divide(int lhs);   
+
+    IntType& pow (int);
+    IntType& pow (const IntType&);
+    IntType& pow (const DoubleType&);
+    IntType& pow (const FloatType&);
 
     operator int() const;//figure out what to do with this later.
 };   
@@ -501,7 +516,8 @@ int main()
 
     std::cout << "---------------------\n" << std::endl;  
     
-    part3();
+    part3(); 
+    //part4();
     std::cout << "good to go!\n";
 
     return 0;
