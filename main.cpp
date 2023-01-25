@@ -2,11 +2,9 @@
 Project 4: Part 4 / 9
  Chapter 4 Part 7
  Function/Constructor Overloading
-
  Create a branch named Part4
  
  Do not delete your previous main. you will be adding to it.
-
     Build/Run often with this task to make sure you're not breaking the code with each step.
     I recommend committing after you get each step working so you can revert to a working version easily if needed.
  
@@ -53,19 +51,470 @@ Project 4: Part 4 / 9
  You will need to use Forward Declaration and out-of-class definitions to complete this.
  */
 
-
+struct FloatType;
+struct DoubleType;
+struct IntType;
 
 struct Point
-{
-    Point& multiply(float m)
-    {
-        x *= m;
-        y *= m;
-        return *this;
-    }
+{ 
+    Point (float x1, float y1);
+    Point (const FloatType& ft1, const FloatType& ft2);
+    Point (const DoubleType& dt1, const DoubleType& dt2);
+    Point (const IntType& it1, const IntType& it2);
+
+    Point& multiply(float m);
+    Point& multiply (const FloatType& ft);
+    Point& multiply (const DoubleType& dt);
+    Point& multiply (const IntType& it);
+
+    void toString();
+    
 private:
     float x{0}, y{0};
 };
+
+/*
+your program should generate the following output EXACTLY.
+This includes the warnings.  
+ The output should have zero warnings.
+FloatType add result=4
+FloatType subtract result=2
+FloatType multiply result=4
+FloatType divide result=0.25
+DoubleType add result=4
+DoubleType subtract result=2
+DoubleType multiply result=4
+DoubleType divide result=0.8
+IntType add result=4
+IntType subtract result=2
+IntType multiply result=4
+IntType divide result=1
+Chain calculation = 590
+New value of ft = (ft + 3.0f) * 1.5f / 5.0f = 0.975
+---------------------
+Initial value of dt: 0.8
+Initial value of it: 590
+Use of function concatenation (mixed type arguments) 
+New value of dt = (dt * it) / 5.0f + ft = 95.375
+---------------------
+Intercept division by 0 
+New value of it = it / 0 = error: integer division by zero is an error and will crash the program!
+590
+New value of ft = ft / 0 = warning: floating point division by zero!
+inf
+New value of dt = dt / 0 = warning: floating point division by zero!
+inf
+---------------------
+The result of FloatType^4 divided by IntType is: 26.9136
+The result of DoubleType times 3 plus IntType is : 67.3
+The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: 711
+An operation followed by attempts to divide by 0, which are ignored and warns user: 
+error: integer division by zero is an error and will crash the program!
+error: integer division by zero is an error and will crash the program!
+error: integer division by zero is an error and will crash the program!
+505521
+FloatType x IntType  =  13143546
+(IntType + DoubleType + FloatType) x 24 = 315447336
+Power tests with FloatType 
+pow(ft1, floatExp) = 2^2 = 4
+pow(ft1, itExp) = 4^2 = 16
+pow(ft1, ftExp) = 16^2 = 256
+pow(ft1, dtExp) = 256^2 = 65536
+---------------------
+Power tests with DoubleType 
+pow(dt1, doubleExp) = 2^2 = 4
+pow(dt1, itExp) = 4^2 = 16
+pow(dt1, ftExp) = 16^2 = 256
+pow(dt1, dtExp) = 256^2 = 65536
+---------------------
+Power tests with IntType 
+pow(it1, intExp) = 2^2 = 4
+pow(it1, itExp) = 4^2 = 16
+pow(it1, ftExp) = 16^2 = 256
+pow(it1, dtExp) = 256^2 = 65536
+===============================
+Point tests with float argument:
+Point { x: 3, y: 6 }
+Multiplication factor: 6
+Point { x: 18, y: 36 }
+---------------------
+Point tests with FloatType argument:
+Point { x: 3, y: 3 }
+Multiplication factor: 3
+Point { x: 9, y: 9 }
+---------------------
+Point tests with DoubleType argument:
+Point { x: 3, y: 4 }
+Multiplication factor: 4
+Point { x: 12, y: 16 }
+---------------------
+Point tests with IntType argument:
+Point { x: 3, y: 4 }
+Multiplication factor: 5
+Point { x: 15, y: 20 }
+---------------------
+good to go!
+Use a service like https://www.diffchecker.com/diff to compare your output. 
+*/
+
+#include <iostream>
+#include <cmath> 
+
+struct A {};
+struct HeapA
+{ 
+    HeapA() : a(new A) {}
+    ~HeapA()
+    {
+        delete a;
+    }
+    A* a = nullptr;
+};
+
+struct FloatType;
+struct DoubleType; 
+struct IntType;
+
+struct FloatType 
+{   
+
+private:
+    float* value = nullptr; 
+    FloatType& powInternal (const float& arg);
+public:
+    explicit FloatType(float floatTypeValue): value(new float(floatTypeValue)) {} 
+    ~FloatType()
+    {
+        delete value;
+    } 
+
+    FloatType& add(float lhs);
+    FloatType& subtract(float lhs);
+    FloatType& multiply(float lhs);
+    FloatType& divide(float lhs);   
+
+    FloatType& pow (float);
+    FloatType& pow (const IntType&);
+    FloatType& pow (const DoubleType&);
+    FloatType& pow (const FloatType&);
+
+    operator float() const;
+    
+};    
+
+struct DoubleType 
+{  
+private:
+    double* value = nullptr; 
+    DoubleType& powInternal (const double& arg);
+public:
+    explicit DoubleType(double doubleTypeValue): value(new double(doubleTypeValue)) {} 
+    ~DoubleType()
+    {
+        delete value;
+    }
+
+    DoubleType& add(double lhs);
+    DoubleType& subtract(double lhs);
+    DoubleType& multiply(double lhs);
+    DoubleType& divide(double lhs);   
+
+    DoubleType& pow (double);
+    DoubleType& pow (const IntType&);
+    DoubleType& pow (const DoubleType&);
+    DoubleType& pow (const FloatType&);
+
+    operator double() const;
+};   
+
+struct IntType 
+{   
+private:
+    int* value = nullptr; 
+    IntType& powInternal (const int& arg);
+public:
+    explicit IntType(int intTypeValue): value(new int(intTypeValue)) {} 
+    ~IntType()
+    {
+        delete value;
+    }
+
+    IntType& add(int lhs);
+    IntType& subtract(int lhs);
+    IntType& multiply(int lhs);
+    IntType& divide(int lhs);   
+
+    IntType& pow (int);
+    IntType& pow (const IntType&);
+    IntType& pow (const DoubleType&);
+    IntType& pow (const FloatType&);
+
+    operator int() const;//figure out what to do with this later.
+};   
+
+// ========== FLOAT TYPE ========== //
+
+FloatType& FloatType::add(float lhs)
+{ 
+    *this->value += lhs;
+    return *this;
+} 
+
+FloatType& FloatType::subtract(float lhs)
+{
+    *this->value -= lhs;
+    return *this;
+}
+
+FloatType& FloatType::multiply(float lhs)
+{
+    *this->value *= lhs;
+    return *this;
+}
+
+FloatType& FloatType::divide(float lhs)
+{ 
+    if(lhs == 0.0f) 
+        std::cout << "warning: floating point division by zero!" << std::endl;
+    *this->value /= lhs;
+    return *this;
+}   
+
+FloatType::operator float() const 
+{
+    return *this->value;
+}
+
+FloatType& FloatType::pow (float value1)
+{
+    powInternal (value1);
+    return *this;
+}
+
+FloatType& FloatType::pow (const IntType& value1)
+{
+    powInternal (static_cast<float>(value1));
+    return *this;
+}
+
+FloatType& FloatType::pow (const DoubleType& value1)
+{
+    powInternal (static_cast<float>(value1));
+    return *this;
+}
+
+FloatType& FloatType::pow (const FloatType& value1)
+{
+    powInternal (static_cast<float>(value1));
+    return *this;    
+} 
+
+FloatType& FloatType::powInternal (const float& arg)
+{
+    *value = std::pow (*value, arg);
+    return *this;
+}
+
+// ========== DOUBLE TYPE ========== //
+
+DoubleType& DoubleType::add(double lhs)
+{
+    *this->value += lhs;
+    return *this;
+} 
+
+DoubleType& DoubleType::subtract(double lhs)
+{
+    *this->value -= lhs;
+    return *this;
+}
+
+DoubleType& DoubleType::multiply(double lhs)
+{
+    *this->value *= lhs;
+    return *this;
+}
+
+DoubleType& DoubleType::divide(double lhs)
+{ 
+    
+    if(lhs == 0.0) 
+        std::cout << "warning: floating point division by zero!" << std::endl;
+    *this->value /= lhs;
+    return *this;
+} 
+
+DoubleType::operator double() const 
+{
+    return *this->value;
+} 
+
+DoubleType& DoubleType::pow (double value1)
+{
+    powInternal (value1);
+    return *this;    
+}
+
+DoubleType& DoubleType::pow (const IntType& value1)
+{
+    powInternal (static_cast<double>(value1));
+    return *this;    
+}
+
+DoubleType& DoubleType::pow (const DoubleType& value1)
+{
+    powInternal (static_cast<double>(value1));
+    return *this; 
+}
+    
+DoubleType& DoubleType::pow (const FloatType& value1)
+{
+    powInternal (static_cast<double>(value1));
+    return *this; 
+} 
+
+DoubleType& DoubleType::powInternal (const double& arg)
+{
+    *value = std::pow (*value, arg);
+    return *this;    
+}
+
+// ========== INT TYPE ========== //
+
+IntType& IntType::add(int lhs)
+{
+    *this->value += lhs;
+    return *this;
+} 
+
+IntType& IntType::subtract(int lhs)
+{
+    *this->value -= lhs;
+    return *this;
+}
+
+IntType& IntType::multiply(int lhs)
+{
+    *this->value *= lhs;
+    return *this;
+}
+
+IntType& IntType::divide(int lhs)
+{ 
+    if(lhs == 0)
+    {
+        std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl; 
+        return *this; 
+    } 
+    *this->value /= lhs;
+    return *this;
+} 
+
+IntType::operator int() const 
+{
+    return *this->value;
+} 
+
+IntType& IntType::pow (int value1)
+{
+    powInternal (value1);
+    return *this;
+}
+
+IntType& IntType::pow (const IntType& value1)
+{
+    powInternal (static_cast<int>(value1));
+    return *this;
+}
+
+IntType& IntType::pow (const DoubleType& value1)
+{
+    powInternal (static_cast<int>(value1));
+    return *this;
+}
+
+IntType& IntType::pow (const FloatType& value1)
+{
+    powInternal (static_cast<int>(value1));
+    return *this;    
+} 
+
+IntType& IntType::powInternal (const int& arg)
+{
+    *value = static_cast<int>(std::pow (*value, arg));
+    return *this;
+}
+
+// ========== POINT TYPE ========== // 
+
+Point::Point (float x1, float y1) : x(x1), y(y1) 
+{
+}
+
+Point::Point (const FloatType& ft1, const FloatType& ft2) : Point (static_cast<float>(ft1), static_cast<float>(ft2)) 
+{
+}
+
+Point::Point (const DoubleType& dt1, const DoubleType& dt2) : Point (static_cast<float>(dt1), static_cast<float>(dt2)) 
+{
+}
+
+Point::Point (const IntType& it1, const IntType& it2) : Point (static_cast<float>(it1), static_cast<float>(it2)) 
+{
+}
+
+Point& Point::multiply(float m)
+{
+    x *= m;
+    y *= m;
+    return *this;
+}
+
+Point& Point::multiply (const FloatType& ft)
+{
+    x *= ft;
+    y *= ft;
+    return *this;
+}
+
+Point& Point::multiply (const DoubleType& dt)
+{
+    x *= static_cast<float>(dt);
+    y *= static_cast<float>(dt);
+    return *this;
+}
+
+Point& Point::multiply (const IntType& it)
+{
+    x *= static_cast<float>(it);
+    y *= static_cast<float>(it);
+    return *this;
+}
+
+void Point::toString()
+{
+    std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
+}
+
+
+// ========== END OF UDTs ========== //
+
+void part3()
+{
+    FloatType ft( 5.5f );
+    DoubleType dt( 11.1 );
+    IntType it ( 34 );
+    DoubleType pi( 3.14 );
+
+    std::cout << "The result of FloatType^4 divided by IntType is: " << ft.multiply( ft ).multiply( ft ).divide(static_cast<float>( it )) << std::endl;
+    std::cout << "The result of DoubleType times 3 plus IntType is : " << dt.multiply( 3 ).add(static_cast<double>( it )) << std::endl;
+    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << it.divide(static_cast<int>(pi)).multiply(static_cast<int>(dt)).subtract(static_cast<int>(ft)) << std::endl;
+    std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
+    std::cout << it.multiply(it).divide(0).divide(static_cast<int>(0.0f)).divide(static_cast<int>(0.0)) << std::endl;
+    
+    std::cout << "FloatType x IntType  =  " << it.multiply(static_cast<int>(ft)) << std::endl;
+    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it.add(static_cast<int>(dt)).add(static_cast<int>(ft)).multiply( 24 ) << std::endl;
+}
 
 void part4()
 {
@@ -151,303 +600,6 @@ void part4()
     std::cout << "---------------------\n" << std::endl;
 }
 
-/*
-your program should generate the following output EXACTLY.
-This includes the warnings.  
- The output should have zero warnings.
-
-
-FloatType add result=4
-FloatType subtract result=2
-FloatType multiply result=4
-FloatType divide result=0.25
-
-DoubleType add result=4
-DoubleType subtract result=2
-DoubleType multiply result=4
-DoubleType divide result=0.8
-
-IntType add result=4
-IntType subtract result=2
-IntType multiply result=4
-IntType divide result=1
-
-Chain calculation = 590
-New value of ft = (ft + 3.0f) * 1.5f / 5.0f = 0.975
----------------------
-
-Initial value of dt: 0.8
-Initial value of it: 590
-Use of function concatenation (mixed type arguments) 
-New value of dt = (dt * it) / 5.0f + ft = 95.375
----------------------
-
-Intercept division by 0 
-New value of it = it / 0 = error: integer division by zero is an error and will crash the program!
-590
-New value of ft = ft / 0 = warning: floating point division by zero!
-inf
-New value of dt = dt / 0 = warning: floating point division by zero!
-inf
----------------------
-
-The result of FloatType^4 divided by IntType is: 26.9136
-The result of DoubleType times 3 plus IntType is : 67.3
-The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: 711
-An operation followed by attempts to divide by 0, which are ignored and warns user: 
-error: integer division by zero is an error and will crash the program!
-error: integer division by zero is an error and will crash the program!
-error: integer division by zero is an error and will crash the program!
-505521
-FloatType x IntType  =  13143546
-(IntType + DoubleType + FloatType) x 24 = 315447336
-Power tests with FloatType 
-pow(ft1, floatExp) = 2^2 = 4
-pow(ft1, itExp) = 4^2 = 16
-pow(ft1, ftExp) = 16^2 = 256
-pow(ft1, dtExp) = 256^2 = 65536
----------------------
-
-Power tests with DoubleType 
-pow(dt1, doubleExp) = 2^2 = 4
-pow(dt1, itExp) = 4^2 = 16
-pow(dt1, ftExp) = 16^2 = 256
-pow(dt1, dtExp) = 256^2 = 65536
----------------------
-
-Power tests with IntType 
-pow(it1, intExp) = 2^2 = 4
-pow(it1, itExp) = 4^2 = 16
-pow(it1, ftExp) = 16^2 = 256
-pow(it1, dtExp) = 256^2 = 65536
-===============================
-
-Point tests with float argument:
-Point { x: 3, y: 6 }
-Multiplication factor: 6
-Point { x: 18, y: 36 }
----------------------
-
-Point tests with FloatType argument:
-Point { x: 3, y: 3 }
-Multiplication factor: 3
-Point { x: 9, y: 9 }
----------------------
-
-Point tests with DoubleType argument:
-Point { x: 3, y: 4 }
-Multiplication factor: 4
-Point { x: 12, y: 16 }
----------------------
-
-Point tests with IntType argument:
-Point { x: 3, y: 4 }
-Multiplication factor: 5
-Point { x: 15, y: 20 }
----------------------
-
-good to go!
-
-Use a service like https://www.diffchecker.com/diff to compare your output. 
-*/
-
-#include <iostream>  
-
-struct A {};
-struct HeapA
-{ 
-    HeapA() : a(new A) {}
-    ~HeapA()
-    {
-        delete a;
-    }
-    A* a = nullptr;
-};
-
-struct FloatType;
-struct DoubleType; 
-struct IntType;
-
-struct FloatType 
-{   
-
-private:
-    float* value = nullptr; 
-
-public:
-    FloatType(float floatTypeValue): value(new float(floatTypeValue)) {} 
-    ~FloatType()
-    {
-        delete value;
-    } 
-
-    FloatType& add(float lhs);
-    FloatType& subtract(float lhs);
-    FloatType& multiply(float lhs);
-    FloatType& divide(float lhs);  
-
-    operator float() const;
-    
-};    
-
-struct DoubleType 
-{  
-private:
-    double* value = nullptr;
-public:
-    DoubleType(double doubleTypeValue): value(new double(doubleTypeValue)) {} 
-    ~DoubleType()
-    {
-        delete value;
-    }
-
-    DoubleType& add(double lhs);
-    DoubleType& subtract(double lhs);
-    DoubleType& multiply(double lhs);
-    DoubleType& divide(double lhs);  
-
-    operator double() const;
-};   
-
-struct IntType 
-{   
-private:
-    int* value = nullptr;
-public:
-    IntType(int intTypeValue): value(new int(intTypeValue)) {} 
-    ~IntType()
-    {
-        delete value;
-    }
-
-    IntType& add(int lhs);
-    IntType& subtract(int lhs);
-    IntType& multiply(int lhs);
-    IntType& divide(int lhs);  
-
-    operator int() const;//figure out what to do with this later.
-};   
-
-// ========== FLOAT TYPE ========== //
-
-FloatType& FloatType::add(float lhs)
-{ 
-    *this->value += lhs;
-    return *this;
-} 
-
-FloatType& FloatType::subtract(float lhs)
-{
-    *this->value -= lhs;
-    return *this;
-}
-
-FloatType& FloatType::multiply(float lhs)
-{
-    *this->value *= lhs;
-    return *this;
-}
-
-FloatType& FloatType::divide(float lhs)
-{ 
-    if(lhs == 0.0f) 
-        std::cout << "warning: floating point division by zero!" << std::endl;
-    *this->value /= lhs;
-    return *this;
-}   
-
-FloatType::operator float() const 
-{
-    return *this->value;
-}
-
-// ========== DOUBLE TYPE ========== //
-
-DoubleType& DoubleType::add(double lhs)
-{
-    *this->value += lhs;
-    return *this;
-} 
-
-DoubleType& DoubleType::subtract(double lhs)
-{
-    *this->value -= lhs;
-    return *this;
-}
-
-DoubleType& DoubleType::multiply(double lhs)
-{
-    *this->value *= lhs;
-    return *this;
-}
-
-DoubleType& DoubleType::divide(double lhs)
-{ 
-    
-    if(lhs == 0.0) 
-        std::cout << "warning: floating point division by zero!" << std::endl;
-    *this->value /= lhs;
-    return *this;
-} 
-
-DoubleType::operator double() const 
-{
-    return *this->value;
-}
-
-// ========== INT TYPE ========== //
-
-IntType& IntType::add(int lhs)
-{
-    *this->value += lhs;
-    return *this;
-} 
-
-IntType& IntType::subtract(int lhs)
-{
-    *this->value -= lhs;
-    return *this;
-}
-
-IntType& IntType::multiply(int lhs)
-{
-    *this->value *= lhs;
-    return *this;
-}
-
-IntType& IntType::divide(int lhs)
-{ 
-    if(lhs == 0)
-    {
-        std::cout << "error: integer division by zero is an error and will crash the program!" << std::endl; 
-        return *this; 
-    } 
-    *this->value /= lhs;
-    return *this;
-} 
-
-IntType::operator int() const 
-{
-    return *this->value;
-}
-
-void part3()
-{
-    FloatType ft( 5.5f );
-    DoubleType dt( 11.1 );
-    IntType it ( 34 );
-    DoubleType pi( 3.14 );
-
-    std::cout << "The result of FloatType^4 divided by IntType is: " << ft.multiply( ft ).multiply( ft ).divide(static_cast<float>( it )) << std::endl;
-    std::cout << "The result of DoubleType times 3 plus IntType is : " << dt.multiply( 3 ).add(static_cast<double>( it )) << std::endl;
-    std::cout << "The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: " << it.divide(static_cast<int>(pi)).multiply(static_cast<int>(dt)).subtract(static_cast<int>(ft)) << std::endl;
-    std::cout << "An operation followed by attempts to divide by 0, which are ignored and warns user: " << std::endl;
-    std::cout << it.multiply(it).divide(0).divide(static_cast<int>(0.0f)).divide(static_cast<int>(0.0)) << std::endl;
-    
-    std::cout << "FloatType x IntType  =  " << it.multiply(static_cast<int>(ft)) << std::endl;
-    std::cout << "(IntType + DoubleType + FloatType) x 24 = " << it.add(static_cast<int>(dt)).add(static_cast<int>(ft)).multiply( 24 ) << std::endl;
-}
-
 // ========== MAIN ========== //
 
 int main()
@@ -502,10 +654,8 @@ int main()
     std::cout << "---------------------\n" << std::endl;  
     
     part3(); 
-    //part4();
+    part4();
     std::cout << "good to go!\n";
 
     return 0;
-}
-
-
+} 
