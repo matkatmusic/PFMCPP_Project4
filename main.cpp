@@ -549,6 +549,58 @@ IntType& IntType::powInternal (const int& arg)
     return *this;
 }
 
+// ========== POINT TYPE ========== // 
+
+Point::Point (float x, float y) : x(x), y(y) 
+{
+}
+
+Point::Point (const FloatType& ft1, const FloatType& ft2) : Point (static_cast<float>(ft1), static_cast<float>(ft2)) 
+{
+}
+
+Point::Point (const DoubleType& dt1, const DoubleType& dt2) : Point (static_cast<float>(dt1), static_cast<float>(dt2)) 
+{
+}
+
+Point::Point (const IntType& it1, const IntType& it2) : Point (static_cast<float>(it1), static_cast<float>(it2)) 
+{
+}
+
+Point& Point::multiply(float m)
+{
+    x *= m;
+    y *= m;
+    return *this;
+}
+
+Point& Point::multiply (const FloatType& ft)
+{
+    x *= ft;
+    y *= ft;
+    return *this;
+}
+
+Point& Point::multiply (const DoubleType& dt)
+{
+    x *= static_cast<float>(dt);
+    y *= static_cast<float>(dt);
+    return *this;
+}
+
+Point& Point::multiply (const IntType& it)
+{
+    x *= static_cast<float>(it);
+    y *= static_cast<float>(it);
+    return *this;
+}
+
+void Point::toString()
+{
+    std::cout << "The point is (" << x << ", " << y << ")" << std::endl;
+}
+
+
 // ========== END OF UDTs ========== //
 
 void part3()
