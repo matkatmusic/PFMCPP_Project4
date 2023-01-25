@@ -286,7 +286,7 @@ private:
     float* value = nullptr; 
     FloatType& powInternal (const float& arg);
 public:
-    FloatType(float floatTypeValue): value(new float(floatTypeValue)) {} 
+    explicit FloatType(float floatTypeValue): value(new float(floatTypeValue)) {} 
     ~FloatType()
     {
         delete value;
@@ -312,7 +312,7 @@ private:
     double* value = nullptr; 
     DoubleType& powInternal (const double& arg);
 public:
-    DoubleType(double doubleTypeValue): value(new double(doubleTypeValue)) {} 
+    explicit DoubleType(double doubleTypeValue): value(new double(doubleTypeValue)) {} 
     ~DoubleType()
     {
         delete value;
@@ -337,7 +337,7 @@ private:
     int* value = nullptr; 
     IntType& powInternal (const int& arg);
 public:
-    IntType(int intTypeValue): value(new int(intTypeValue)) {} 
+    explicit IntType(int intTypeValue): value(new int(intTypeValue)) {} 
     ~IntType()
     {
         delete value;
