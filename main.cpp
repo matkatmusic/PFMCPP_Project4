@@ -511,7 +511,7 @@ Point& Point::multiply (const IntType& it)
 
 void Point::toString()
 {
-    std::cout << "The point is (" << x << ", " << y << ")" << std::endl;
+    std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
 }
 
 
