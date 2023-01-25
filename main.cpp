@@ -67,6 +67,7 @@ private:
     float x{0}, y{0};
 };
 
+/*
 void part4()
 {
     // ------------------------------------------------------------
@@ -150,6 +151,7 @@ void part4()
     p3.toString();   
     std::cout << "---------------------\n" << std::endl;
 }
+*/
 
 /*
 your program should generate the following output EXACTLY.
@@ -251,7 +253,8 @@ good to go!
 Use a service like https://www.diffchecker.com/diff to compare your output. 
 */
 
-#include <iostream>  
+#include <iostream>
+#include <cmath> 
 
 struct A {};
 struct HeapA
@@ -400,6 +403,12 @@ FloatType& FloatType::pow (const FloatType& value)
 {
     powInternal (static_cast<float>(value));
     return *this;    
+} 
+
+FloatType& FloatType::powInternal (const float& arg)
+{
+    *value = std::pow (*value, arg);
+    return *this;
 }
 
 // ========== DOUBLE TYPE ========== //
@@ -458,6 +467,12 @@ DoubleType& DoubleType::pow (const FloatType& value)
 {
     powInternal (static_cast<double>(value));
     return *this; 
+} 
+
+DoubleType& DoubleType::powInternal (const double& arg)
+{
+    *value = std::pow (*value, arg);
+    return *this;    
 }
 
 // ========== INT TYPE ========== //
@@ -518,9 +533,15 @@ IntType& IntType::pow (const FloatType& value)
 {
     powInternal (static_cast<int>(value));
     return *this;    
+} 
+
+IntType& IntType::powInternal (const int& arg)
+{
+    *value = static_cast<int>(std::pow (*value, arg));
+    return *this;
 }
 
-// ========== END OF UDT ========== //
+// ========== END OF UDTs ========== //
 
 void part3()
 {
