@@ -287,26 +287,22 @@ FloatType::operator float() const
 
 FloatType& FloatType::pow (float value1)
 {
-    powInternal (value1);
-    return *this;
+    return powInternal (value1);
 }
 
 FloatType& FloatType::pow (const IntType& value1)
 {
-    powInternal (static_cast<float>(value1));
-    return *this;
+    return powInternal (static_cast<float>(value1));
 }
 
 FloatType& FloatType::pow (const DoubleType& value1)
 {
-    powInternal (static_cast<float>(value1));
-    return *this;
+    return powInternal (static_cast<float>(value1));
 }
 
 FloatType& FloatType::pow (const FloatType& value1)
 {
-    powInternal (static_cast<float>(value1));
-    return *this;    
+    return powInternal (static_cast<float>(value1));    
 } 
 
 FloatType& FloatType::powInternal (const float& arg)
@@ -351,26 +347,22 @@ DoubleType::operator double() const
 
 DoubleType& DoubleType::pow (double value1)
 {
-    powInternal (value1);
-    return *this;    
+    return powInternal (value1);    
 }
 
 DoubleType& DoubleType::pow (const IntType& value1)
 {
-    powInternal (static_cast<double>(value1));
-    return *this;    
+    return powInternal (static_cast<double>(value1));    
 }
 
 DoubleType& DoubleType::pow (const DoubleType& value1)
 {
-    powInternal (static_cast<double>(value1));
-    return *this; 
+    return powInternal (static_cast<double>(value1)); 
 }
     
 DoubleType& DoubleType::pow (const FloatType& value1)
 {
-    powInternal (static_cast<double>(value1));
-    return *this; 
+    return powInternal (static_cast<double>(value1));
 } 
 
 DoubleType& DoubleType::powInternal (const double& arg)
@@ -417,26 +409,22 @@ IntType::operator int() const
 
 IntType& IntType::pow (int value1)
 {
-    powInternal (value1);
-    return *this;
+    return powInternal (value1);
 }
 
 IntType& IntType::pow (const IntType& value1)
 {
-    powInternal (static_cast<int>(value1));
-    return *this;
+    return powInternal (static_cast<int>(value1));
 }
 
 IntType& IntType::pow (const DoubleType& value1)
 {
-    powInternal (static_cast<int>(value1));
-    return *this;
+    return powInternal (static_cast<int>(value1));
 }
 
 IntType& IntType::pow (const FloatType& value1)
 {
-    powInternal (static_cast<int>(value1));
-    return *this;    
+    return powInternal (static_cast<int>(value1));
 } 
 
 IntType& IntType::powInternal (const int& arg)
@@ -479,14 +467,12 @@ Point& Point::multiply (const FloatType& ft)
 
 Point& Point::multiply (const DoubleType& dt)
 {
-    multiply(static_cast<float>(dt));
-    return *this;
+    return multiply(static_cast<float>(dt));
 }
 
 Point& Point::multiply (const IntType& it)
 {
-    multiply(static_cast<float>(it));
-    return *this;
+    return multiply(static_cast<float>(it));
 }
 
 void Point::toString()
