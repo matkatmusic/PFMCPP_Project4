@@ -53,7 +53,9 @@ Project 4: Part 4 / 9
  You will need to use Forward Declaration and out-of-class definitions to complete this.
  */
 
-
+struct FloatType;
+struct DoubleType;
+struct IntType;
 
 struct Point
 { 
