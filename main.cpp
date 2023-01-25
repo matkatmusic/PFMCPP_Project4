@@ -273,7 +273,7 @@ struct FloatType
 
 private:
     float* value = nullptr; 
-
+    FloatType& powInternal (const float& arg);
 public:
     FloatType(float floatTypeValue): value(new float(floatTypeValue)) {} 
     ~FloatType()
@@ -298,7 +298,8 @@ public:
 struct DoubleType 
 {  
 private:
-    double* value = nullptr;
+    double* value = nullptr; 
+    DoubleType& powInternal (const double& arg);
 public:
     DoubleType(double doubleTypeValue): value(new double(doubleTypeValue)) {} 
     ~DoubleType()
@@ -322,7 +323,8 @@ public:
 struct IntType 
 {   
 private:
-    int* value = nullptr;
+    int* value = nullptr; 
+    IntType& powInternal (const int& arg);
 public:
     IntType(int intTypeValue): value(new int(intTypeValue)) {} 
     ~IntType()
