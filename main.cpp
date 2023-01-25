@@ -56,13 +56,19 @@ Project 4: Part 4 / 9
 
 
 struct Point
-{
-    Point& multiply(float m)
-    {
-        x *= m;
-        y *= m;
-        return *this;
-    }
+{ 
+    Point (float x, float y);
+    Point (const FloatType& ft1, const FloatType& ft2);
+    Point (const DoubleType& dt1, const DoubleType& dt2);
+    Point (const IntType& it1, const IntType& it2);
+
+    Point& multiply(float m);
+    Point& multiply (const FloatType& ft);
+    Point& multiply (const DoubleType& dt);
+    Point& multiply (const IntType& it);
+
+    void toString();
+    
 private:
     float x{0}, y{0};
 };
