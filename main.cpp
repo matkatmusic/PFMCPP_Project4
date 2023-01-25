@@ -378,6 +378,30 @@ FloatType::operator float() const
     return *this->value;
 }
 
+FloatType& FloatType::pow (float value)
+{
+    powInternal (value);
+    return *this;
+}
+
+FloatType& FloatType::pow (const IntType& value)
+{
+    powInternal (static_cast<float>(value));
+    return *this;
+}
+
+FloatType& FloatType::pow (const DoubleType& value)
+{
+    powInternal (static_cast<float>(value));
+    return *this;
+}
+
+FloatType& FloatType::pow (const FloatType& value)
+{
+    powInternal (static_cast<float>(value));
+    return *this;    
+}
+
 // ========== DOUBLE TYPE ========== //
 
 DoubleType& DoubleType::add(double lhs)
@@ -410,6 +434,30 @@ DoubleType& DoubleType::divide(double lhs)
 DoubleType::operator double() const 
 {
     return *this->value;
+} 
+
+DoubleType& DoubleType::pow (double value)
+{
+    powInternal (value);
+    return *this;    
+}
+
+DoubleType& DoubleType::pow (const IntType& value)
+{
+    powInternal (static_cast<double>(value));
+    return *this;    
+}
+
+DoubleType& DoubleType::pow (const DoubleType& value)
+{
+    powInternal (static_cast<double>(value));
+    return *this; 
+}
+    
+DoubleType& DoubleType::pow (const FloatType& value)
+{
+    powInternal (static_cast<double>(value));
+    return *this; 
 }
 
 // ========== INT TYPE ========== //
@@ -446,7 +494,33 @@ IntType& IntType::divide(int lhs)
 IntType::operator int() const 
 {
     return *this->value;
+} 
+
+IntType& IntType::pow (int value)
+{
+    powInternal (value);
+    return *this;
 }
+
+IntType& IntType::pow (const IntType& value)
+{
+    powInternal (static_cast<int>(value));
+    return *this;
+}
+
+IntType& IntType::pow (const DoubleType& value)
+{
+    powInternal (static_cast<int>(value));
+    return *this;
+}
+
+IntType& IntType::pow (const FloatType& value)
+{
+    powInternal (static_cast<int>(value));
+    return *this;    
+}
+
+// ========== END OF UDT ========== //
 
 void part3()
 {
