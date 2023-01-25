@@ -479,15 +479,13 @@ Point& Point::multiply (const FloatType& ft)
 
 Point& Point::multiply (const DoubleType& dt)
 {
-    x *= static_cast<float>(dt);
-    y *= static_cast<float>(dt);
+    multiply(static_cast<float>(dt));
     return *this;
 }
 
 Point& Point::multiply (const IntType& it)
 {
-    x *= static_cast<float>(it);
-    y *= static_cast<float>(it);
+    multiply(static_cast<float>(it));
     return *this;
 }
 
