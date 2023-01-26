@@ -460,9 +460,7 @@ Point& Point::multiply(float m)
 
 Point& Point::multiply (const FloatType& ft)
 {
-    x *= ft;
-    y *= ft;
-    return *this;
+    return multiply(static_cast<float>(ft));
 }
 
 Point& Point::multiply (const DoubleType& dt)
