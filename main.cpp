@@ -156,9 +156,7 @@ struct FloatType
     {
         if (rhs == 0.0f)
         {
-            std::cout << std::endl
-                      << "warning, floating point division by zero "
-                         "returns 'inf' !"  
+            std::cout << "warning: floating point division by zero!"
                       << std::endl;
         }
         *value /= rhs;
@@ -211,9 +209,7 @@ struct DoubleType
     {
         if (rhs == 0.)
         {
-            std::cout << std::endl
-                      << "warning, floating point division by zero "
-                         "returns 'inf' !"  
+            std::cout << "warning: floating point division by zero!"
                       << std::endl;
         }
         *value /= rhs;
@@ -269,10 +265,8 @@ struct IntType
     {
         if (rhs == 0)
         {
-            std::cout << "error, integer division by zero "
-                         "will crash the program!"
-                      << std::endl
-                      << "returning lhs"
+            std::cout << "error: integer division by zero is "
+                         "an error and will crash the program!"
                       << std::endl;
         }
         else
