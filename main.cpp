@@ -294,11 +294,11 @@ FloatType& FloatType::add (const FloatType& ft)
 }
 FloatType& FloatType::add (const DoubleType& dt)
 {
-    return add (static_cast<float>(*dt.value));
+    return add (*dt.value);
 }
 FloatType& FloatType::add (const IntType& it)
 {
-    return add (static_cast<float>(*it.value));
+    return add (*it.value);
 }
 
 FloatType& FloatType::subtract (const FloatType& ft)
@@ -307,11 +307,11 @@ FloatType& FloatType::subtract (const FloatType& ft)
 }
 FloatType& FloatType::subtract (const DoubleType& dt)
 {
-    return subtract (static_cast<float>(*dt.value));
+    return subtract (*dt.value);
 }
 FloatType& FloatType::subtract (const IntType& it)
 {
-    return subtract (static_cast<float>(*it.value));
+    return subtract (*it.value);
 }
 
 FloatType& FloatType::multiply (const FloatType& ft)
@@ -320,11 +320,11 @@ FloatType& FloatType::multiply (const FloatType& ft)
 }
 FloatType& FloatType::multiply (const DoubleType& dt)
 {
-    return multiply (static_cast<float>(*dt.value));
+    return multiply (*dt.value);
 }
 FloatType& FloatType::multiply (const IntType& it)
 {
-    return multiply (static_cast<float>(*it.value));
+    return multiply (*it.value);
 }
 
 FloatType& FloatType::divide (const FloatType& ft)
@@ -333,11 +333,11 @@ FloatType& FloatType::divide (const FloatType& ft)
 }
 FloatType& FloatType::divide (const DoubleType& dt)
 {
-    return divide (static_cast<float>(*dt.value));
+    return divide (*dt.value);
 }
 FloatType& FloatType::divide (const IntType& it)
 {
-    return divide (static_cast<float>(*it.value));
+    return divide (*it.value);
 }
 
 DoubleType& DoubleType::add (const DoubleType& dt)
@@ -346,11 +346,11 @@ DoubleType& DoubleType::add (const DoubleType& dt)
 }
 DoubleType& DoubleType::add (const FloatType& ft)
 {
-    return add (static_cast<double>(*ft.value));
+    return add (*ft.value);
 }
 DoubleType& DoubleType::add (const IntType& it)
 {
-    return add (static_cast<double>(*it.value));
+    return add (*it.value);
 }
 
 DoubleType& DoubleType::subtract (const DoubleType& dt)
@@ -359,11 +359,11 @@ DoubleType& DoubleType::subtract (const DoubleType& dt)
 }
 DoubleType& DoubleType::subtract (const FloatType& ft)
 {
-    return subtract (static_cast<double>(*ft.value));
+    return subtract (*ft.value);
 }
 DoubleType& DoubleType::subtract (const IntType& it)
 {
-    return subtract (static_cast<double>(*it.value));
+    return subtract (*it.value);
 }
 
 DoubleType& DoubleType::multiply (const DoubleType& dt)
@@ -372,11 +372,11 @@ DoubleType& DoubleType::multiply (const DoubleType& dt)
 }
 DoubleType& DoubleType::multiply (const FloatType& ft)
 {
-    return multiply (static_cast<double>(*ft.value));
+    return multiply (*ft.value);
 }
 DoubleType& DoubleType::multiply (const IntType& it)
 {
-    return multiply (static_cast<double>(*it.value));
+    return multiply (*it.value);
 }
 
 DoubleType& DoubleType::divide (const DoubleType& dt)
@@ -385,11 +385,11 @@ DoubleType& DoubleType::divide (const DoubleType& dt)
 }
 DoubleType& DoubleType::divide (const FloatType& ft)
 {
-    return divide (static_cast<double>(*ft.value));
+    return divide (*ft.value);
 }
 DoubleType& DoubleType::divide (const IntType& it)
 {
-    return divide (static_cast<double>(*it.value));
+    return divide (*it.value);
 }
 
 IntType& IntType::add (const IntType& it)
@@ -398,11 +398,11 @@ IntType& IntType::add (const IntType& it)
 }
 IntType& IntType::add (const FloatType& ft)
 {
-    return add (static_cast<int>(*ft.value));
+    return add (*ft.value);
 }
 IntType& IntType::add (const DoubleType& dt)
 {
-    return add (static_cast<int>(*dt.value));
+    return add (*dt.value);
 }
 
 IntType& IntType::subtract (const IntType& it)
@@ -411,11 +411,11 @@ IntType& IntType::subtract (const IntType& it)
 }
 IntType& IntType::subtract (const FloatType& ft)
 {
-    return subtract (static_cast<int>(*ft.value));
+    return subtract (*ft.value);
 }
 IntType& IntType::subtract (const DoubleType& dt)
 {
-    return subtract (static_cast<int>(*dt.value));
+    return subtract (*dt.value);
 }
 
 IntType& IntType::multiply (const IntType& it)
@@ -424,11 +424,11 @@ IntType& IntType::multiply (const IntType& it)
 }
 IntType& IntType::multiply (const FloatType& ft)
 {
-    return multiply (static_cast<int>(*ft.value));
+    return multiply (*ft.value);
 }
 IntType& IntType::multiply (const DoubleType& dt)
 {
-    return multiply (static_cast<int>(*dt.value));
+    return multiply (*dt.value);
 }
 
 IntType& IntType::divide (const IntType& it)
@@ -437,11 +437,11 @@ IntType& IntType::divide (const IntType& it)
 }
 IntType& IntType::divide (const FloatType& ft)
 {
-    return divide (static_cast<int>(*ft.value));
+    return divide (*ft.value);
 }
 IntType& IntType::divide (const DoubleType& dt)
 {
-    return divide (static_cast<int>(*dt.value));
+    return divide (*dt.value);
 }
 
 /*
