@@ -200,6 +200,11 @@ struct FloatType
 
     FloatType& divide (float rhs);
 
+    FloatType& pow(const IntType&);
+    FloatType& pow(const FloatType&);
+    FloatType& pow(const DoubleType&);
+    FloatType& pow(float);
+
     operator float() const;
 
 private:
@@ -250,6 +255,29 @@ FloatType& FloatType::divide (float rhs)
     return *this;
 }
 
+FloatType& FloatType::powInternal (float arg)
+{
+    *value = powf (*value, arg);
+    return *this;
+}
+
+FloatType& FloatType::pow(const IntType& arg)
+{
+    return powInternal (static_cast<float>(arg));
+}
+
+FloatType& FloatType::pow(const FloatType&)
+{
+    return powInternal (arg);
+}
+FloatType& FloatType::pow(const DoubleType&)
+{
+    return powInternal (static_cast<float>(arg));
+}
+FloatType& FloatType::pow(float arg)
+{
+    return powInternal (arg);
+}
 
 struct DoubleType
 {
