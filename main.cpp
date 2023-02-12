@@ -214,6 +214,54 @@ private:
     float* value; // no need to set to nullptr due to initialization in explicit constructor
 };
 
+
+struct DoubleType
+{
+    DoubleType (double initValue);
+    ~DoubleType ();
+    DoubleType& add (double rhs);
+    DoubleType& subtract (double rhs);
+    DoubleType& multiply (double rhs);
+    DoubleType& divide (double rhs);
+    operator double() const;
+
+    DoubleType& pow(const IntType&);
+    DoubleType& pow(const FloatType&);
+    DoubleType& pow(const DoubleType&);
+    DoubleType& pow(double);
+
+private:
+
+    DoubleType& powInternal (double arg);
+
+    double* value;
+};
+
+
+struct IntType
+{
+    IntType(int initValue);
+    ~IntType();
+    IntType& add (int rhs);
+    IntType& subtract (int rhs);
+    IntType& multiply (int rhs);
+    IntType& divide (int rhs);
+    operator int() const;
+
+    IntType& pow(const IntType&);
+    IntType& pow(const FloatType&);
+    IntType& pow(const DoubleType&);
+    IntType& pow(int);
+
+private:
+
+    IntType& powInternal (int arg);
+
+    int* value;
+};
+
+/////////////////////// Implementation of FloatType
+
 FloatType::operator float() const
 {
     return *value;    
@@ -256,42 +304,34 @@ FloatType& FloatType::divide (float rhs)
 }
 
 FloatType& FloatType::powInternal (float arg)
-{
-    *value = powf (*value, arg);
+{    
+    // according to the JUCE coding standard, one should not use powf()
+    // but rather use std::pow()
+    *value = std::pow (*value, arg);
     return *this;
 }
 
-FloatType& FloatType::pow(const IntType& arg)
+FloatType& FloatType::pow (const IntType& arg)
 {
     return powInternal (static_cast<float>(arg));
 }
 
-FloatType& FloatType::pow(const FloatType&)
+FloatType& FloatType::pow (const FloatType& arg)
 {
     return powInternal (arg);
 }
-FloatType& FloatType::pow(const DoubleType&)
+
+FloatType& FloatType::pow (const DoubleType& arg)
 {
     return powInternal (static_cast<float>(arg));
 }
-FloatType& FloatType::pow(float arg)
+
+FloatType& FloatType::pow (float arg)
 {
     return powInternal (arg);
 }
 
-struct DoubleType
-{
-    DoubleType (double initValue);
-    ~DoubleType ();
-    DoubleType& add (double rhs);
-    DoubleType& subtract (double rhs);
-    DoubleType& multiply (double rhs);
-    DoubleType& divide (double rhs);
-    operator double() const;
-private:
-
-    double* value;
-};
+/////////////////////// Implementation of DoubleType
 
 DoubleType::operator double() const
 {
@@ -336,22 +376,32 @@ DoubleType& DoubleType::divide (double rhs)
     return *this;
 }
 
+DoubleType& DoubleType::powInternal (double arg)
+{    
+    *value = std::pow (*value, arg);
+    return *this;
+}
 
-struct IntType
+DoubleType& DoubleType::pow (const IntType& arg)
 {
-    IntType(int initValue);
-    ~IntType();
-    IntType& add (int rhs);
-    IntType& subtract (int rhs);
-    IntType& multiply (int rhs);
-    IntType& divide (int rhs);
-    operator int() const;
+    return powInternal (static_cast<double>(arg));
+}
 
-private:
+DoubleType& DoubleType::pow (const FloatType& arg)
+{
+    return powInternal (static_cast<double>(arg));
+}
+DoubleType& DoubleType::pow (const DoubleType& arg)
+{
+    return powInternal (arg);
+}
 
-    int* value;
-};
+DoubleType& DoubleType::pow (double arg)
+{
+    return powInternal (arg);
+}
 
+/////////////////////// Implementation of IntType
 
 IntType::IntType(int initValue) : value(new int(initValue)) 
 {
@@ -399,6 +449,32 @@ IntType::operator int() const
 {
     return *value;
 }
+
+IntType& IntType::powInternal (int arg)
+{    
+    *value = static_cast<int>(std::pow (static_cast<int>(*value), static_cast<int>(arg)));
+    return *this;
+}
+
+IntType& IntType::pow (const IntType& arg)
+{
+    return powInternal (arg);
+}
+
+IntType& IntType::pow (const FloatType& arg)
+{
+    return powInternal (static_cast<int>(arg));
+}
+IntType& IntType::pow (const DoubleType& arg)
+{
+    return powInternal (static_cast<int>(arg));
+}
+
+IntType& IntType::pow (int arg)
+{
+    return powInternal (arg);
+}
+
 
 
 
