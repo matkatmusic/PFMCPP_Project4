@@ -55,19 +55,6 @@ Project 4: Part 4 / 9
 
 
 
-struct Point
-{
-    Point& multiply(float m)
-    {
-        x *= m;
-        y *= m;
-        return *this;
-    }
-private:
-    float x{0}, y{0};
-};
-
-
 /*
 your program should generate the following output EXACTLY.
 This includes the warnings.  
@@ -189,7 +176,7 @@ struct IntType;
 
 struct FloatType
 {
-    FloatType (float initValue);
+    explicit FloatType (float initValue);
     ~FloatType();
 
     FloatType& add (float rhs);
@@ -217,7 +204,7 @@ private:
 
 struct DoubleType
 {
-    DoubleType (double initValue);
+    explicit DoubleType (double initValue);
     ~DoubleType ();
     DoubleType& add (double rhs);
     DoubleType& subtract (double rhs);
@@ -240,7 +227,7 @@ private:
 
 struct IntType
 {
-    IntType(int initValue);
+    explicit IntType(int initValue);
     ~IntType();
     IntType& add (int rhs);
     IntType& subtract (int rhs);
@@ -290,7 +277,6 @@ FloatType& FloatType::multiply (float rhs)
     *value *= rhs;
     return *this;
 }
-
 
 FloatType& FloatType::divide (float rhs)
 {
@@ -475,8 +461,54 @@ IntType& IntType::pow (int arg)
     return powInternal (arg);
 }
 
+/////////////////////// Definition of Point type
+
+struct Point
+{
+    Point (float x_, float y_) : x(x_), y(y_) {}
+    
+    Point (const FloatType &fx, const FloatType& fy) : 
+        Point (static_cast<float>(fx), static_cast<float>(fy)) {}
+    
+    Point (const DoubleType& dx, const DoubleType& dy) : 
+        Point (static_cast<float>(dx), static_cast<float>(dy)) {}
+    
+    Point (const IntType& dx, const IntType& dy) : 
+        Point (static_cast<float>(dx), static_cast<float>(dy)) {}
+    
+    Point& multiply(float m)
+    {
+        x *= m;
+        y *= m;
+        return *this;
+    }
+    Point& multiply(const FloatType& m)
+    {
+        return multiply (static_cast<float>(m));
+    }
+
+    Point& multiply(const DoubleType& m)
+    {
+        return multiply (static_cast<float>(m));
+    }
+
+    Point& multiply(const IntType& m)
+    {
+        return multiply (static_cast<float>(m));
+    }
+
+    void toString() const
+    {
+        std::cout << "Point { x: " << x << ", y: " << y << " }" << std::endl;
+    }
+    
+private:
+    float x{0}, y{0};
+};
 
 
+
+/////////////////////// part3()
 
 void part3()
 {
@@ -511,7 +543,7 @@ void part4()
     DoubleType dtExp(2.0);
     
     // Power tests with FloatType
-    std::cout << "Power tests with FloatType" << std::endl;
+    std::cout << "Power tests with FloatType " << std::endl;
     std::cout << "pow(ft1, floatExp) = " << ft1 << "^" << floatExp << " = " << ft1.pow(floatExp)  << std::endl;
     std::cout << "pow(ft1, itExp) = " << ft1 << "^" << itExp << " = " << ft1.pow(itExp)  << std::endl;
     std::cout << "pow(ft1, ftExp) = " << ft1 << "^" << ftExp << " = " << ft1.pow(ftExp)  << std::endl;    
@@ -519,7 +551,7 @@ void part4()
     std::cout << "---------------------\n" << std::endl;  
 
     // Power tests with DoubleType
-    std::cout << "Power tests with DoubleType" << std::endl;
+    std::cout << "Power tests with DoubleType " << std::endl;
     std::cout << "pow(dt1, doubleExp) = " << dt1 << "^" << doubleExp << " = " << dt1.pow(intExp)  << std::endl;
     std::cout << "pow(dt1, itExp) = " << dt1 << "^" << itExp << " = " << dt1.pow(itExp)  << std::endl;
     std::cout << "pow(dt1, ftExp) = " << dt1 << "^" << ftExp << " = " << dt1.pow(ftExp)  << std::endl;    
@@ -527,7 +559,7 @@ void part4()
     std::cout << "---------------------\n" << std::endl;    
 
     // Power tests with IntType
-    std::cout << "Power tests with IntType" << std::endl;
+    std::cout << "Power tests with IntType " << std::endl;
     std::cout << "pow(it1, intExp) = " << it1 << "^" << intExp << " = " << it1.pow(intExp)  << std::endl;
     std::cout << "pow(it1, itExp) = " << it1 << "^" << itExp << " = " << it1.pow(itExp)  << std::endl;
     std::cout << "pow(it1, ftExp) = " << it1 << "^" << ftExp << " = " << it1.pow(ftExp)  << std::endl;    
