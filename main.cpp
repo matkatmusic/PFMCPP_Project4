@@ -216,7 +216,7 @@ struct FloatType
         return *this;
     }
 
-    FloatType& apply (void(*callable)(float&))
+    FloatType& apply (void (*callable)(float&))
     {
         if (callable != nullptr) 
         {
@@ -256,7 +256,7 @@ struct DoubleType
         return *this;
     }
 
-    DoubleType& apply (void(*callable)(double&))
+    DoubleType& apply (void (*callable)(double&))
     {
         if (callable != nullptr) 
         {
@@ -298,7 +298,7 @@ struct IntType
         return *this;
     }
 
-    IntType& apply (void(*callable)(int&))
+    IntType& apply (void (*callable)(int&))
     {
         if (callable != nullptr) 
         {
@@ -700,6 +700,21 @@ void part4()
     std::cout << "---------------------\n" << std::endl;
 }
 
+void myFloatFreeFunct (float& arg)
+{
+    arg += 7.0f;
+}
+
+void myDoubleFreeFunct (double& arg)
+{
+    arg += 6.0;    
+}
+
+void myIntFreeFunct (int& arg)
+{
+    arg += 5;    
+}
+
 void part6()
 {
     FloatType ft3(3.0f);
@@ -708,7 +723,7 @@ void part6()
     
     std::cout << "Calling FloatType::apply() using a lambda (adds 7.0f) and FloatType as return type:" << std::endl;
     std::cout << "ft3 before: " << ft3 << std::endl;
-    ft3.apply( [](){} );
+    ft3.apply( [&ft3](float &arg) -> FloatType& { arg += 7.0f; return ft3; });
     std::cout << "ft3 after: " << ft3 << std::endl;
     std::cout << "Calling FloatType::apply() using a free function (adds 7.0f) and void as return type:" << std::endl;
     std::cout << "ft3 before: " << ft3 << std::endl;
@@ -718,7 +733,7 @@ void part6()
 
     std::cout << "Calling DoubleType::apply() using a lambda (adds 6.0) and DoubleType as return type:" << std::endl;
     std::cout << "dt3 before: " << dt3 << std::endl;
-    dt3.apply( [](){} );
+    dt3.apply( [&dt3](double& arg) -> DoubleType& { arg += 6.0; return dt3; } );
     std::cout << "dt3 after: " << dt3 << std::endl;
     std::cout << "Calling DoubleType::apply() using a free function (adds 6.0) and void as return type:" << std::endl;
     std::cout << "dt3 before: " << dt3 << std::endl;
@@ -728,7 +743,7 @@ void part6()
 
     std::cout << "Calling IntType::apply() using a lambda (adds 5) and IntType as return type:" << std::endl;
     std::cout << "it3 before: " << it3 << std::endl;
-    it3.apply( [](){} );
+    it3.apply( [&it3](int& arg) -> IntType& { arg += 5; return it3; } );
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "Calling IntType::apply() using a free function (adds 5) and void as return type:" << std::endl;
     std::cout << "it3 before: " << it3 << std::endl;
