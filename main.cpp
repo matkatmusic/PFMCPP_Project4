@@ -1,54 +1,139 @@
 /*
-Project 4 - Part 6 / 9
-Video: Chapter 5 Part 3
- 
-Create a branch named Part6
- 
- Lambdas
- 
-    Do not delete your previous main. you will be adding to it.
+Project 4: Part 7 / 9
+Video: Chapter 5 Part 4
+
+Create a branch named Part7
+
+Do not delete your previous main. you will be adding to it.
+
+Templates and Containers
 
     Build/Run often with this task to make sure you're not breaking the code with each step.
     I recommend committing after you get each step working so you can revert to a working version easily if needed.
- 
- 1) add two member functions named "apply()" to each of your Heap-Allocated Numeric Type wrappers.
-         both apply() functions should work with chaining
- 
- 2) One of the apply() functions should takes a std::function<> object as the function argument.
-    the std::function<> object should return *this;
- 
- 3) the other apply() function should take a function pointer. 
-    the function pointer should return void.
- 
- 4) Make both of the member functions's Callable Function Parameter use your owned object as it's single parameter.
-         e.g. if you manage your owned object via std::unique_ptr<T>, you'd use this for your std::function argument:
-             std::function< OwnedT&(std::unique_ptr<T>&)>
-             
-         if you managed your owned object via a raw pointer, you'd use this for your std::function argument:
-             std::function<OwnedT&(T&)>    
- 
- 5) call that Callable Function Parameter in the apply() member function.
-         be sure to practice safe std::function usage (make sure it's not a nullptr function being called)
- 
- 6) copy the part6() function below and paste it after part4()
- 7) call part6() after part4() is called at the end of main().
+    it's very easy to mess this task up. 
 
- 8) fill in the missing arguments in part6 such that you produce the expected output.
+0) comment out part6(), both the function and where it is called.
 
- 9) Make your lambda & free function update the value of your held object
- 
- 
-build/run to make sure you don't have any errors
- 
- If you need to see an example, look at https://bitbucket.org/MatkatMusic/pfmcpptasks/src/master/Projects/Project4/Part6Example.cpp
- */
+#1) if you're not using std::unique_ptr to own your heap-allocated type as a member variable, 
+    replace your manual memory management techniques with a private std::unique_ptr member variable.
 
+#2) replace your Heap-Allocated Numeric Type-owning classes with a single templated class called 'Numeric'.
+        replace all instances of your previous classes (IntType, etc) with this templated class.
+
+#3) add a 'using Type = <your class template parameter>;' 
+        treat this type declaration via 'using' as a static member variable
+        use this Type alias as the argument everywhere you previously used the template argument.
+        this will make it very easy to change the type if needed.
+            i.e. if you have 'std::unique_ptr<NumericType> value;' before
+                you'd replace NumericType in that variable declaration with 'Type'
+        
+#4) you'll need to pair it with decltype() to help the compiler figure out the type of the object 
+    your class owns when you make your lambda and free function that takes your unique_ptr.  
+    i.e. like this for determining the template parameter of the unique_ptr function argument to your class's apply() function
+        std::unique_ptr< decltype( <instance of class> )::Type >
+    
+#5) template your free function for the apply() that takes a function pointer so it can be used with your Wrapper class's apply() function
+
+#6) add an explicit template specialization for 'double' of your wrapper class
+        this template specialization will have one apply() function instead of 2. 
+
+#7) this apply() function will be templated, and expect a Callable object, not std::function<>. 
+        the function should allow for chaining.  
+        the callable object should return void, like the function pointer-based apply() function in the primary class template
+
+#8) instantiate your explicit template specialization
+
+#9) call the apply function twice, once with a lambda and once with the free function
+        the free function is templated, so you might need to call it including the template arguments.
+        
+#10) in addition to using the lambda argument to modify the owned object:  (your previous task's lambdas did this same thing) 
+        make the lambda use your explicit template instance (maybe via a std::cout), 
+
+#11) now that your class is templated, you'll need to adjust your logic in your division function to handle if your input is a zero or not, based on your templated type.  
+        Note: this instruction does not apply to the explicit template specialization
+        - look up how to use std::is_same<>::value on cppreference to determine the type of your template parameter.
+        
+        - look up how to use std::numeric_limits<>::epsilon() to determine if you're dividing by a floating point 0
+        
+        - read about Knuth's algorithm here: https://www.learncpp.com/cpp-tutorial/relational-operators-and-floating-point-comparisons/
+
+        - in plain-english, you'll need to implement this logic:
+        if your class template type is an int
+                if your parameter's type is also an int
+                        if your parameter's value is 0
+                                don't do the division
+                else if your parameter's value is less than epsilon
+                        dont do the divison
+        else if your parameter's value is less than epsilon
+                warn about doing the division
+
+        - to make these checks work during compilation, your if() statements will need to be 'constexpr':  if constexpr (expression)
+
+        - pay attention to the 2nd line in the plain-english logic.
+                most people don't get this part of the assignment correct.
+
+12) move part7() to before main()
+        call part7() in main(), after where you were calling part6()
+
+If you need to view an example, see: https://bitbucket.org/MatkatMusic/pfmcpptasks/src/master/Projects/Project4/Part7Example.cpp
+*/
+
+#include <iostream>
+void part7()
+{
+    Numeric ft3(3.0f);
+    Numeric dt3(4.0);
+    Numeric it3(5);
+    
+    std::cout << "Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:" << std::endl;
+    std::cout << "ft3 before: " << ft3 << std::endl;
+
+    {
+        using Type = #4;
+        ft3.apply( [](std::unique...){} );
+    }
+
+    std::cout << "ft3 after: " << ft3 << std::endl;
+    std::cout << "Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:" << std::endl;
+    std::cout << "ft3 before: " << ft3 << std::endl;
+    ft3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+    std::cout << "ft3 after: " << ft3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;
+
+    std::cout << "Calling Numeric<double>::apply() using a lambda (adds 6.0) and Numeric<double> as return type:" << std::endl;
+    std::cout << "dt3 before: " << dt3 << std::endl;
+
+    {
+        using Type = #4;
+        dt3.apply( [](std::unique...){} ); // This calls the templated apply fcn
+    }
+    
+    std::cout << "dt3 after: " << dt3 << std::endl;
+    std::cout << "Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:" << std::endl;
+    std::cout << "dt3 before: " << dt3 << std::endl;
+    dt3.apply(myNumericFreeFunct<double>).apply(myNumericFreeFunct<double>); // This calls the templated apply fcn
+    std::cout << "dt3 after: " << dt3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;
+
+    std::cout << "Calling Numeric<int>::apply() using a lambda (adds 5) and Numeric<int> as return type:" << std::endl;
+    std::cout << "it3 before: " << it3 << std::endl;
+
+    {
+        using Type = #4;
+        it3.apply( [](std::unique...){} );
+    }
+    std::cout << "it3 after: " << it3 << std::endl;
+    std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
+    std::cout << "it3 before: " << it3 << std::endl;
+    it3.apply(myNumericFreeFunct).apply(myNumericFreeFunct);
+    std::cout << "it3 after: " << it3 << std::endl;
+    std::cout << "---------------------\n" << std::endl;    
+}
 
 /*
 your program should generate the following output EXACTLY.
-This includes the warnings.
-The output should have zero warnings.
-
+This includes the warnings. 
+ The output should have zero warnings.
 
 
 FloatType add result=4
@@ -90,8 +175,8 @@ The result of DoubleType times 3 plus IntType is : 67.3
 The result of IntType divided by 3.14 multiplied by DoubleType minus FloatType is: 711
 An operation followed by attempts to divide by 0, which are ignored and warns user: 
 error: integer division by zero is an error and will crash the program!
-error: integer division by zero is an error and will crash the program!
-error: integer division by zero is an error and will crash the program!
+can't divide integers by zero!
+can't divide integers by zero!
 505521
 FloatType x IntType  =  13143546
 (IntType + DoubleType + FloatType) x 24 = 315447336
@@ -140,31 +225,32 @@ Multiplication factor: 5
 Point { x: 15, y: 20 }
 ---------------------
 
-Calling FloatType::apply() using a lambda (adds 7.0f) and FloatType as return type:
+Calling Numeric<float>::apply() using a lambda (adds 7.0f) and Numeric<float> as return type:
 ft3 before: 3
 ft3 after: 10
-Calling FloatType::apply() using a free function (adds 7.0f) and void as return type:
+Calling Numeric<float>::apply() twice using a free function (adds 7.0f) and void as return type:
 ft3 before: 10
-ft3 after: 17
+ft3 after: 24
 ---------------------
 
-Calling DoubleType::apply() using a lambda (adds 6.0) and DoubleType as return type:
+Calling Numeric<double>::apply() using a lambda (adds 6.0) and Numeric<double> as return type:
 dt3 before: 4
 dt3 after: 10
-Calling DoubleType::apply() using a free function (adds 6.0) and void as return type:
+Calling Numeric<double>::apply() twice using a free function (adds 7.0) and void as return type:
 dt3 before: 10
-dt3 after: 16
+dt3 after: 24
 ---------------------
 
-Calling IntType::apply() using a lambda (adds 5) and IntType as return type:
+Calling Numeric<int>::apply() using a lambda (adds 5) and Numeric<int> as return type:
 it3 before: 5
 it3 after: 10
-Calling IntType::apply() using a free function (adds 5) and void as return type:
+Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:
 it3 before: 10
-it3 after: 15
+it3 after: 24
 ---------------------
 
 good to go!
+
 
 Use a service like https://www.diffchecker.com/diff to compare your output. 
 */
