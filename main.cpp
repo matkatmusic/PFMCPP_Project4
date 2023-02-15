@@ -79,6 +79,7 @@ If you need to view an example, see: https://bitbucket.org/MatkatMusic/pfmcpptas
 */
 
 #include <iostream>
+#include <memory>
 
 /*
 your program should generate the following output EXACTLY.
@@ -264,7 +265,7 @@ private:
 
     FloatType& powInternal (float arg);
 
-    float* value; // no need to set to nullptr due to initialization in explicit constructor
+    std::unique_ptr<float> value;
 };
 
 
@@ -305,7 +306,7 @@ private:
 
     DoubleType& powInternal (double arg);
 
-    double* value;
+    std::unique_ptr<double> value;
 };
 
 
@@ -347,7 +348,7 @@ private:
 
     IntType& powInternal (int arg);
 
-    int* value;
+    std::unique_ptr<int> value;
 };
 
 /////////////////////// Implementation of FloatType
@@ -358,10 +359,7 @@ FloatType::operator float() const
 }
 
 FloatType::FloatType (float initValue) : value(new float (initValue)) {}
-FloatType::~FloatType() 
-{
-    delete value;
-}
+FloatType::~FloatType() {}
 
 FloatType& FloatType::operator+= (float rhs)
 {
@@ -431,10 +429,7 @@ DoubleType::DoubleType (double initValue) : value (new double(initValue))
 {
 }
 
-DoubleType::~DoubleType ()
-{
-    delete value;
-}
+DoubleType::~DoubleType () {}
 
 DoubleType& DoubleType::operator+= (double rhs)
 {
@@ -496,10 +491,7 @@ IntType::IntType(int initValue) : value(new int(initValue))
 {
 }
 
-IntType::~IntType() 
-{
-    delete value;
-}
+IntType::~IntType() {}
 
 IntType& IntType::operator+= (int rhs)
 {
