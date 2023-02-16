@@ -247,31 +247,34 @@ struct Numeric
         *value *= rhs;
         return *this;
     }
-    
-    Numeric& operator/= (Type rhs)
+
+    template<typename RhsType>
+    Numeric& operator/= (RhsType rhs)
     {
         if constexpr (std::is_same<Type, int>::value)
         {
-            if (rhs == 0)
+            if constexpr (std::is_same<RhsType, int>::value)
             {
-                std::cout << "error: integer division by zero is "
-                             "an error and will crash the program!"
-                          << std::endl;
+                if (rhs == 0)
+                {
+                    std::cout << "error: integer division by zero is "
+                                 "an error and will crash the program!"
+                              << std::endl;
+                    return *this;
+                }
             }
-            else
+            else if (rhs < std::numeric_limits<RhsType>::epsilon())
             {
-                *value /= rhs;
+                std::cout << "can't divide integers by zero!" << std::endl;
+                return *this;                    
             }
         }
-        else 
+        else if (rhs < std::numeric_limits<RhsType>::epsilon())
         {
-            if (rhs == 0.0f)
-            {
-                std::cout << "warning: floating point division by zero!"
-                          << std::endl;
-            }
-            *value /= rhs;
+            std::cout << "warning: floating point division by zero!"
+                      << std::endl;
         }
+        *value /= static_cast<Type>(rhs);
         return *this;            
     }
     
@@ -307,8 +310,8 @@ struct Numeric
 private:
 
     Numeric& powInternal (Type arg)
-    {    
-        *value = std::pow (*value, arg);
+    {   
+        *value = static_cast<Type> (std::pow (*value, arg));
         return *this;
     }
     
@@ -375,7 +378,7 @@ void part3()
 
     ft *= ft;
     ft *= ft;
-    ft /= it;
+    ft /= static_cast<int>(it);
     std::cout << "The result of FloatType^4 divided by IntType is: " << ft << std::endl;
 
     dt *= 3;
@@ -492,7 +495,7 @@ void part4()
 template<typename Type>
 void myNumericFreeFunct (std::unique_ptr<Type>& arg)
 {
-    *arg += 7.0;
+    *arg += static_cast<Type> (7);
 }
 
 
