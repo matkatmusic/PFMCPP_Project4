@@ -263,13 +263,13 @@ struct Numeric
                     return *this;
                 }
             }
-            else if (rhs < std::numeric_limits<RhsType>::epsilon())
+            else if (std::abs(rhs) < std::numeric_limits<RhsType>::epsilon())
             {
                 std::cout << "can't divide integers by zero!" << std::endl;
                 return *this;                    
             }
         }
-        else if (rhs < std::numeric_limits<RhsType>::epsilon())
+        else if (std::abs(rhs) < std::numeric_limits<Type>::epsilon())
         {
             std::cout << "warning: floating point division by zero!"
                       << std::endl;
