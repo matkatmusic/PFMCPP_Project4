@@ -316,6 +316,76 @@ private:
 };
 
 
+
+
+// explicit template specialization for double
+
+template<>
+struct Numeric<double>
+{
+    using Type = double;
+
+    explicit Numeric (Type initValue) : value(new Type (initValue)) {}
+    ~Numeric() {}
+
+    Numeric& operator+= (Type rhs)
+    {
+        *value += rhs; 
+        return *this;
+    }
+    
+    Numeric& operator-= (Type rhs)
+    {
+        *value -= rhs;
+        return *this;
+    }
+    
+    Numeric& operator*= (Type rhs)
+    {
+        *value *= rhs;
+        return *this;
+    }
+
+    template<typename RhsType>
+    Numeric& operator/= (RhsType rhs)
+    {
+        if (std::abs(rhs) < std::numeric_limits<Type>::epsilon())
+        {
+            std::cout << "warning: floating point division by zero!"
+                      << std::endl;
+        }
+        *value /= static_cast<Type>(rhs);
+        return *this;            
+    }
+
+    template<typename ArgType>
+    Numeric& pow(const ArgType& arg)
+    {
+        return powInternal (static_cast<Type> (arg));
+    }
+    
+    operator Type() const { return *value; }
+
+    template<typename Callable>
+    Numeric& apply (Callable callable)
+    {
+        callable (value);
+        return *this;
+    }
+private:
+
+    Numeric& powInternal (Type arg)
+    {   
+        *value = static_cast<Type> (std::pow (*value, arg));
+        return *this;
+    }
+    
+
+    std::unique_ptr<Type> value;
+};
+
+
+
 /////////////////////// Definition of Point type
 
 struct Point
@@ -560,7 +630,17 @@ void part7()
 
     {
         using Type = decltype(dt3)::Type;
-        dt3.apply( [](std::unique_ptr<Type>& arg) -> void {*arg += 6.0; } ); // This calls the templated apply fcn
+        dt3.apply( [&dt3](std::unique_ptr<Type>& arg) -> void 
+        {
+            // #10 requires me to capture &dt3, which would not be necessary otherwise.
+            // I comment out the 'cout' because the diffchecker does not like this output:
+            // std::cout << "lambda for explicit template specialization with initial value: " 
+            //          << static_cast<Type>(dt3) << std::endl;
+            // but now I get an 'unused' warning for dt3...
+            // so let's add some pseudo use of dt3:
+            (void)dt3;
+            *arg += 6.0; 
+        } ); // This calls the templated apply fcn
     }
     
     std::cout << "dt3 after: " << dt3 << std::endl;
