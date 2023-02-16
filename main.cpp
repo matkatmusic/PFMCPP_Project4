@@ -250,7 +250,7 @@ struct Numeric
     
     Numeric& operator/= (Type rhs)
     {
-        if (std::is_same<Type, int>::value)
+        if constexpr (std::is_same<Type, int>::value)
         {
             if (rhs == 0)
             {
@@ -287,20 +287,20 @@ struct Numeric
     
     operator Type() const { return *value; }
 
-    Numeric& apply (std::function<Numeric&(Type&)> callable)
+    Numeric& apply (std::function<Numeric&(std::unique_ptr<Type>&)> callable)
     {
         if (callable != nullptr) 
         {
-            return callable (*value);
+            return callable (value);
         }
         return *this;
     }
 
-    Numeric& apply (void (*callable)(Type&))
+    Numeric& apply (void (*callable)(std::unique_ptr<Type>&))
     {
         if (callable != nullptr) 
         {
-            callable (*value);
+            callable (value);
         }
         return *this;
     }
@@ -489,20 +489,12 @@ void part4()
     std::cout << "---------------------\n" << std::endl;
 }
 
-void myFloatFreeFunct (float& arg)
+template<typename Type>
+void myNumericFreeFunct (std::unique_ptr<Type>& arg)
 {
-    arg += 7.0f;
+    *arg += 7.0;
 }
 
-void myDoubleFreeFunct (double& arg)
-{
-    arg += 6.0;    
-}
-
-void myIntFreeFunct (int& arg)
-{
-    arg += 5;    
-}
 
 /*
 void part6()
@@ -554,7 +546,7 @@ void part7()
 
     {
         using Type = decltype(ft3)::Type;
-        ft3.apply( [](std::unique...){} );
+        ft3.apply( [&ft3](std::unique_ptr<Type>& arg) -> Numeric<float>& { *arg += 7.0f; return ft3; } );
     }
 
     std::cout << "ft3 after: " << ft3 << std::endl;
@@ -569,7 +561,7 @@ void part7()
 
     {
         using Type = decltype(dt3)::Type;
-        dt3.apply( [](std::unique...){} ); // This calls the templated apply fcn
+        dt3.apply( [](std::unique_ptr<Type>& arg) -> void {*arg += 6.0; } ); // This calls the templated apply fcn
     }
     
     std::cout << "dt3 after: " << dt3 << std::endl;
@@ -584,7 +576,7 @@ void part7()
 
     {
         using Type = decltype(it3)::Type;
-        it3.apply( [](std::unique...){} );
+        it3.apply( [&it3](std::unique_ptr<Type>& arg) -> Numeric<int>& { *arg += 5; return it3;} );
     }
     std::cout << "it3 after: " << it3 << std::endl;
     std::cout << "Calling Numeric<int>::apply() twice using a free function (adds 7) and void as return type:" << std::endl;
