@@ -292,92 +292,13 @@ struct Numeric
     
     operator Type() const { return *value; }
 
-    Numeric& apply (std::function<Numeric&(std::unique_ptr<Type>&)> callable)
-    {
-        if (callable != nullptr) 
-        {
-            return callable (value);
-        }
-        return *this;
-    }
-
-    Numeric& apply (void (*callable)(std::unique_ptr<Type>&))
-    {
-        if (callable != nullptr) 
-        {
-            callable (value);
-        }
-        return *this;
-    }
-private:
-
-    Numeric& powInternal (Type arg)
-    {   
-        *value = static_cast<Type> (std::pow (*value, arg));
-        return *this;
-    }
-    
-
-    std::unique_ptr<Type> value;
-};
-
-
-
-
-// explicit template specialization for double
-
-template<>
-struct Numeric<double>
-{
-    using Type = double;
-
-    explicit Numeric (Type initValue) : value(new Type (initValue)) {}
-    ~Numeric() {}
-
-    Numeric& operator+= (Type rhs)
-    {
-        *value += rhs; 
-        return *this;
-    }
-    
-    Numeric& operator-= (Type rhs)
-    {
-        *value -= rhs;
-        return *this;
-    }
-    
-    Numeric& operator*= (Type rhs)
-    {
-        *value *= rhs;
-        return *this;
-    }
-
-    template<typename RhsType>
-    Numeric& operator/= (RhsType rhs)
-    {
-        if (std::abs(rhs) < std::numeric_limits<Type>::epsilon())
-        {
-            std::cout << "warning: floating point division by zero!"
-                      << std::endl;
-        }
-        *value /= static_cast<Type>(rhs);
-        return *this;            
-    }
-
-    template<typename ArgType>
-    Numeric& pow(const ArgType& arg)
-    {
-        return powInternal (static_cast<Type> (arg));
-    }
-    
-    operator Type() const { return *value; }
-
     template<typename Callable>
     Numeric& apply (Callable callable)
     {
         callable (value);
         return *this;
     }
+
 private:
 
     Numeric& powInternal (Type arg)
@@ -389,8 +310,6 @@ private:
 
     std::unique_ptr<Type> value;
 };
-
-
 
 /////////////////////// Definition of Point type
 
