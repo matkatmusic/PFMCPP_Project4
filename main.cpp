@@ -391,33 +391,20 @@ private:
 struct Point
 {
     Point (float x_, float y_) : x(x_), y(y_) {}
-    
-    Point (const Numeric<float>&fx, const Numeric<float>& fy) : 
+
+    template<typename Type>
+    Point (const Numeric<Type>&fx, const Numeric<Type>& fy) : 
         Point (static_cast<float>(fx), static_cast<float>(fy)) {}
-    
-    Point (const Numeric<double>& dx, const Numeric<double>& dy) : 
-        Point (static_cast<float>(dx), static_cast<float>(dy)) {}
-    
-    Point (const Numeric<int>& dx, const Numeric<int>& dy) : 
-        Point (static_cast<float>(dx), static_cast<float>(dy)) {}
-    
+        
     Point& multiply(float m)
     {
         x *= m;
         y *= m;
         return *this;
     }
-    Point& multiply(const Numeric<float>& m)
-    {
-        return multiply (static_cast<float>(m));
-    }
 
-    Point& multiply(const Numeric<double>& m)
-    {
-        return multiply (static_cast<float>(m));
-    }
-
-    Point& multiply(const Numeric<int>& m)
+    template<typename Type>
+    Point& multiply(const Numeric<Type>& m)
     {
         return multiply (static_cast<float>(m));
     }
