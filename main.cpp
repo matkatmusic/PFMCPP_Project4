@@ -77,6 +77,7 @@ returning lhs
 good to go!
 */
 
+#include<iostream>
 struct FloatType
 {
     float add(float lhs, float rhs)
@@ -96,7 +97,7 @@ struct FloatType
 
     float divide(float lhs, float rhs)
     {
-    if(rhs == 0) return "warning, floating point division by zero returns 'inf' ! inf";
+    if(rhs == 0.0f) std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
     return lhs / rhs;
     }
 };
@@ -120,7 +121,7 @@ struct DoubleType
 
     double divide(double lhs, double rhs)
     {
-        if(rhs == 0) return "warning, floating point division by zero returns 'inf' ! inf";
+        if(rhs == 0.0) std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
         return lhs / rhs;
     }
 };
