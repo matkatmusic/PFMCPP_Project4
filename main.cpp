@@ -7,7 +7,7 @@
 New/This/Pointers/References conclusion
 
     Build/Run often with this task to make sure you're not breaking the code with each step.
-    I recommend committing after you get each step working so you can revert to a working version easily if needed.
+    I recommend committing after you get each step working so you can revert to a working version easily if needed...
  
  0) in the blank space below, declare/define an empty struct named 'A' on a single Line. 
      on the lines below it, write a struct named 'HeapA' that correctly shows how to own an instance of 'A' 
