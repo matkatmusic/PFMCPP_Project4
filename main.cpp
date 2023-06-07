@@ -221,32 +221,50 @@ DoubleType& DoubleType::divide(double rhs)
 
 struct IntType
 {
-    int add(int lhs, int rhs)
-    {
-        return lhs + rhs;
-    }
+    IntType(int int_);
+    ~IntType();
 
-    int subtract(int lhs, int rhs)
-    {
-        return lhs - rhs;
-    }
+    IntType& add(int rhs);
 
-    int multiply(int lhs, int rhs)
-    {
-        return lhs * rhs;
-    }
+    IntType& subtract(int rhs);
 
-    int divide(int lhs, int rhs)
-    {
-        if(rhs == 0)
-        {
-            std::cout << "error, integer division by zero will crash the program!\n";
-            std::cout << "returning lhs\n";
-            return lhs;
-        }
-        return lhs / rhs;
-    }
+    IntType& multiply(int rhs);
+
+    IntType& divide(int rhs);
+    int* value = nullptr;
 };
+IntType::IntType(int int_) : value(new int(int_) ) { }
+IntType::~IntType() { delete value; }
+
+IntType& IntType::add(int rhs)
+    {
+    *value += rhs;
+    return *this;
+    }
+
+IntType& IntType::subtract(int rhs)
+    {
+    *value -= rhs;
+    return *this;
+    }
+
+IntType& IntType::multiply(int rhs)
+    {
+    *value *= rhs;
+    return *this;
+    }
+
+IntType& IntType::divide(int rhs)
+{
+    if(rhs == 0)
+    {
+        std::cout << "error, integer division by zero will crash the program!\n";
+        std::cout << "returning lhs\n";
+        return *value;
+    }
+    *value /= rhs;
+    return *this;
+}
 
 int main()
 {   
