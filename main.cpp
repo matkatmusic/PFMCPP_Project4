@@ -125,13 +125,128 @@ inf
 
 good to go!
 
-
-
-
-
 */
+#include<iostream>
 
-#include <iostream>
+struct FloatType
+{
+    FloatType(float float_);
+    ~FloatType();
+
+    FloatType& add(float rhs);
+
+
+    FloatType& subtract(float rhs);
+
+
+    FloatType& multiply(float rhs);
+
+
+    FloatType& divide(float rhs);
+    float* value = nullptr;
+};
+
+FloatType::FloatType(float float_) : value( new float(float_) ) { }
+
+FloatType::~FloatType() { delete value; }
+
+FloatType& FloatType::add(float rhs)
+    {
+        *value += rhs;
+        return *this;
+    }
+
+FloatType& FloatType::subtract(float rhs)
+    {
+        *value -= rhs;
+        return *this;
+    }
+
+FloatType& FloatType::multiply(float rhs)
+    {
+        *value *= rhs;
+        return *this;
+    }
+
+FloatType& FloatType::divide(float rhs)
+    {
+        if(rhs == 0.0f) std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
+        *value /= rhs;
+        return *this;
+    }
+
+struct DoubleType
+{
+    DoubleType(double double_);
+    ~DoubleType();
+
+    DoubleType& add(double rhs);
+
+    DoubleType& subtract(double rhs);
+
+    DoubleType& multiply(double rhs);
+
+    DoubleType& divide(double rhs);
+    double* value = nullptr;
+
+};
+
+DoubleType::DoubleType(double double_) : value( new double(double_) ) { }
+DoubleType::~DoubleType() { delete value; }
+
+DoubleType& DoubleType::add(double rhs)
+{
+    *value += rhs;
+    return *this;
+}
+
+DoubleType& DoubleType::subtract(double rhs)
+{
+    *value -= rhs;
+    return *this;
+}
+
+DoubleType& DoubleType::multiply(double rhs)
+{
+    *value *= rhs;
+    return *this;
+}
+
+DoubleType& DoubleType::divide(double rhs)
+{
+    if(rhs == 0.0) std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
+    *value /= rhs;
+    return *this;
+}
+
+struct IntType
+{
+    int add(int lhs, int rhs)
+    {
+        return lhs + rhs;
+    }
+
+    int subtract(int lhs, int rhs)
+    {
+        return lhs - rhs;
+    }
+
+    int multiply(int lhs, int rhs)
+    {
+        return lhs * rhs;
+    }
+
+    int divide(int lhs, int rhs)
+    {
+        if(rhs == 0)
+        {
+            std::cout << "error, integer division by zero will crash the program!\n";
+            std::cout << "returning lhs\n";
+            return lhs;
+        }
+        return lhs / rhs;
+    }
+};
 
 int main()
 {   
@@ -189,85 +304,6 @@ int main()
     return 0;
 }
 
-
-
-#include<iostream>
-struct FloatType
-{
-    float add(float lhs, float rhs)
-    {
-        return lhs + rhs;
-    }
-
-    float subtract(float lhs, float rhs)
-    {
-        return lhs - rhs;
-    }
-
-    float multiply(float lhs, float rhs)
-    {
-        return lhs * rhs;
-    }
-
-    float divide(float lhs, float rhs)
-    {
-        if(rhs == 0.0f) std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
-        return lhs / rhs;
-    }
-};
-
-struct DoubleType
-{
-    double add(double lhs, double rhs)
-    {
-        return lhs + rhs;
-    }
-
-    double subtract(double lhs, double rhs)
-    {
-        return lhs - rhs;
-    }
-
-    double multiply(double lhs, double rhs)
-    {
-        return lhs * rhs;
-    }
-
-    double divide(double lhs, double rhs)
-    {
-        if(rhs == 0.0) std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
-        return lhs / rhs;
-    }
-};
-
-struct IntType
-{
-    int add(int lhs, int rhs)
-    {
-        return lhs + rhs;
-    }
-
-    int subtract(int lhs, int rhs)
-    {
-        return lhs - rhs;
-    }
-
-    int multiply(int lhs, int rhs)
-    {
-        return lhs * rhs;
-    }
-
-    int divide(int lhs, int rhs)
-    {
-        if(rhs == 0)
-        {
-            std::cout << "error, integer division by zero will crash the program!\n";
-            std::cout << "returning lhs\n";
-            return lhs;
-        }
-        return lhs / rhs;
-    }
-};
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
