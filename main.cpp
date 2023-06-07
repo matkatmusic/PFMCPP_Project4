@@ -134,15 +134,11 @@ struct FloatType
     ~FloatType();
 
     FloatType& add(float rhs);
-
-
     FloatType& subtract(float rhs);
-
-
     FloatType& multiply(float rhs);
-
-
     FloatType& divide(float rhs);
+
+    FloatType& divide(const DoubleType& dt);   
     float* value = nullptr;
 };
 
@@ -151,30 +147,34 @@ FloatType::FloatType(float float_) : value( new float(float_) ) { }
 FloatType::~FloatType() { delete value; }
 
 FloatType& FloatType::add(float rhs)
-    {
-        *value += rhs;
-        return *this;
-    }
+{
+    *value += rhs;
+    return *this;
+}
 
 FloatType& FloatType::subtract(float rhs)
-    {
-        *value -= rhs;
-        return *this;
-    }
+{
+    *value -= rhs;
+    return *this;
+}
 
 FloatType& FloatType::multiply(float rhs)
-    {
-        *value *= rhs;
-        return *this;
-    }
+{
+    *value *= rhs;
+    return *this;
+}
 
 FloatType& FloatType::divide(float rhs)
-    {
+{
         if(rhs == 0.0f) std::cout << "\nwarning, floating point division by zero returns 'inf' !\n";
         *value /= rhs;
         return *this;
     }
-
+//--------------------------------------------------------------------------------
+FloatType& FloatType::divide(const DoubleType& dt)
+{
+    
+}
 struct DoubleType
 {
     DoubleType(double double_);
@@ -225,31 +225,30 @@ struct IntType
     ~IntType();
 
     IntType& add(int rhs);
-
     IntType& subtract(int rhs);
-
     IntType& multiply(int rhs);
-
     IntType& divide(int rhs);
+
+
     int* value = nullptr;
 };
 IntType::IntType(int int_) : value(new int(int_) ) { }
 IntType::~IntType() { delete value; }
 
 IntType& IntType::add(int rhs)
-    {
+{
     *value += rhs;
     return *this;
     }
 
 IntType& IntType::subtract(int rhs)
-    {
+{
     *value -= rhs;
     return *this;
     }
 
 IntType& IntType::multiply(int rhs)
-    {
+{
     *value *= rhs;
     return *this;
     }
@@ -340,16 +339,17 @@ int main()
 #include <iostream>
 int main() 
 {
-    FloatType ft;
-    std::cout << "result of ft.add(): " << ft.add( 123.456f, 432.1f) << std::endl;
-    std::cout << "result of ft.subtract(): " << ft.subtract( 123.456f, 432.1f) << std::endl;
-    std::cout << "result of ft.multiply(): " << ft.multiply( 123.456f, 432.1f) << std::endl;
-    std::cout << "result of ft.divide(): " << ft.divide( 123.456f, 432.1f) << std::endl;
+    FloatType ft( 123.456f );
+    std::cout << "result of ft.add(): " << ft.add(432.1f) << std::endl;
+    std::cout << "result of ft.subtract(): " << ft.subtract(432.1f) << std::endl;
+    std::cout << "result of ft.multiply(): " << ft.multiply(432.1f) << std::endl;
+    std::cout << "result of ft.divide(): " << ft.divide(432.1f) << std::endl;
 
-    std::cout << "result of ft.add(): " << ft.add( 4444.56f, 0.0f)  << std::endl;
-    std::cout << "result of ft.subtract(): " << ft.subtract( 4444.56f, 0.0f) << std::endl;
-    std::cout << "result of ft.multiply(): " << ft.multiply( 4444.56f, 0.0f) << std::endl;
-    std::cout << "result of ft.divide(): " << ft.divide( 4444.56f, 0.0f) << std::endl;
+    ft( 4444.56f);
+    std::cout << "result of ft.add(): " << ft.add(0.0f)  << std::endl;
+    std::cout << "result of ft.subtract(): " << ft.subtract(0.0f) << std::endl;
+    std::cout << "result of ft.multiply(): " << ft.multiply(0.0f) << std::endl;
+    std::cout << "result of ft.divide(): " << ft.divide(0.0f) << std::endl;
 
     DoubleType db;
     std::cout << "result of db.add(): " << db.add( 123.456, 432.1) << std::endl;
