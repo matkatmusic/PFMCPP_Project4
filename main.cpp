@@ -298,7 +298,10 @@ IntType& IntType::divide(int rhs)
     {
         std::cout << "error, integer division by zero will crash the program!\n";
     }
+    else
+    {
     *value /= rhs;
+    }
     return *this;
 }
 //--------------------------------------------------------------------------------
@@ -509,14 +512,13 @@ int main()
     std::cout << "IntType subtract result=" << *it.subtract(2).value << std::endl;
     std::cout << "IntType multiply result=" << *it.multiply(2).value << std::endl;
     std::cout << "IntType divide result=" << *it.divide(3).value << std::endl << std::endl;
-    std::cout << "Chain calculation = " << (it.multiply(1000).divide(2).subtract(10).add(100)).value << std::endl;
+    std::cout << "Chain calculation = " << *(it.multiply(1000).divide(2).subtract(10).add(100)).value << std::endl;
 
         // FloatType object instanciation and method tests
     // --------
     std::cout << "New value of ft = (ft + 3.0f) * 1.5f / 5.0f = " << *ft.add( 3.0f ).multiply(1.5f).divide(5.0f).value << std::endl;
        
     std::cout << "---------------------\n" << std::endl; 
-    
     // DoubleType/IntType object instanciation and method tests
     // --------
     std::cout << "Initial value of dt: " << *dt.value << std::endl;
