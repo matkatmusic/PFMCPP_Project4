@@ -128,6 +128,9 @@ good to go!
 */
 #include<iostream>
 
+struct DoubleType;
+struct IntType;
+
 struct FloatType
 {
     FloatType(float float_);
@@ -183,66 +186,6 @@ FloatType& FloatType::divide(float rhs)
         *value /= rhs;
         return *this;
     }
-//--------------------------------------------------------------------------------
-FloatType& FloatType::add(const FloatType& ft)
-{
-    
-}
-
-FloatType& FloatType::subtract(const FloatType& ft)
-{
-    
-}
-
-FloatType& FloatType::multiply(const FloatType& ft)
-{
-    
-}
-
-FloatType& FloatType::divide(const FloatType& ft)
-{
-    
-}
-
-FloatType& FloatType::add(const DoubleType& dt)
-{
-    
-}
-
-FloatType& FloatType::subtract(const DoubleType& dt)
-{
-    
-}
-
-FloatType& FloatType::multiply(const DoubleType& dt)
-{
-    
-}
-
-FloatType& FloatType::divide(const DoubleType& dt)
-{
-    
-}
-
-FloatType& FloatType::add(const IntType& it)
-{
-    
-}
-
-FloatType& FloatType::subtract(const IntType& it)
-{
-    
-}
-
-FloatType& FloatType::multiply(const IntType& it)
-{
-    
-}
-
-FloatType& FloatType::divide(const IntType& it)
-{
-    
-}
 
 //--------------------------------------------------------------------------------
 struct DoubleType
@@ -300,66 +243,6 @@ DoubleType& DoubleType::divide(double rhs)
     *value /= rhs;
     return *this;
 }
-//--------------------------------------------------------------------------------
-DoubleType& DoubleType::add(const FloatType& ft)
-{
-    
-}
-
-DoubleType& DoubleType::subtract(const FloatType& ft)
-{
-    
-}
-
-DoubleType& DoubleType::multiply(const FloatType& ft)
-{
-    
-}
-
-DoubleType& DoubleType::divide(const FloatType& ft)
-{
-    
-}
-
-DoubleType& DoubleType::add(const DoubleType& dt)
-{
-    
-}
-
-DoubleType& DoubleType::subtract(const DoubleType& dt)
-{
-    
-}
-
-DoubleType& DoubleType::multiply(const DoubleType& dt)
-{
-    
-}
-
-DoubleType& DoubleType::divide(const DoubleType& dt)
-{
-    
-}
-
-DoubleType& DoubleType::add(const IntType& it)
-{
-    
-}
-
-DoubleType& DoubleType::subtract(const IntType& it)
-{
-    
-}
-
-DoubleType& DoubleType::multiply(const IntType& it)
-{
-    
-}
-
-DoubleType& DoubleType::divide(const IntType& it)
-{
-    
-}
 
 //--------------------------------------------------------------------------------
 struct IntType
@@ -414,71 +297,191 @@ IntType& IntType::divide(int rhs)
     if(rhs == 0)
     {
         std::cout << "error, integer division by zero will crash the program!\n";
-        std::cout << "returning lhs\n";
-        return *value;
     }
     *value /= rhs;
     return *this;
 }
 //--------------------------------------------------------------------------------
+FloatType& FloatType::add(const FloatType& ft)
+{
+    return add(*ft.value);
+}
+
+FloatType& FloatType::subtract(const FloatType& ft)
+{
+    return subtract(*ft.value);
+}
+
+FloatType& FloatType::multiply(const FloatType& ft)
+{
+    return multiply(*ft.value);
+}
+
+FloatType& FloatType::divide(const FloatType& ft)
+{
+    return divide(*ft.value);
+}
+
+FloatType& FloatType::add(const DoubleType& dt)
+{
+    return add(*dt.value);
+}
+
+FloatType& FloatType::subtract(const DoubleType& dt)
+{
+    return subtract(*dt.value);
+}
+
+FloatType& FloatType::multiply(const DoubleType& dt)
+{
+    return multiply(*dt.value);
+}
+
+FloatType& FloatType::divide(const DoubleType& dt)
+{
+    return divide(*dt.value);
+}
+
+FloatType& FloatType::add(const IntType& it)
+{
+        return add(*it.value);
+}
+
+FloatType& FloatType::subtract(const IntType& it)
+{
+    return subtract(*it.value);
+}
+
+FloatType& FloatType::multiply(const IntType& it)
+{
+    return multiply(*it.value);
+}
+
+FloatType& FloatType::divide(const IntType& it)
+{
+    return divide(*it.value);
+}
+
+//--------------------------------------------------------------------------------
+DoubleType& DoubleType::add(const FloatType& ft)
+{
+    return add(*ft.value);
+}
+
+DoubleType& DoubleType::subtract(const FloatType& ft)
+{
+    return subtract(*ft.value);
+}
+
+DoubleType& DoubleType::multiply(const FloatType& ft)
+{
+    return multiply(*ft.value);
+}
+
+DoubleType& DoubleType::divide(const FloatType& ft)
+{
+    return divide(*ft.value);
+}
+
+DoubleType& DoubleType::add(const DoubleType& dt)
+{
+    return add(*dt.value);
+}
+
+DoubleType& DoubleType::subtract(const DoubleType& dt)
+{
+    return subtract(*dt.value);
+}
+
+DoubleType& DoubleType::multiply(const DoubleType& dt)
+{
+    return multiply(*dt.value);
+}
+
+DoubleType& DoubleType::divide(const DoubleType& dt)
+{
+    return divide(*dt.value);
+}
+
+DoubleType& DoubleType::add(const IntType& it)
+{
+    return add(*it.value);
+}
+
+DoubleType& DoubleType::subtract(const IntType& it)
+{
+    return subtract(*it.value);
+}
+
+DoubleType& DoubleType::multiply(const IntType& it)
+{
+    return multiply(*it.value);
+}
+
+DoubleType& DoubleType::divide(const IntType& it)
+{
+    return divide(*it.value);
+}
+
+//--------------------------------------------------------------------------------
 IntType& IntType::add(const FloatType& ft)
 {
-    
+    return add(*ft.value);
 }
 
 IntType& IntType::subtract(const FloatType& ft)
 {
-    
+    return subtract(*ft.value);
 }
 
 IntType& IntType::multiply(const FloatType& ft)
 {
-    
+    return multiply(*ft.value);
 }
 
 IntType& IntType::divide(const FloatType& ft)
 {
-    
+    return divide(*ft.value);
 }
 
 IntType& IntType::add(const DoubleType& dt)
 {
-    
+    return add(*dt.value);
 }
 
 IntType& IntType::subtract(const DoubleType& dt)
 {
-    
+    return subtract(*dt.value);
 }
 
 IntType& IntType::multiply(const DoubleType& dt)
 {
-    
+    return multiply(*dt.value);
 }
 
 IntType& IntType::divide(const DoubleType& dt)
 {
-    
+    return divide(*dt.value);
 }
 
 IntType& IntType::add(const IntType& it)
 {
-    
+    return add(*it.value);
 }
 
 IntType& IntType::subtract(const IntType& it)
 {
-    
+    return subtract(*it.value);
 }
 
 IntType& IntType::multiply(const IntType& it)
 {
-    
+    return multiply(*it.value);
 }
 
 IntType& IntType::divide(const IntType& it)
 {
-    
+    return divide(*it.value);
 }
 
 //--------------------------------------------------------------------------------
@@ -552,7 +555,7 @@ int main()
 
  Wait for my code review.
  */
-
+/*
 #include <iostream>
 int main() 
 {
@@ -592,5 +595,4 @@ int main()
 
     std::cout << "good to go!" << std::endl;
 }
-
-
+*/
