@@ -16,36 +16,19 @@ New/This/Pointers/References conclusion
 struct A { };
 struct HeapA
 {
-    A* a;
+    A* a = nullptr;
+
     HeapA() : 
     a( new A() )
     { 
     
     }
+
     ~HeapA()
     {
         delete a;
     }
 };
-
-struct HeapAWrapper
-{
-    HeapAWrapper(HeapA* ptr) :
-    ptHeapA(ptr)
-    {
-        
-    }
-
-    ~HeapAWrapper()
-    {
-        delete ptHeapA;
-    }
-    HeapA* ptHeapA = nullptr;
-};
-
-
-
-
 
 
 
@@ -182,12 +165,15 @@ FloatType& FloatType::multiply(float rhs)
 
 FloatType& FloatType::divide(float rhs)
 {
-    if(rhs == 0.0f) std::cout << "warning: floating point division by zero!\n";
+    if(rhs == 0.0f)
+    {
+        std::cout << "warning: floating point division by zero!\n";
+    }
     *value /= rhs;
-        return *this;
+    return *this;
 }
 
-//--------------------------------------------------------------------------------
+//-----------------------------------------------------------------------
 struct DoubleType
 {
     DoubleType(double double_);
@@ -216,7 +202,7 @@ struct DoubleType
 
 };
 
-//--------------------------------------------------------------------------------
+//-----------------------------------------------------------------------
 struct IntType
 {
     IntType(int int_);
@@ -243,7 +229,7 @@ struct IntType
     IntType& divide(const IntType& it);
     int* value = nullptr;
 };
-//-----------------------DEFINITIONS--------------------------------------------
+//-----------------------DEFINITIONS-------------------------------------
 
 DoubleType::DoubleType(double double_) : value( new double(double_) ) { }
 DoubleType::~DoubleType() { delete value; }
@@ -268,7 +254,10 @@ DoubleType& DoubleType::multiply(double rhs)
 
 DoubleType& DoubleType::divide(double rhs)
 {
-    if(rhs == 0.0) std::cout << "warning: floating point division by zero!\n";
+    if(rhs == 0.0)
+    {
+        std::cout << "warning: floating point division by zero!\n";
+    }
     *value /= rhs;
     return *this;
 }
@@ -302,11 +291,11 @@ IntType& IntType::divide(int rhs)
     }
     else
     {
-    *value /= rhs;
+        *value /= rhs;
     }
     return *this;
 }
-//--------------------------------------------------------------------------------
+//-----------------------------------------------------------------------
 FloatType& FloatType::add(const FloatType& ft)
 {
     return add(*ft.value);
@@ -349,7 +338,7 @@ FloatType& FloatType::divide(const DoubleType& dt)
 
 FloatType& FloatType::add(const IntType& it)
 {
-        return add(*it.value);
+    return add(*it.value);
 }
 
 FloatType& FloatType::subtract(const IntType& it)
@@ -367,7 +356,7 @@ FloatType& FloatType::divide(const IntType& it)
     return divide(*it.value);
 }
 
-//--------------------------------------------------------------------------------
+//-----------------------------------------------------------------------
 DoubleType& DoubleType::add(const FloatType& ft)
 {
     return add(*ft.value);
@@ -428,7 +417,7 @@ DoubleType& DoubleType::divide(const IntType& it)
     return divide(*it.value);
 }
 
-//--------------------------------------------------------------------------------
+//-----------------------------------------------------------------------
 IntType& IntType::add(const FloatType& ft)
 {
     return add(*ft.value);
